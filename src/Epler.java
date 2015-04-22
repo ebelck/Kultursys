@@ -6,3 +6,5 @@ public class Epler {
 	}
 }
 /*HEHEHHHHHHHHHHUIHEUEUHEUHEUEH*/
+
+/* Dette er halvors kommentart fuckface face */
