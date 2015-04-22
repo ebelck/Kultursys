@@ -9,3 +9,5 @@ public class Epler {
 
 /* Dette er halvors kommentart fuckface face
 Dette er skrevet i Rogers branch*/
+/*dette er EN KOMMENTAR FRA ROGER SIN ECLIPSE*/
+/*SISTE KOMMENTAR MED EINAR AS MY WTINESS*/
