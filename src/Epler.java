@@ -7,4 +7,5 @@ public class Epler {
 }
 /*HEHEHHHHHHHHHHUIHEUEUHEUHEUEH*/
 
-/* Dette er halvors kommentart fuckface face */
+/* Dette er halvors kommentart fuckface face
+Dette er skrevet i Rogers branch*/
