@@ -31,6 +31,8 @@ public class Totaltest {
 		
 		System.out.println(kinoA.finnBillett(2));
 
+			
+		Kulturhusvindu v = new Kulturhusvindu();
 	}
 
 }
