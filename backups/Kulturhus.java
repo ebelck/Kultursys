@@ -1,51 +1,46 @@
 
-public class Lokale {
-	private String navn, beskrivelse;
-	private int refNr;
-	private static int nrTeller = 1;
-	Lokale neste = null;
-	Arrangement første = null;
-	
-	public Lokale (String n, String b) {
+public class Kulturhus {
+	Lokale første = null;
+	private String beskrivelse, navn;
+
+	public Kulturhus (String n, String b) {
 		navn = n;
 		beskrivelse = b;
-		refNr = nrTeller;
-		nrTeller++;
 	}
 	
-	/*//////////////////////////
-	  BILLETTMANIPULERING START
+	 /*//////////////////////////
+	  LOKALE MANIPULERING START
 	 *//////////////////////////
 	
-	public boolean leggTilArrangement( Arrangement a){
-		if(a == null)
+	public boolean leggTilLokale( Lokale l){
+		if(l == null)
 			return false;
 		
 		if(første == null){
-			første = a;
+			første = l;
 			return true;
 		}
 		
-		Arrangement peker = første;
+		Lokale peker = første;
 		while(peker.neste != null)
 			peker = peker.neste;
 		
-		peker.neste = a;
+		peker.neste = l;
 		return true;
 	}
 	
-	public boolean slettArrangement(int n){
+	public boolean slettLokale(int n){
 		if(første == null)
 			return false;
 		
-		if(første.get_aId() == n){
+		if(første.get_RefNr() == n){
 			første = første.neste;
 			return true;
 		}
 		
-		Arrangement peker = første;
+		Lokale peker = første;
 		while(peker.neste != null){
-			if(peker.neste.get_aId() == n){
+			if(peker.neste.get_RefNr() == n){
 				peker.neste = peker.neste.neste;
 				return true;
 			}
@@ -54,13 +49,13 @@ public class Lokale {
 		return false;	
 	}
 	
-	public Arrangement finnArrangement(int n){
+	public Lokale finnLokale(int n){
 		if(første == null)
 			return null;
 		
-		Arrangement peker = første;
+		Lokale peker = første;
 		while (peker != null){
-			if(peker.get_aId() == n)
+			if(peker.get_RefNr() == n)
 				return peker;
 			peker = peker.neste;
 		}
@@ -68,33 +63,34 @@ public class Lokale {
 	}	
 
 	 /*//////////////////////////
-	  BILLETTMANIPULERING FINISH
+	  LOKALE MANIPULERING FINISH
 	 *//////////////////////////
+	
 	
 	 /*//////////////////////
 	 Get og Set metoder start
 	 *//////////////////////
 	
+	public void set_Navn(String n) {
+		navn = n;
+	}
+	public void set_Beskrivelse(String b) {
+		beskrivelse = b;
+	}
+
 	public String get_Navn() {
 		return navn;
 	}
-	
 	public String get_Beskrivelse() {
 		return beskrivelse;
 	}
-	
-	public int get_RefNr() {
-		return refNr;
-	}
-	
+
 	 /*//////////////////////
 	 Get og Set metoder finish
 	 *//////////////////////
 	
 	public String toString() {
-		String meld = "Navn: " + get_Navn() + "\n";
-		meld += "Beskrivelse: " + get_Beskrivelse() + "\n";
-		meld += "Referansenummer " + get_RefNr() + "\n";
-		return meld;
+		return get_Navn() + "- " + get_Beskrivelse();
 	}
+	
 }
