@@ -8,7 +8,6 @@ import javax.swing.*;
  * */
 public class Konferanse extends Lokale {
 	
-	Lokale k;
 	private int antStoler, antBord, antPersoner; 			// Antall stoler, bord og personer
 	private boolean bestilt;
 	private String typeArrangement; 						// Type arrangement
@@ -69,14 +68,6 @@ public class Konferanse extends Lokale {
 	 /*//////////////////////
 	 Get og Set metoder finish
 	 *//////////////////////
-
-	
-	// IKKE FERDIG, FÅR IKKE TAK I OBJEKET
-	public Lokale bestiltCafe() {
-		k = new Cafe(super.getNavn(), super.getBeskrivelse(), bestilt);
-		return k;
-		
-	}
 	
 	
 	public String toString() {
@@ -86,9 +77,6 @@ public class Konferanse extends Lokale {
 		meld += "Type rom: " + getTypeRom() + "\n";
 		meld += "Antall stoler: " + getAntStoler() + "\n";
 		meld += "Antall bord: " + getAntBord() + "\n";
-		
-		if(k != null)
-			meld += k.toString();
 		
 		return meld;
 	}

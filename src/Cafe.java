@@ -11,7 +11,7 @@ public class Cafe extends Lokale {
 	
 	public Cafe(String n, String b, boolean c) {
 		super(n, b);
-		refNr = super.getRefNr();
+		refNr = super.get_RefNr();
 		if(c){
 			bestilt = true;
 		} else {

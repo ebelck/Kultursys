@@ -3,6 +3,7 @@ public class Lokale {
 	private String navn, beskrivelse;
 	private int refNr;
 	private static int nrTeller = 1;
+	Lokale neste = null;
 	
 	public Lokale (String n, String b) {
 		navn = n;
@@ -16,15 +17,15 @@ public class Lokale {
 	 Get og Set metoder start
 	 *//////////////////////
 	
-	public String getNavn() {
+	public String get_Navn() {
 		return navn;
 	}
 	
-	public String getBeskrivelse() {
+	public String get_Beskrivelse() {
 		return beskrivelse;
 	}
 	
-	public int getRefNr() {
+	public int get_RefNr() {
 		return refNr;
 	}
 	
@@ -33,9 +34,9 @@ public class Lokale {
 	 *//////////////////////
 	
 	public String toString() {
-		String meld = "Navn: " + getNavn() + "\n";
-		meld += "Beskrivelse: " + getBeskrivelse() + "\n";
-		meld += "Referansenummer " + getRefNr() + "\n";
+		String meld = "Navn: " + get_Navn() + "\n";
+		meld += "Beskrivelse: " + get_Beskrivelse() + "\n";
+		meld += "Referansenummer " + get_RefNr() + "\n";
 		return meld;
 	}
 }
