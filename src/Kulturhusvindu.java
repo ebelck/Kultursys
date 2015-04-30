@@ -5,10 +5,6 @@ import javax.swing.*;
 
 public class Kulturhusvindu extends JFrame {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	String[] lokalvalg = {"Velg lokale", "Cafe", "Scene", "Kino", "Konferanse", "Selskap"};
 	private JTextField eierfelt, adressefelt, regnrfelt, merkefelt, årsmodellfelt,
     lengdefelt, hpfelt, fargefelt, medlnrfelt;
