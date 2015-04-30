@@ -1,33 +1,15 @@
-import java.util.*;
-import java.text.*;
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
 
 public class Kulturhus {
 	Lokale første = null;
-	Kontaktperson kontaktperson;
-	Date dato;
-	SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
-	String beskrivelse, navn;
-	BufferedImage bilde = null; {
-		
-		try {
-		    bilde = ImageIO.read(new File("navn.*"));
-		} catch (IOException e) {
-			System.out.println("Finner ikke bilde ved angitt filbane");
-		}
-	}
-	
-	/*Minimumskravet for å opprette et arrangement*/
-	public Kulturhus (String n, Kontaktperson k) {
-		
+	private String beskrivelse, navn;
+
+	public Kulturhus (String n, String b) {
 		navn = n;
-		kontaktperson = k;
+		beskrivelse = b;
 	}
 	
 	 /*//////////////////////////
-	  BILLETTMANIPULERING START
+	  LOKALE MANIPULERING START
 	 *//////////////////////////
 	
 	public boolean leggTilLokale( Lokale l){
@@ -81,7 +63,7 @@ public class Kulturhus {
 	}	
 
 	 /*//////////////////////////
-	  BILLETTMANIPULERING FINISH
+	  LOKALE MANIPULERING FINISH
 	 *//////////////////////////
 	
 	
@@ -95,30 +77,20 @@ public class Kulturhus {
 	public void set_Beskrivelse(String b) {
 		beskrivelse = b;
 	}
-	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
-	public void set_Dato(String d) {
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
-		}
-	}
+
 	public String get_Navn() {
 		return navn;
 	}
 	public String get_Beskrivelse() {
 		return beskrivelse;
 	}
-	public String get_Dato() {
-		String datoString = sdf.format(dato);
-		return datoString;
-	}
+
 	 /*//////////////////////
 	 Get og Set metoder finish
 	 *//////////////////////
 	
 	public String toString() {
-		return navn + " skal holdes " + get_Dato() + ".\n" + "Kontaktperson er: " + kontaktperson + "\n";
+		return get_Navn() + "- " + get_Beskrivelse();
 	}
 	
 }
