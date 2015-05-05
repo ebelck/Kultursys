@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 public class Kulturhus {
 	Lokale første = null;
@@ -60,12 +62,112 @@ public class Kulturhus {
 			peker = peker.neste;
 		}
 		return null;
-	}	
+	}
+	
+	public String listLokaler(){
+		String svar = "Lokaler:\r\n";
+		if(første ==null)
+			return svar += "* Ingen lokaler registrert på kulturhus"; 
+		
+		Lokale peker = første;
+		while(peker != null){
+			svar += "* " + peker.toString() + "\r\n";
+			peker = peker.neste;
+		}
+		return svar;
+	}
+	
+	
+	 /*//////////////////////////////////////////////
+	  AVGJØR HVILKE LOKALTYPER SOM ER TILGJENGELIGE
+	 *//////////////////////////////////////////////
+	
+	public boolean finnesKino(){
+		if(første ==null)
+			return false; 
+		
+		Lokale peker = første;
+		while(peker != null){
+			if(peker instanceof Kino)
+				return true;
+			peker = peker.neste;
+		}
+		return false;
+	}
+	public boolean finnesCafe(){
+		if(første ==null)
+			return false; 
+		
+		Lokale peker = første;
+		while(peker != null){
+			if(peker instanceof Cafe)
+				return true;
+			peker = peker.neste;
+		}
+		return false;
+	}
+	public boolean finnesKonferanse(){
+		if(første ==null)
+			return false; 
+		
+		Lokale peker = første;
+		while(peker != null){
+			if(peker instanceof Konferanse)
+				return true;
+			peker = peker.neste;
+		}
+		return false;
+	}
+	public boolean finnesScene(){
+		if(første ==null)
+			return false; 
+		
+		Lokale peker = første;
+		while(peker != null){
+			if(peker instanceof Scene)
+				return true;
+			peker = peker.neste;
+		}
+		return false;
+	}
+	public boolean finnesSelskap(){
+		if(første ==null)
+			return false; 
+		
+		Lokale peker = første;
+		while(peker != null){
+			if(peker instanceof Selskap)
+				return true;
+			peker = peker.neste;
+		}
+		return false;
+	}
+	public String[] lokalListe() {
+		
+		ArrayList<String> a = new ArrayList<>();
 
+		if(finnesCafe())
+			a.add("Cafe");
+		if(finnesKino())
+			a.add("Kino");
+		if(finnesSelskap())
+			a.add("Selskap");
+		if(finnesScene())
+			a.add("Scene");
+		if(finnesKonferanse())
+			a.add("Konferanse");
+		
+	    String[] s = ((ArrayList<String>)a).toArray(new String[a.size()]);
+		
+		return s;
+	}
+	
 	 /*//////////////////////////
 	  LOKALE MANIPULERING FINISH
 	 *//////////////////////////
 	
+
+
 	
 	 /*//////////////////////
 	 Get og Set metoder start

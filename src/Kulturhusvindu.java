@@ -4,16 +4,17 @@ import javax.swing.*;
 
 
 public class Kulturhusvindu extends JFrame {
-	
-	String[] lokalvalg = {"Velg lokale", "Cafe", "Scene", "Kino", "Konferanse", "Selskap"};
+	private static final long serialVersionUID = 1L;
 	private JTextField eierfelt, adressefelt, regnrfelt, merkefelt, årsmodellfelt,
     lengdefelt, hpfelt, fargefelt, medlnrfelt;
 	private JButton regEier, regBåt, slettEier, slettBåt, byttEier, visRegister, hentRegnr, medlnr;
 	private JTextArea utskriftområde;
 	JComboBox<String> lokalvelger;
 
-	public Kulturhusvindu() {
+	public Kulturhusvindu(String[] s) {
 		super( "Registrer lokale" );
+		
+			String[] lokalvalg = s;
 
 			medlnrfelt = new JTextField( 16);
 			eierfelt = new JTextField( 18 );
