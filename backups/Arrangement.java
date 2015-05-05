@@ -6,10 +6,12 @@ import javax.imageio.*;
 
 public class Arrangement {
 	Billett første = null;
+	Arrangement neste = null;
 	Kontaktperson kontaktperson;
-	Date dato;
-	SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
-	String beskrivelse, navn;
+	private static int aId = 0;
+	private Date dato;
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
+	private String beskrivelse, navn;
 	BufferedImage bilde = null; {
 		
 		try {
@@ -24,6 +26,7 @@ public class Arrangement {
 		
 		navn = n;
 		kontaktperson = k;
+		aId++;
 	}
 	/*Minimumskrav + dato er satt*/
 	public Arrangement (String n, Kontaktperson k, String d) {
@@ -134,6 +137,9 @@ public class Arrangement {
 	}
 	public String get_Navn() {
 		return navn;
+	}
+	public int get_aId() {
+		return aId;
 	}
 	public String get_Beskrivelse() {
 		return beskrivelse;

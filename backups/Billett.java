@@ -1,8 +1,9 @@
 
 public class Billett {
 	
-	int nummer = 0;
-	String fornavn,etternavn,epost,tlf;
+	private int nummer;
+	private static int teller = 1;
+	private String fornavn,etternavn,epost,tlf;
 	Billett neste = null;
 	
 	public Billett (String f, String e, String eP, String t) {
@@ -10,7 +11,8 @@ public class Billett {
 		etternavn = e;
 		epost = eP;
 		tlf = t;
-		nummer = nummer++;
+		nummer = teller;
+		teller++;
 	}
 	
 	
