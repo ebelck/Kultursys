@@ -145,6 +145,7 @@ public class Kulturhus {
 	public String[] lokalListe() {
 		
 		ArrayList<String> a = new ArrayList<>();
+		a.add("Valg");
 
 		if(finnesCafe())
 			a.add("Cafe");

@@ -16,8 +16,11 @@ public class Selskap extends Lokale {
 	 *//////////////////////
 	
 	
-	
 	 /*//////////////////////
 	 Get og Set metoder finish
 	 *//////////////////////
+	public String toString() {
+		String meld = super.toString();
+		return meld;
+	}
 }

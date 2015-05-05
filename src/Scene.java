@@ -8,12 +8,10 @@ public class Scene extends Lokale {
 	
 	private String type;
 	private final static int ANTPLASSER = 100;
-	private String forestilling;
 	
-	public Scene(String n, String b, String f) {
+	public Scene(String n, String b) {
 		super(n,b);
 		type = "Scene";
-		forestilling = f;
 	}
 	
 	
@@ -29,9 +27,6 @@ public class Scene extends Lokale {
 		return ANTPLASSER;
 	}
 	
-	public String getForestilling() {
-		return forestilling;
-	}
 	
 	 /*//////////////////////
 	 Get og Set metoder finish
@@ -41,7 +36,6 @@ public class Scene extends Lokale {
 		String meld = super.toString();
 		meld += "Type: " + getType() + "\n";
 		meld += "Antall plasser: " + getAntPlasser() + "\n";
-		meld += "Forestilling: " + getForestilling() + "\n";
 		return meld;
 	}
 }
