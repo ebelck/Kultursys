@@ -8,7 +8,7 @@ public class Totaltest {
 		Lokale l = new Kino("Testkino","Dette er en kinosal opprettet for å teste","Testefilm");
 		Lokale l1 = new Konferanse("Testkonferansesal","Dette er en test","Testearrangement",2);
 		Lokale l2 = new Konferanse("Testkonferansesal2","Dette er en test2","Testearrangement2",2);
-
+		
 		Kontaktperson kontakt = new Kontaktperson("Partyfiksern Geir","hallis@hollis.no","99999999");
 		
 		Arrangement a = new Arrangement("Testarrangement",kontakt,"17-05-2015 20:30");
