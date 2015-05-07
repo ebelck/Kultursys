@@ -21,7 +21,7 @@ public Adminvindu()
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////ALT UNDER KUN FOR TESTING////////////////////////
-	Lokale l = new Kino("Testkino","Dette er en kinosal opprettet for å teste","Testefilm");
+	/*Lokale l = new Kino("Testkino","Dette er en kinosal opprettet for å teste","Testefilm");
 	Lokale l1 = new Konferanse("Testkonferansesal","Dette er en test","Testearrangement",2);
 	Lokale l2 = new Konferanse("Testkonferansesal2","Dette er en test2","Testearrangement2",50);
 	Lokale l3 = new Cafe("Testkonferansesal2","Dette er en test2",50);
@@ -39,7 +39,7 @@ public Adminvindu()
 	kinoA.leggTilBillett(b);
 	kinoA.leggTilBillett(b2);
 	l1.leggTilArrangement(a);
-	a.leggTilBillett(b3);	
+	a.leggTilBillett(b3);	*/
 	/////////////////////////ALT OVER KUN FOR TESTING /////////////////////////	
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
