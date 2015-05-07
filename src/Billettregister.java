@@ -1,39 +1,56 @@
-import java.io.*;
-
+import java.io.Serializable;
 
 public class Billettregister implements Serializable{
+	
 	private Billett første;
-	private Arrangement arrangement;
-	private Lokale lokale;
+	private Kino k;
+	private int nummer;
 	
-	
-	public Billettregister(){
-		
+	public Billettregister() {
+		første = null;
 	}
 	
-	public int visAntallSolgteBilletter(){
-		return 1;
-	}
-	
-	public int visPriser(){
-		return 2;
-	}
-	
-	public boolean leggTilBillett( Billett b){
-		if(b == null)
+	public boolean leggTilBillett(Billett b) {
+		if(b == null){
 			return false;
+		}
 		
 		if(første == null){
 			første = b;
-			return true;
+		} else {
+			Billett peker = første;
+			while(peker.neste != null)
+				peker = peker.neste;
+		
+			peker.neste = b;
 		}
+		return true;
+	}
+	
+	public int nesteLedigeSete(){
+		if(første == null)
+			return nummer;
 		
 		Billett peker = første;
-		while(peker.neste != null)
+		while(peker.neste != null) {
 			peker = peker.neste;
+		}
+		peker.get_Setenummer();
+		nummer = peker.get_Setenummer() + 1;
+		return nummer;
+	}
+	
+	public int antallSolgteBilletter(){
+		if(første == null)
+			return nummer;
 		
-		peker.neste = b;
-		return true;
+		Billett peker = første;
+		while(peker.neste != null) {
+			peker = peker.neste;
+		}
+		peker.get_Setenummer();
+		nummer = peker.get_Nummer();
+		return nummer;
 	}
 	
 	public boolean slettBillett(int n){
@@ -69,31 +86,17 @@ public class Billettregister implements Serializable{
 		return null;
 	}	
 	
-	public String lagre(){
-		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "reg.dta" ) )){
-			utfil.writeObject( this );
-		}catch(Exception e){
-			return "Feil i lagre(): " + e.getClass();
-		}
-
-		return "Suksess!";
-	}
-
-	public Billettregister lagReg(){
-		Billettregister reg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "reg.dta" ) )){
-				reg = (Billettregister) innfil.readObject();
-		}catch(FileNotFoundException eofe){
-			reg = null;
-		}catch(EOFException eofe){
-	
-		}
-		catch(Exception e){
-			System.out.println("Feil i lagReg(): " + e.getClass());
-		}
-		if(reg == null)
-			reg = new Billettregister();
+	public String toString(){
+		String svar = "Billetter:\r\n";
+		if(første == null)
+			return svar += "* Ingen billetter kjøpt"; 
 		
-		return reg;
+		Billett peker = første;
+		while(peker != null){
+			svar += "* " + peker.toString() + "\r\n";
+			peker = peker.neste;
+		}
+		return svar;
 	}
+	
 }

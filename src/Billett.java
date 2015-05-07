@@ -4,7 +4,10 @@ public class Billett {
 	private int nummer;
 	private static int teller = 1;
 	private String fornavn,etternavn,epost,tlf;
-	Billett neste = null;
+	Billett neste;
+	Billettregister bR;
+	boolean solgt = false;
+	private int setenummer;
 	
 	public Billett (String f, String e, String eP, String t) {
 		fornavn = f;
@@ -12,6 +15,7 @@ public class Billett {
 		epost = eP;
 		tlf = t;
 		nummer = teller;
+		setenummer = teller;
 		teller++;
 	}
 	
@@ -49,6 +53,9 @@ public class Billett {
 	public int get_Nummer() {
 		return nummer;
 	}
+	public int get_Setenummer() {
+		return setenummer;
+	}
 	
 	 /*//////////////////////
 	 Get og Set metoder finish
@@ -56,6 +63,7 @@ public class Billett {
 	
 	 public String toString(){
 		 return	 "BILLETNUMMER - " + nummer + "\r\n"
+				+ "Setenummer - " + setenummer + "\r\n"
 		 		+ "Billettholder: " + fornavn +" "+etternavn +"\r\n"
 				 + "Epost: " + epost + "\r\n" + "Telefon: " + tlf;
 	 }

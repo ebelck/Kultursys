@@ -7,7 +7,7 @@
  * */
 public class Kino extends Lokale {
 
-	private final static int ANTPLASSER = 150;
+	private int antPlasser = 150;
 	private String film;
 	private String type;
 	
@@ -25,7 +25,7 @@ public class Kino extends Lokale {
 	 *//////////////////////
 	
 	public int getAntPlasser() {
-		return ANTPLASSER;
+		return antPlasser;
 	}
 	
 	public String getFilm() {
