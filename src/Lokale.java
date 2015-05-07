@@ -65,7 +65,24 @@ public class Lokale {
 			peker = peker.neste;
 		}
 		return null;
-	}	
+	}
+	
+	public String listArrangmenter(){
+		System.out.println("Er inne i Lokale sin listArrangementer");
+		String svar = "";
+		if(første == null) {
+			System.out.println("Inne i første løkka. Betyr at lokalet ikke har noen arrangementer registrert på seg.");
+			return "Ingen arrangementer registrert på " + this.get_Navn() + "\r\n"; 
+		}
+		
+		Arrangement peker = første;
+		while(peker != null){
+			System.out.println("Inne i " + this.get_Navn() + " sin while-løkke. Forsøker å legge Arrangement sin toString til 'Svar'.");
+			svar += "* " + peker.toString() + "\r\n";
+			peker = peker.neste;
+		}
+		return svar;
+	}
 
 	 /*//////////////////////////
 	  BILLETTMANIPULERING FINISH

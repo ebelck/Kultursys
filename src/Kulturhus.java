@@ -79,6 +79,22 @@ public class Kulturhus {
 		return svar;
 	}
 	
+	public String listArrangementerILokaler() {
+		System.out.println("Er inne i Kulturhus sin listArrangementerILokaler.");
+		String svar = "";
+		if(første == null) {
+			System.out.println("Er inne i den første if-løkka. Ingen lokaler tilgjengelige");
+			return "Vi har ingen lokaler, så vi har IHVERTFALL ingen arrangementer. Get your head straight";
+		}
+		
+		Lokale peker = første;
+		while (peker != null) {
+			System.out.println("Inne i Kulturhus sin while løkke, forsøker å legge Lokale.listArrangementer inn i stringen 'Svar'.\r\n");
+			svar += peker.listArrangmenter();
+		}
+		return svar;
+	}
+	
 	
 	 /*//////////////////////////////////////////////
 	  AVGJØR HVILKE LOKALTYPER SOM ER TILGJENGELIGE
@@ -169,6 +185,111 @@ public class Kulturhus {
 	  LOKALE MANIPULERING FINISH
 	 *//////////////////////////
 	
+	
+	 /*//////////////////////////
+	  KONTAKTPERSON MANIPULERING START
+	 *//////////////////////////
+	
+	public boolean leggTilKontaktperson( Kontaktperson k){
+		if(k == null)
+			return false;
+		
+		if(førsteK == null){
+			førsteK = k;
+			return true;
+		}
+		
+		Kontaktperson peker = førsteK;
+		while(peker.neste != null)
+			peker = peker.neste;
+		
+		peker.neste = k;
+		return true;
+	}
+	
+	public boolean slettKontaktpersonViaEpost(String e){
+		if(førsteK == null)
+			return false;
+		
+		if(førsteK.get_Epost().equalsIgnoreCase(e)){
+			førsteK = førsteK.neste;
+			return true;
+		}
+		
+		Kontaktperson peker = førsteK;
+		while(peker.neste != null){
+			if(peker.neste.get_Epost().equalsIgnoreCase(e)){
+				peker.neste = peker.neste.neste;
+				return true;
+			}
+			peker = peker.neste;
+		}
+		return false;	
+	}
+	public boolean slettKontaktpersonViaTlf(String t){
+		if(førsteK == null)
+			return false;
+		
+		if(førsteK.get_Tlf().equalsIgnoreCase(t)){
+			førsteK = førsteK.neste;
+			return true;
+		}
+		
+		Kontaktperson peker = førsteK;
+		while(peker.neste != null){
+			if(peker.neste.get_Tlf().equalsIgnoreCase(t)){
+				peker.neste = peker.neste.neste;
+				return true;
+			}
+			peker = peker.neste;
+		}
+		return false;	
+	}
+
+	// Disse tre funksjonene blir kanskje utdaterte av en klasse høyere opp i hierarkiet.
+	
+	public Kontaktperson finnKontaktpersonViaEpost(String e){
+		if(førsteK == null)
+			return null;
+		
+		Kontaktperson peker = førsteK;
+		while (peker != null){
+			if(peker.get_Epost().equalsIgnoreCase(e))
+				return peker;
+			peker = peker.neste;
+		}
+		return null;
+	}
+
+
+	public Kontaktperson finnKontaktpersonViaTlf(String t){
+		if(førsteK == null)
+			return null;
+		
+		Kontaktperson peker = førsteK;
+		while (peker != null){
+			if(peker.get_Tlf().equalsIgnoreCase(t))
+				return peker;
+			peker = peker.neste;
+		}
+		return null;
+	}
+	
+	public String[] listKontaktpersoner(){
+		ArrayList<String> a = new ArrayList<>();
+		String[] b = new String[]{"Ingen kontaktpersoner i registeret"};
+		if(førsteK == null) {
+			return b;
+		}
+		a.add("Valg");
+		Kontaktperson peker = førsteK;
+		while(peker != null){
+			a.add(peker.get_Navn() + " - " + peker.get_Tlf());
+			peker = peker.neste;
+		}
+	    String[] s = ((ArrayList<String>)a).toArray(new String[a.size()]);
+		return s;
+	}
 
 
 	

@@ -1,13 +1,22 @@
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jdesktop.swingx.JXDatePicker;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 public class Kalenderpanel extends JPanel {
+	
+	static Bildehandler bh = new Bildehandler();
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("JXPicker Example");
+    	
+    	System.out.println(bh.hentFil().getName());
+    	
+        /*JFrame frame = new JFrame("JXPicker Example");
+               
         JPanel panel = new JPanel();
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -20,6 +29,7 @@ public class Kalenderpanel extends JPanel {
         panel.add(picker);
         frame.getContentPane().add(panel);
 
-        frame.setVisible(true);
+        frame.setVisible(true);*/
+        
     }
 }
