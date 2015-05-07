@@ -15,14 +15,7 @@ public class Arrangement {
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
 	private String beskrivelse, navn;
 	public Boolean[] billettremse;;
-	BufferedImage bilde = null; {
-		
-		try {
-		    bilde = ImageIO.read(new File("navn.*"));
-		} catch (IOException e) {
-			System.out.println("Finner ikke bilde ved angitt filbane");
-		}
-	}
+	BufferedImage bilde = null;
 	
 	/*Minimumskravet for å opprette et arrangement*/
 	public Arrangement (String n, Kontaktperson k) {
@@ -58,110 +51,6 @@ public class Arrangement {
 		navn = n;
 		pris = p;
 	}
-	
-	
-	 /*//////////////////////////
-	  KONTAKTPERSON MANIPULERING START
-	 *//////////////////////////
-	
-	public boolean leggTilKontaktperson( Kontaktperson k){
-		if(k == null)
-			return false;
-		
-		if(førsteK == null){
-			førsteK = k;
-			return true;
-		}
-		
-		Kontaktperson peker = førsteK;
-		while(peker.neste != null)
-			peker = peker.neste;
-		
-		peker.neste = k;
-		return true;
-	}
-	
-	public boolean slettKontaktpersonViaEpost(String e){
-		if(førsteK == null)
-			return false;
-		
-		if(førsteK.get_Epost().equalsIgnoreCase(e)){
-			førsteK = førsteK.neste;
-			return true;
-		}
-		
-		Kontaktperson peker = førsteK;
-		while(peker.neste != null){
-			if(peker.neste.get_Epost().equalsIgnoreCase(e)){
-				peker.neste = peker.neste.neste;
-				return true;
-			}
-			peker = peker.neste;
-		}
-		return false;	
-	}
-	public boolean slettKontaktpersonViaTlf(String t){
-		if(førsteK == null)
-			return false;
-		
-		if(førsteK.get_Tlf().equalsIgnoreCase(t)){
-			førsteK = førsteK.neste;
-			return true;
-		}
-		
-		Kontaktperson peker = førsteK;
-		while(peker.neste != null){
-			if(peker.neste.get_Tlf().equalsIgnoreCase(t)){
-				peker.neste = peker.neste.neste;
-				return true;
-			}
-			peker = peker.neste;
-		}
-		return false;	
-	}
-	
-	public Kontaktperson finnKontaktpersonViaEpost(String e){
-		if(førsteK == null)
-			return null;
-		
-		Kontaktperson peker = førsteK;
-		while (peker != null){
-			if(peker.get_Epost().equalsIgnoreCase(e))
-				return peker;
-			peker = peker.neste;
-		}
-		return null;
-	}
-
-	// Disse tre funksjonene blir kanskje utdaterte av en klasse høyere opp i hierarkiet.
-	
-	public Kontaktperson finnKontaktpersonViaTlf(String t){
-		if(førsteK == null)
-			return null;
-		
-		Kontaktperson peker = førsteK;
-		while (peker != null){
-			if(peker.get_Tlf().equalsIgnoreCase(t))
-				return peker;
-			peker = peker.neste;
-		}
-		return null;
-	}
-	
-	public String listKontaktpersoner(){
-		String svar = "Alle våre kontaktpersoner:\r\n";
-		if(førsteK ==null)
-			return svar += "* Ingen kontaktpersoner registrert på kulturhus"; 
-		
-		Kontaktperson peker = førsteK;
-		while(peker != null){
-			svar += "* " + peker.toString() + "\r\n";
-			peker = peker.neste;
-		}
-		return svar;
-	}
-
-	
 
 	
 	 /*//////////////////////
@@ -206,7 +95,7 @@ public class Arrangement {
 	 *//////////////////////
 	
 	public String toString() {
-		return navn + " skal holdes " + get_Dato() + ".\n";
+		return get_Navn() + " skal holdes " + get_Dato() + ".\n";
 	}
 	
 }

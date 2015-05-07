@@ -26,8 +26,8 @@ public Adminvindu()
 	Lokale l2 = new Konferanse("Testkonferansesal2","Dette er en test2","Testearrangement2",50);
 	Lokale l3 = new Cafe("Testkonferansesal2","Dette er en test2",50);
 	Kontaktperson kontakt = new Kontaktperson("Partyfiksern Geir","hallis@hollis.no","99999999");
-	Arrangement a = new Arrangement("Testarrangement",kontakt,"17-05-2015 20:30");
-	Arrangement kinoA = new Arrangement("Kinoarrangement",kontakt,"17-05-2015 20:30");
+	//Arrangement a = new Arrangement("Testarrangement",kontakt,"17-05-2015 20:30");
+	//Arrangement kinoA = new Arrangement("Kinoarrangement",kontakt,"17-05-2015 20:30");
 	Billett b = new Billett("fornavn","etternavn","epost","tlf");
 	Billett b2 = new Billett("fornavn","etternavn","epost","tlf");
 	Billett b3 = new Billett("fornavn","etternavn","epost","tlf");
@@ -35,7 +35,8 @@ public Adminvindu()
 	k.leggTilLokale(l1);
 	k.leggTilLokale(l2);
 	k.leggTilLokale(l3);
-	l.leggTilArrangement(kinoA);
+	//l.leggTilArrangement(kinoA);
+	k.leggTilKontaktperson(kontakt);
 	
     Lokalvindu lk = new Lokalvindu(k);
     Arrangementvindu av = new Arrangementvindu(k);

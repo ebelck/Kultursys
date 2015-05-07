@@ -92,7 +92,7 @@ public class Lokalvindu extends JApplet {
 			/////////// GUI LAYOUT START /////////////
 			
 			layout = new BorderLayout(5, 5);
-			bottomGrid = new GridLayout(2, 2);
+			bottomGrid = new GridLayout(1, 4);
 			topGrid = new GridLayout(5, 2);
 
 
@@ -110,15 +110,13 @@ public class Lokalvindu extends JApplet {
 			north.add(lokalvelger);			
 			// TOP GRID END
 			
-			// CENTER GRID START
-
 			
+			// CENTER GRID START
 			tekstområde = new JTextArea();
 			utskriftområde = new JScrollPane(tekstområde);
 			tekstområde.setEditable(false);
 			utskriftområde.setForeground(Color.BLACK);
 			tekstområde.setMargin(new Insets(10,10,10,10));
-
 			// CENTER GRID END
 			
 			//BOTTOM GRID START

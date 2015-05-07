@@ -1,37 +1,48 @@
 import java.awt.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
 import javax.swing.*;
 
 public class Arrangementvindu extends JApplet {
 	private static final long serialVersionUID = 1L;
 	private JLabel placeholder;
-	private JTextField kNavnFelt, kEpostFelt, kTlfFelt, navnFelt, beskFelt, prisFelt, refFelt,altFelt1,altFelt2;
-	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp, kontaktKnapp, kontaktListeKnapp;
+	private JTextField kNavnFelt, kEpostFelt, kTlfFelt, navnFelt, beskFelt, prisFelt, refFelt,altFelt1,altFelt2,bildeNavnFelt;
+	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp, kontaktKnapp, kontaktListeKnapp,bildeKnapp;
 	private JTextArea tekstområde;
 	private JScrollPane utskriftområde;
 	private BorderLayout layout,centerLayout,centerPageStartLayout;
 	private Container c;
-	JComboBox<String> lokalvelger;
-	private GridLayout bottomGrid,topGrid,centerBot,centerPageStartCenterPanelGrid,threeOneLayout;
+	JComboBox<String> lokalvelger,kontaktvelger;
+	private GridLayout bottomGrid,topGrid,centerBot;
 	public Kulturhus k;
+	public Arrangement a;
+	public Bildehandler bildehandler;
 	private JCheckBox checkbox;
+	private EmptyBorder border;
+	BufferedImage bilde = null;
 
 	private String lokalnavn = "Valg";
-	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartCenterPanel;
+	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartTopPanel;
 	
 	private void addSpecificC(String l) {
 		if (l.equals("Kino")) {
-			north.setLayout(new GridLayout(6, 2)); // 5 rows 2 columns; no gaps);
+			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Hvilken film spilles: "));
 			north.add(altFelt1);
 		}
 		else if (l.equals("Cafe")) {
-			north.setLayout(new GridLayout(6, 2)); // 5 rows 2 columns; no gaps);
+			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Hvor mange gjester er det plass til: "));
 			north.add(altFelt1);
 		}
 		else if (l.equals("Konferanse")) {
-			north.setLayout(new GridLayout(7, 2)); // 6 rows 2 columns; no gaps);
+			north.setLayout(new GridLayout(8, 2)); // 6 rows 2 columns; no gaps);
 			north.add(new JLabel(" Antall gjester det er plass til: "));
 			north.add(altFelt1);
 			north.add(new JLabel(" Hvilken type konferanse er det: "));
@@ -40,12 +51,12 @@ public class Arrangementvindu extends JApplet {
 		else if (l.equals("Selskap")) {
 		}
 		else if (l.equals("Scene")) {
-			north.setLayout(new GridLayout(6, 2)); // 5 rows 2 columns; no gaps);
+			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Forestilling som skal holdes: "));
 			north.add(altFelt1);
 		}
 		else if (l.equals("Valg")) {
-			north.setLayout(new GridLayout(6, 1)); // 5 rows 2 columns; no gaps);
+			north.setLayout(new GridLayout(7, 1)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(""));
 			north.add(new JLabel("Velg type!"));
 		}
@@ -62,12 +73,15 @@ public class Arrangementvindu extends JApplet {
 		north.add(beskFelt);
 		north.add(new JLabel(" Velg type lokale:"));
 		north.add(lokalvelger);
+		north.add(new JLabel("Velg kontaktperson"));
+		north.add(kontaktvelger);
 	}
 	
 	public Arrangementvindu(Kulturhus kH) {
 		
 			k = kH;
 			String[] lokalvalg = k.lokalListe();
+			String[] kontaktvalg = k.listKontaktpersoner();
 
 			navnFelt = new JTextField( 18 );
 			beskFelt = new JTextField( 18 );
@@ -79,32 +93,40 @@ public class Arrangementvindu extends JApplet {
 			kNavnFelt = new JTextField( 18 );
 			kEpostFelt = new JTextField( 18 );
 			kTlfFelt = new JTextField( 18 );
+			bildeNavnFelt = new JTextField( 18 );
 			placeholder = new JLabel(" ");
+			border = new EmptyBorder(5,5,5,5);
+			
+			bildeNavnFelt.setEditable(false);
+			bildeNavnFelt.setForeground(Color.BLACK);
+			bildeNavnFelt.setMargin(new Insets(10,10,10,10));
 
 
 
 			
 			lokalvelger = new JComboBox<>(lokalvalg);
 			lokalvelger.setSelectedIndex(0);
+			kontaktvelger = new JComboBox<>(kontaktvalg);
+			kontaktvelger.setSelectedIndex(0);
 			
-			finnKnapp = new JButton("Finn arrangement");
+			finnKnapp = new JButton("Finn arrangement.");
 			slettKnapp = new JButton( "Slett arrangement" );
 			regKnapp = new JButton( "Registrer arrangement" );
-			listeKnapp = new JButton( "List ut arrangementer" );
+			listeKnapp = new JButton( "List arrangement (IKKE TRYKK MAD BORKEN)" );
 			kontaktKnapp = new JButton("Kontaktpersoninfo");
 			kontaktListeKnapp = new JButton("List kontaktpersoner");
+			bildeKnapp = new JButton("Last inn bilde");
 			
 			//////////////////////////////////////////
 			/////////// GUI LAYOUT START /////////////
 			
 			layout = new BorderLayout(5, 5);
 			centerLayout = new BorderLayout(5,5);
-			centerPageStartLayout = new BorderLayout(5,5);
-			bottomGrid = new GridLayout(2, 2);
+			centerPageStartLayout = new BorderLayout(6,5);
+			
+			bottomGrid = new GridLayout(1, 4);
 			topGrid = new GridLayout(5, 2);
 			centerBot = new GridLayout(1,1);
-			centerPageStartCenterPanelGrid = new GridLayout(3,2);
-			threeOneLayout = new GridLayout(3,1);
 			
 
 
@@ -120,35 +142,36 @@ public class Arrangementvindu extends JApplet {
 			north.add(beskFelt);
 			north.add(new JLabel(" Velg type lokale:"));
 			north.add(lokalvelger);
+			north.add(new JLabel("Velg kontaktperson"));
+			north.add(kontaktvelger);
+			north.setBorder(border);
 			// TOP GRID END
 			
 			// CENTER GRID START
 
 			center = new JPanel();
 			centerLineEnd = new JPanel();
+			centerPageStartTopPanel = new JPanel();
+			
 			centerPageStart = new JPanel();
-			centerPageStartCenterPanel = new JPanel();
+			center.setBorder(new EmptyBorder(0,0,5,5));
 			
 			center.setLayout(centerLayout);
 			centerLineEnd.setLayout(centerBot);
 			centerPageStart.setLayout(centerPageStartLayout);
-			centerPageStartCenterPanel.setLayout(centerPageStartCenterPanelGrid);
+			centerPageStartTopPanel.setLayout(new GridLayout(2,2));
 			
-			centerPageStartCenterPanel.add(new JLabel("Navn:"));
-			centerPageStartCenterPanel.add(kNavnFelt);
-			centerPageStartCenterPanel.add(new JLabel("Epost:"));
-			centerPageStartCenterPanel.add(kEpostFelt);
-			centerPageStartCenterPanel.add(new JLabel("Telefon:"));
-			centerPageStartCenterPanel.add(kTlfFelt);
-			
+
+			centerPageStartTopPanel.add(bildeKnapp);
+			centerPageStartTopPanel.add(bildeNavnFelt);
+
 			tekstområde = new JTextArea();
 			utskriftområde = new JScrollPane(tekstområde);
 			tekstområde.setEditable(false);
 			utskriftområde.setForeground(Color.BLACK);
 			tekstområde.setMargin(new Insets(10,10,10,10));
 			
-			centerPageStart.add(new JLabel("Kontaktperson"),BorderLayout.PAGE_START);
-			centerPageStart.add(centerPageStartCenterPanel,BorderLayout.PAGE_END);
+			centerPageStart.add(centerPageStartTopPanel,BorderLayout.PAGE_START);
 			
 			
 			center.add(utskriftområde, BorderLayout.CENTER);
@@ -187,6 +210,8 @@ public class Arrangementvindu extends JApplet {
 			regKnapp.addActionListener( lytter );
 			lokalvelger.addActionListener( lytter );
 			listeKnapp.addActionListener(lytter);
+			bildeKnapp.addActionListener(lytter);			
+			
 			checkbox.addItemListener(tLytter);
 			
 			setSize( 550, 500 );
@@ -321,8 +346,10 @@ public class Arrangementvindu extends JApplet {
 				}
 	    	  }
 	      }
-	      else if ( e.getSource() == listeKnapp )
-	    	  	tekstområde.setText(k.listLokaler());
+	      else if ( e.getSource() == listeKnapp ) {
+	    	  System.out.println("Knappen er trykket og jeg ber om k.listArrangementer.");
+	    	  	tekstområde.setText(k.listArrangementerILokaler());
+	      }
 	      else if ( e.getSource() == finnKnapp ) {
 	    	  try {
 	      		Lokale lokalFunnet = k.finnLokale(Integer.parseInt(refFelt.getText()));
@@ -332,6 +359,16 @@ public class Arrangementvindu extends JApplet {
 	      		tekstområde.setText(lokalFunnet.toString());
 	    	  } catch(Exception ex) {
 	    		  tekstområde.setText("Fant ikke lokale med dette referansenummer.");
+	    	  }
+	      }
+	      else if ( e.getSource() == bildeKnapp ) {
+	    	  try {
+	      		bildehandler = new Bildehandler();
+	      		bilde = ImageIO.read(new File(bildehandler.hentFil().getPath()));
+	      		JLabel bildeLabel = new JLabel(new ImageIcon(bilde));
+	      		centerPageStart.add(bildeLabel,BorderLayout.CENTER);
+	    	  } catch(Exception ex) {
+	    		  tekstområde.setText("Noe gikk galt.");
 	    	  }
 	      }
 	      
@@ -353,3 +390,18 @@ public class Arrangementvindu extends JApplet {
 	  }
 	
 }
+
+/*
+ * 
+ * MÅ LAGE EN NY GREIE FOR KONTAKTPERSONEN
+ * 
+ * 
+			centerPageStartTopPanel.add(new JLabel("Kontaktperson"));
+			centerPageStartTopPanel.add(new JLabel(""));
+			centerPageStartTopPanel.add(new JLabel("Navn:"));
+			centerPageStartTopPanel.add(kNavnFelt);
+			centerPageStartTopPanel.add(new JLabel("Epost:"));
+			centerPageStartTopPanel.add(kEpostFelt);
+			centerPageStartTopPanel.add(new JLabel("Telefon:"));
+			centerPageStartTopPanel.add(kTlfFelt);
+ */
