@@ -14,7 +14,7 @@ public Adminvindu()
 
      JTabbedPane tabbedPane = new JTabbedPane();
      Kulturhus k = new Kulturhus("Testhuset","Dette kulturhuset er laget som en test");
-     Lokalvindu lk = new Lokalvindu(k);
+
      
      
      
@@ -36,10 +36,10 @@ public Adminvindu()
 	k.leggTilLokale(l2);
 	k.leggTilLokale(l3);
 	l.leggTilArrangement(kinoA);
-	kinoA.leggTilBillett(b);
-	kinoA.leggTilBillett(b2);
-	l1.leggTilArrangement(a);
-	a.leggTilBillett(b3);	
+	
+    Lokalvindu lk = new Lokalvindu(k);
+    Arrangementvindu av = new Arrangementvindu(k);
+
 	/////////////////////////ALT OVER KUN FOR TESTING /////////////////////////	
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -49,8 +49,7 @@ public Adminvindu()
      tabbedPane.addTab("Administrer lokaler", null, lk, "Does nothing");
      tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-     JComponent panel2 = makeTextPanel("Panel #2");
-     tabbedPane.addTab("Tab 2", null, panel2,
+     tabbedPane.addTab("Administrer arrangementer", null, av,
              "Does twice as much nothing");
      tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
@@ -60,7 +59,7 @@ public Adminvindu()
 
      JComponent panel4 = makeTextPanel(
              "Panel #4 (has a preferred size of 410 x 50).");
-     panel4.setPreferredSize(new Dimension(700, 500));
+     panel4.setPreferredSize(new Dimension(820, 500));
      tabbedPane.addTab("Tab 4", null, panel4, "Does nothing at all");
      tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
 

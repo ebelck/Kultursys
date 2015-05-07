@@ -2,18 +2,19 @@ import java.util.*;
 import java.text.*;
 import java.awt.image.*;
 import java.io.*;
+
 import javax.imageio.*;
 
 public class Arrangement {
-	Billett første = null;
 	Arrangement neste = null;
-	Kontaktperson kontaktperson;
+	Kontaktperson førsteK = null;
 	private static int aId = 0;
 	private int pris;
 	private boolean betalbar = true;
 	private Date dato;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
 	private String beskrivelse, navn;
+	public Boolean[] billettremse;;
 	BufferedImage bilde = null; {
 		
 		try {
@@ -27,7 +28,6 @@ public class Arrangement {
 	public Arrangement (String n, Kontaktperson k) {
 		
 		navn = n;
-		kontaktperson = k;
 		aId++;
 	}
 	/*Minimumskrav + dato er satt + pris ikke oppgitt*/
@@ -42,11 +42,10 @@ public class Arrangement {
 		}
 		
 		navn = n;
-		kontaktperson = k;
 		betalbar = false;
 	}
 	/*All informasjon satt*/
-	public Arrangement (String n, String b, Kontaktperson k, String d, int vP) {
+	public Arrangement (String n, String b, Kontaktperson k, String d, int p) {
 		
 		
 		/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
@@ -57,44 +56,62 @@ public class Arrangement {
 		}
 		beskrivelse = b;
 		navn = n;
-		kontaktperson = k;
-		pris = vP;
+		pris = p;
 	}
 	
 	
 	 /*//////////////////////////
-	  BILLETTMANIPULERING START
+	  KONTAKTPERSON MANIPULERING START
 	 *//////////////////////////
 	
-	public boolean leggTilBillett( Billett b){
-		if(b == null)
+	public boolean leggTilKontaktperson( Kontaktperson k){
+		if(k == null)
 			return false;
 		
-		if(første == null){
-			første = b;
+		if(førsteK == null){
+			førsteK = k;
 			return true;
 		}
 		
-		Billett peker = første;
+		Kontaktperson peker = førsteK;
 		while(peker.neste != null)
 			peker = peker.neste;
 		
-		peker.neste = b;
+		peker.neste = k;
 		return true;
 	}
 	
-	public boolean slettBillett(int n){
-		if(første == null)
+	public boolean slettKontaktpersonViaEpost(String e){
+		if(førsteK == null)
 			return false;
 		
-		if(første.get_Nummer() == n){
-			første = første.neste;
+		if(førsteK.get_Epost().equalsIgnoreCase(e)){
+			førsteK = førsteK.neste;
 			return true;
 		}
 		
-		Billett peker = første;
+		Kontaktperson peker = førsteK;
 		while(peker.neste != null){
-			if(peker.neste.get_Nummer() == n){
+			if(peker.neste.get_Epost().equalsIgnoreCase(e)){
+				peker.neste = peker.neste.neste;
+				return true;
+			}
+			peker = peker.neste;
+		}
+		return false;	
+	}
+	public boolean slettKontaktpersonViaTlf(String t){
+		if(førsteK == null)
+			return false;
+		
+		if(førsteK.get_Tlf().equalsIgnoreCase(t)){
+			førsteK = førsteK.neste;
+			return true;
+		}
+		
+		Kontaktperson peker = førsteK;
+		while(peker.neste != null){
+			if(peker.neste.get_Tlf().equalsIgnoreCase(t)){
 				peker.neste = peker.neste.neste;
 				return true;
 			}
@@ -103,23 +120,49 @@ public class Arrangement {
 		return false;	
 	}
 	
-	public Billett finnBillett(int n){
-		if(første == null)
+	public Kontaktperson finnKontaktpersonViaEpost(String e){
+		if(førsteK == null)
 			return null;
 		
-		Billett peker = første;
+		Kontaktperson peker = førsteK;
 		while (peker != null){
-			if(peker.get_Nummer() == n)
+			if(peker.get_Epost().equalsIgnoreCase(e))
 				return peker;
 			peker = peker.neste;
 		}
 		return null;
-	}	
+	}
 
-	 /*//////////////////////////
-	  BILLETTMANIPULERING FINISH
-	 *//////////////////////////
+	// Disse tre funksjonene blir kanskje utdaterte av en klasse høyere opp i hierarkiet.
 	
+	public Kontaktperson finnKontaktpersonViaTlf(String t){
+		if(førsteK == null)
+			return null;
+		
+		Kontaktperson peker = førsteK;
+		while (peker != null){
+			if(peker.get_Tlf().equalsIgnoreCase(t))
+				return peker;
+			peker = peker.neste;
+		}
+		return null;
+	}
+	
+	public String listKontaktpersoner(){
+		String svar = "Alle våre kontaktpersoner:\r\n";
+		if(førsteK ==null)
+			return svar += "* Ingen kontaktpersoner registrert på kulturhus"; 
+		
+		Kontaktperson peker = førsteK;
+		while(peker != null){
+			svar += "* " + peker.toString() + "\r\n";
+			peker = peker.neste;
+		}
+		return svar;
+	}
+
+	
+
 	
 	 /*//////////////////////
 	 Get og Set metoder start
@@ -163,7 +206,7 @@ public class Arrangement {
 	 *//////////////////////
 	
 	public String toString() {
-		return navn + " skal holdes " + get_Dato() + ".\n" + "Kontaktperson er: " + kontaktperson + "\n";
+		return navn + " skal holdes " + get_Dato() + ".\n";
 	}
 	
 }

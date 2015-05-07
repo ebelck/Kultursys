@@ -3,6 +3,7 @@ public class Kontaktperson {
 	private String navn;
 	private String epost;
 	private String tlf;
+	Kontaktperson neste;
 
 	public Kontaktperson (String n, String e, String t) {
 		navn = n;

@@ -3,12 +3,14 @@ import java.util.ArrayList;
 
 public class Kulturhus {
 	Lokale første = null;
+	Kontaktperson førsteK = null;
 	private String beskrivelse, navn;
 
 	public Kulturhus (String n, String b) {
 		navn = n;
 		beskrivelse = b;
 	}
+	
 	
 	 /*//////////////////////////
 	  LOKALE MANIPULERING START

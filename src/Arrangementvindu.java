@@ -1,23 +1,23 @@
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
-
-public class Lokalvindu extends JApplet {
+public class Arrangementvindu extends JApplet {
 	private static final long serialVersionUID = 1L;
-	private JTextField navnFelt, beskFelt, refFelt, altFelt1, altFelt2;
-	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp;
+	private JLabel placeholder;
+	private JTextField kNavnFelt, kEpostFelt, kTlfFelt, navnFelt, beskFelt, prisFelt, refFelt,altFelt1,altFelt2;
+	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp, kontaktKnapp, kontaktListeKnapp;
 	private JTextArea tekstområde;
 	private JScrollPane utskriftområde;
-	private BorderLayout layout;
+	private BorderLayout layout,centerLayout,centerPageStartLayout;
 	private Container c;
 	JComboBox<String> lokalvelger;
-	private GridLayout bottomGrid,topGrid;
+	private GridLayout bottomGrid,topGrid,centerBot,centerPageStartCenterPanelGrid,threeOneLayout;
 	public Kulturhus k;
+	private JCheckBox checkbox;
 
 	private String lokalnavn = "Valg";
-	private JComponent north,south;
+	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartCenterPanel;
 	
 	private void addSpecificC(String l) {
 		if (l.equals("Kino")) {
@@ -61,21 +61,25 @@ public class Lokalvindu extends JApplet {
 		north.add(new JLabel(" Beskrivelse:"));
 		north.add(beskFelt);
 		north.add(new JLabel(" Velg type lokale:"));
-		north.add(lokalvelger);	
-		
+		north.add(lokalvelger);
 	}
 	
-	public Lokalvindu(Kulturhus kH) {
+	public Arrangementvindu(Kulturhus kH) {
 		
 			k = kH;
-		
-			String[] lokalvalg = new String[]{"Valg","Kino","Scene","Konferanse","Cafe","Selskap"};
+			String[] lokalvalg = k.lokalListe();
 
 			navnFelt = new JTextField( 18 );
 			beskFelt = new JTextField( 18 );
+			checkbox = new JCheckBox("Er arrangementet betalbart?");
+			prisFelt = new JTextField( 18 ); 
 			refFelt = new JTextField( 18 );
 			altFelt1 = new JTextField( 18 );
 			altFelt2 = new JTextField( 18 );
+			kNavnFelt = new JTextField( 18 );
+			kEpostFelt = new JTextField( 18 );
+			kTlfFelt = new JTextField( 18 );
+			placeholder = new JLabel(" ");
 
 
 
@@ -83,17 +87,25 @@ public class Lokalvindu extends JApplet {
 			lokalvelger = new JComboBox<>(lokalvalg);
 			lokalvelger.setSelectedIndex(0);
 			
-			finnKnapp = new JButton("Lokaliser lokale");
-			slettKnapp = new JButton( "Slett lokale" );
-			regKnapp = new JButton( "Registrer lokale" );
-			listeKnapp = new JButton( "List ut lokaler" );
+			finnKnapp = new JButton("Finn arrangement");
+			slettKnapp = new JButton( "Slett arrangement" );
+			regKnapp = new JButton( "Registrer arrangement" );
+			listeKnapp = new JButton( "List ut arrangementer" );
+			kontaktKnapp = new JButton("Kontaktpersoninfo");
+			kontaktListeKnapp = new JButton("List kontaktpersoner");
 			
 			//////////////////////////////////////////
 			/////////// GUI LAYOUT START /////////////
 			
 			layout = new BorderLayout(5, 5);
+			centerLayout = new BorderLayout(5,5);
+			centerPageStartLayout = new BorderLayout(5,5);
 			bottomGrid = new GridLayout(2, 2);
 			topGrid = new GridLayout(5, 2);
+			centerBot = new GridLayout(1,1);
+			centerPageStartCenterPanelGrid = new GridLayout(3,2);
+			threeOneLayout = new GridLayout(3,1);
+			
 
 
 			
@@ -107,17 +119,43 @@ public class Lokalvindu extends JApplet {
 			north.add(new JLabel(" Beskrivelse:"));
 			north.add(beskFelt);
 			north.add(new JLabel(" Velg type lokale:"));
-			north.add(lokalvelger);			
+			north.add(lokalvelger);
 			// TOP GRID END
 			
 			// CENTER GRID START
 
+			center = new JPanel();
+			centerLineEnd = new JPanel();
+			centerPageStart = new JPanel();
+			centerPageStartCenterPanel = new JPanel();
+			
+			center.setLayout(centerLayout);
+			centerLineEnd.setLayout(centerBot);
+			centerPageStart.setLayout(centerPageStartLayout);
+			centerPageStartCenterPanel.setLayout(centerPageStartCenterPanelGrid);
+			
+			centerPageStartCenterPanel.add(new JLabel("Navn:"));
+			centerPageStartCenterPanel.add(kNavnFelt);
+			centerPageStartCenterPanel.add(new JLabel("Epost:"));
+			centerPageStartCenterPanel.add(kEpostFelt);
+			centerPageStartCenterPanel.add(new JLabel("Telefon:"));
+			centerPageStartCenterPanel.add(kTlfFelt);
 			
 			tekstområde = new JTextArea();
 			utskriftområde = new JScrollPane(tekstområde);
 			tekstområde.setEditable(false);
 			utskriftområde.setForeground(Color.BLACK);
 			tekstområde.setMargin(new Insets(10,10,10,10));
+			
+			centerPageStart.add(new JLabel("Kontaktperson"),BorderLayout.PAGE_START);
+			centerPageStart.add(centerPageStartCenterPanel,BorderLayout.PAGE_END);
+			
+			
+			center.add(utskriftområde, BorderLayout.CENTER);
+			center.add(centerLineEnd, BorderLayout.PAGE_END);
+			center.add(centerPageStart,BorderLayout.LINE_START);
+			centerLineEnd.add(checkbox,placeholder);
+			
 
 			// CENTER GRID END
 			
@@ -133,7 +171,7 @@ public class Lokalvindu extends JApplet {
 			c = getContentPane();
 			c.setLayout(layout);
 			c.add(north, BorderLayout.PAGE_START);
-			c.add(utskriftområde, BorderLayout.CENTER);
+			c.add(center, BorderLayout.CENTER);
 			c.add(south, BorderLayout.PAGE_END);
 			
 			/////////// GUI LAYOUT SLUTT /////////////
@@ -142,19 +180,52 @@ public class Lokalvindu extends JApplet {
 			
 	
 			Knappelytter lytter = new Knappelytter();
+			Typelytter tLytter = new Typelytter();
 			
 			finnKnapp.addActionListener( lytter );
 			slettKnapp.addActionListener( lytter );
 			regKnapp.addActionListener( lytter );
 			lokalvelger.addActionListener( lytter );
 			listeKnapp.addActionListener(lytter);
+			checkbox.addItemListener(tLytter);
 			
 			setSize( 550, 500 );
 			setVisible( true );
 		}
 	
 	
-		
+    private class Typelytter implements ItemListener
+    {
+      public void itemStateChanged( ItemEvent e )
+      {
+    	  if ( checkbox.isSelected() ) {
+    		  try {
+    			System.out.println("checkbox trykket på");
+    	 		centerLineEnd.remove(placeholder);
+    	 		centerLineEnd.revalidate();
+    	 		centerLineEnd.repaint();
+    	 		centerLineEnd.add(prisFelt);
+    	 		centerLineEnd.revalidate();
+    	 		centerLineEnd.repaint();
+    		  } catch(Exception ex) {
+    			  tekstområde.setText("Her oppsto det en feil gitt.");
+    		  }
+    	 } else {
+    		 try {
+     			System.out.println("checkbox trykket av");
+     			centerLineEnd.remove(prisFelt);
+     			centerLineEnd.revalidate();
+     			centerLineEnd.repaint();
+     			centerLineEnd.add(placeholder);
+     			centerLineEnd.revalidate();
+     			centerLineEnd.repaint();
+     		  } catch(Exception ex) {
+     			  tekstområde.setText("Her oppsto det en feil gitt.");
+     		  }
+    	 }
+      }
+    }
+ /////
 	private class Knappelytter implements ActionListener
 	  {
 	    public void actionPerformed( ActionEvent e )
@@ -274,7 +345,7 @@ public class Lokalvindu extends JApplet {
 		    repainter();
 			c.add(north, BorderLayout.PAGE_START);
 			addSpecificC(lokalnavn);
-			c.add(utskriftområde, BorderLayout.CENTER);
+			c.add(center, BorderLayout.CENTER);
 			c.add(south, BorderLayout.PAGE_END);
 		    c.revalidate();
 		    c.repaint();
