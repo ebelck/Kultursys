@@ -9,6 +9,8 @@ public class Arrangement {
 	Arrangement neste = null;
 	Kontaktperson kontaktperson;
 	private static int aId = 0;
+	private int pris;
+	private boolean betalbar = true;
 	private Date dato;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
 	private String beskrivelse, navn;
@@ -28,7 +30,7 @@ public class Arrangement {
 		kontaktperson = k;
 		aId++;
 	}
-	/*Minimumskrav + dato er satt*/
+	/*Minimumskrav + dato er satt + pris ikke oppgitt*/
 	public Arrangement (String n, Kontaktperson k, String d) {
 		
 		
@@ -41,9 +43,10 @@ public class Arrangement {
 		
 		navn = n;
 		kontaktperson = k;
+		betalbar = false;
 	}
 	/*All informasjon satt*/
-	public Arrangement (String n, String b, Kontaktperson k, String d) {
+	public Arrangement (String n, String b, Kontaktperson k, String d, int vP) {
 		
 		
 		/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
@@ -55,6 +58,7 @@ public class Arrangement {
 		beskrivelse = b;
 		navn = n;
 		kontaktperson = k;
+		pris = vP;
 	}
 	
 	
@@ -147,6 +151,12 @@ public class Arrangement {
 	public String get_Dato() {
 		String datoString = sdf.format(dato);
 		return datoString;
+	}
+	public int get_Pris() {
+		return pris;
+	}
+	public boolean get_Betalbar() {
+		return betalbar;
 	}
 	 /*//////////////////////
 	 Get og Set metoder finish
