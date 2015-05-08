@@ -21,6 +21,7 @@ public class Arrangementvindu extends JApplet {
 	JComboBox<String> lokalvelger,kontaktvelger;
 	private GridLayout bottomGrid,topGrid,centerBot;
 	public Kulturhus k;
+	public Lokale l;
 	public Arrangement a;
 	public Bildehandler bildehandler;
 	private JCheckBox checkbox;
@@ -67,9 +68,9 @@ public class Arrangementvindu extends JApplet {
 	private void repainter() {
 		north.add(new JLabel(" Referansenummer:"));
 		north.add(refFelt);
-		north.add(new JLabel(" Navn:"));
+		north.add(new JLabel(" Navn på arrangement:"));
 		north.add(navnFelt);
-		north.add(new JLabel(" Beskrivelse:"));
+		north.add(new JLabel(" Arrangementsbeskrivelse:"));
 		north.add(beskFelt);
 		north.add(new JLabel(" Velg type lokale:"));
 		north.add(lokalvelger);
@@ -112,7 +113,7 @@ public class Arrangementvindu extends JApplet {
 			finnKnapp = new JButton("Finn arrangement.");
 			slettKnapp = new JButton( "Slett arrangement" );
 			regKnapp = new JButton( "Registrer arrangement" );
-			listeKnapp = new JButton( "List arrangement (IKKE TRYKK MAD BORKEN)" );
+			listeKnapp = new JButton( "List arrangement" );
 			kontaktKnapp = new JButton("Kontaktpersoninfo");
 			kontaktListeKnapp = new JButton("List kontaktpersoner");
 			bildeKnapp = new JButton("Last inn bilde");
@@ -251,10 +252,21 @@ public class Arrangementvindu extends JApplet {
       }
     }
  /////
+	public boolean leggTilKonferranseArrangement() {
+		String navn = navnFelt.getText();
+		String besk = beskFelt.getText();
+		Kontaktperson kont = new Kontaktperson("Partye","hei","kjshdf");
+		Arrangement arr = new Arrangement(navn,besk,kont, "31-08-1982 10:20",154);
+		l.leggTilArrangement(arr);
+		return true;
+	}
+    
+    
 	private class Knappelytter implements ActionListener
 	  {
 	    public void actionPerformed( ActionEvent e )
 	    {
+	    	// Legger til arrangement
 	      if ( e.getSource() == regKnapp ) {
 	    	  try {
 	    		  String navn = navnFelt.getText();
@@ -269,42 +281,40 @@ public class Arrangementvindu extends JApplet {
 	    			  if (k.leggTilLokale(kino)) {
 	    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
 	    			  }
-	    			}
-	    			else if (lokalnavn.equals("Cafe")) {
-		    			  int gjesteplass = Integer.parseInt(altFelt1.getText());
-		    			  Cafe cafe = new Cafe(navn,besk,gjesteplass);
-		    			  if (k.leggTilLokale(cafe)) {
-		    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
-		    			  }
-	    			}
-	    			else if (lokalnavn.equals("Konferanse")) {
-	    				  int gjesteplass = Integer.parseInt(altFelt1.getText());
-	    				  String type = altFelt2.getText();
-		    			  Konferanse konf = new Konferanse(navn,besk,type,gjesteplass);
-		    			  if (k.leggTilLokale(konf)) {
-		    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
-		    			  }
-	    			}
-	    			else if (lokalnavn.equals("Selskap")) {
-		    				Selskap selskap = new Selskap(navn,besk);
-			    			  if (k.leggTilLokale(selskap)) {
-			    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
-			    			  }	
-			    			}
-	    			else if (lokalnavn.equals("Scene")) {
-		    			  Scene scene = new Scene(navn,besk);
-		    			  if (k.leggTilLokale(scene)) {
-		    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
-		    			  }
-	    			}
-	    			else if (lokalnavn.equals("Valg")) {
-	    				 tekstområde.setText("Du må liksom velge noe davel...");
-	    			}
-	    			else {
-	    				System.out.println("Aner ikke hvorfor du endte opp her");
-	    		}
+	    		  }
+	    		  else if (lokalnavn.equals("Cafe")) {
+	    			  int gjesteplass = Integer.parseInt(altFelt1.getText());
+	    			  Cafe cafe = new Cafe(navn,besk,gjesteplass);
+	    			  if (k.leggTilLokale(cafe)) {
+	    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
+	    			  }
+	    		  }
+	    		  else if (lokalnavn.equals("Konferanse")) {
+	    			  int gjesteplass = Integer.parseInt(altFelt1.getText());
+	   				  String type = altFelt2.getText();
+	   				  
+	    			  
+	    		  }
+	    		  else if (lokalnavn.equals("Selskap")) {
+	    			  Selskap selskap = new Selskap(navn,besk);
+			    	  if (k.leggTilLokale(selskap)) {
+			    		  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
+			    	  }	
+	    		  }
+	    		  else if (lokalnavn.equals("Scene")) {
+	    			  Scene scene = new Scene(navn,besk);
+	    			  if (k.leggTilLokale(scene)) {
+	    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
+	    			  }
+	    		  }
+	    		  else if (lokalnavn.equals("Valg")) {
+	    			  tekstområde.setText("Du må liksom velge noe davel...");
+	    		  }
+	    		  else {
+	    			  System.out.println("Aner ikke hvorfor du endte opp her");
+	    		  }
 	    	  } catch (Exception ex) {
-		    	  	tekstområde.setText("Det oppsto en feil, vennligst prøv på nytt");
+	    		  tekstområde.setText("Det oppsto en feil, vennligst prøv på nytt" + e.getClass());
 	    	  }
 	      }
 

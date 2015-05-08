@@ -14,7 +14,6 @@ public class Arrangement {
 	private Date dato;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
 	private String beskrivelse, navn;
-	public Boolean[] billettremse;;
 	BufferedImage bilde = null;
 	
 	/*Minimumskravet for å opprette et arrangement*/
@@ -95,7 +94,16 @@ public class Arrangement {
 	 *//////////////////////
 	
 	public String toString() {
-		return get_Navn() + " skal holdes " + get_Dato() + ".\n";
+		String meld = "";
+		String b = (get_Beskrivelse() != null) ? "Beskrivelse: " + get_Beskrivelse() : "Ingen beskrivelse";
+		meld += "Navn på arrangement: " + get_Navn() + "\r\n" 
+				+ "Dato " + get_Dato() + "\r\n"
+				+ b + "\r\n";
+		if(get_Betalbar() == true)
+			meld += "Pris: " + get_Pris() + "kr \r\n";
+		else
+			meld += "Pris: Gratis \r\n";
+		return meld;
 	}
 	
 }

@@ -80,17 +80,16 @@ public class Kulturhus {
 	}
 	
 	public String listArrangementerILokaler() {
-		System.out.println("Er inne i Kulturhus sin listArrangementerILokaler.");
-		String svar = "";
+		String svar = "Arrangementer i kulturhuset nå: \r\n";
 		if(første == null) {
-			System.out.println("Er inne i den første if-løkka. Ingen lokaler tilgjengelige");
-			return "Vi har ingen lokaler, så vi har IHVERTFALL ingen arrangementer. Get your head straight";
+			svar = "Vi har ingen lokaler, så vi har IHVERTFALL ingen arrangementer. Get your head straight.";
+			return svar;
 		}
 		
 		Lokale peker = første;
 		while (peker != null) {
-			System.out.println("Inne i Kulturhus sin while løkke, forsøker å legge Lokale.listArrangementer inn i stringen 'Svar'.\r\n");
 			svar += peker.listArrangmenter();
+			peker = peker.neste;
 		}
 		return svar;
 	}
