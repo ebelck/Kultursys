@@ -26,10 +26,12 @@ public class Arrangementvindu extends JApplet {
 	public Bildehandler bildehandler;
 	private JCheckBox checkbox;
 	private EmptyBorder border;
+	private StretchIcon bildeIcon;
 	BufferedImage bilde = null;
 
 	private String lokalnavn = "Valg";
 	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartTopPanel;
+	private JLabel bildeLabel, bildeContainer;
 	
 	private void addSpecificC(String l) {
 		if (l.equals("Kino")) {
@@ -162,6 +164,10 @@ public class Arrangementvindu extends JApplet {
 			centerPageStart.setLayout(centerPageStartLayout);
 			centerPageStartTopPanel.setLayout(new GridLayout(2,2));
 			
+			bildeContainer = new JLabel();
+      		bildeIcon = new StretchIcon("");
+      		bildeLabel = new JLabel(bildeIcon);
+      		centerPageStart.add(bildeLabel,BorderLayout.CENTER);
 
 			centerPageStartTopPanel.add(bildeKnapp);
 			centerPageStartTopPanel.add(bildeNavnFelt);
@@ -374,9 +380,10 @@ public class Arrangementvindu extends JApplet {
 	      else if ( e.getSource() == bildeKnapp ) {
 	    	  try {
 	      		bildehandler = new Bildehandler();
-	      		bilde = ImageIO.read(new File(bildehandler.hentFil().getPath()));
-	      		JLabel bildeLabel = new JLabel(new ImageIcon(bilde));
-	      		centerPageStart.add(bildeLabel,BorderLayout.CENTER);
+	      		File bildeFil = bildehandler.hentFil();
+	      		bilde = ImageIO.read(bildeFil);
+	      		bildeIcon.setImage(bilde);
+	      		bildeNavnFelt.setText(bildeFil.getName());
 	    	  } catch(Exception ex) {
 	    		  tekstområde.setText("Noe gikk galt.");
 	    	  }
