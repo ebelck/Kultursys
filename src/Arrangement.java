@@ -5,6 +5,8 @@ import java.io.*;
 
 import javax.imageio.*;
 
+
+/*//////////BESKRIVELSE//////////*/
 public class Arrangement {
 	Arrangement neste = null;
 	Kontaktperson førsteK = null;
