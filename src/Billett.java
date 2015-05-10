@@ -1,23 +1,30 @@
 
 public class Billett {
 	
-	private int nummer;
-	private static int teller = 1;
-	private String fornavn,etternavn,epost,tlf;
-	Billett neste;
-	Billettregister bR;
-	boolean solgt = false;
-	private int setenummer;
+	private int nummer;							//serienummer på billett
+	private static int teller = 1;				//holder styr på neste serienummer				
+	private String fornavn,etternavn,epost,tlf;	//Info om kunde
+	//Billettregister bR;
+	boolean solgt = false;						//indikerer om billetten er solgt eller ikke.
+	private int setenummer;						//Det bør være mulig å lage billetter som ikke har nummererte plasser
 	
-	public Billett (String f, String e, String eP, String t) {
-		fornavn = f;
-		etternavn = e;
-		epost = eP;
-		tlf = t;
+	//lag konstruktor for usolgt billett ( uten personinfo )
+	
+	public Billett(){
 		nummer = teller;
 		setenummer = teller;
 		teller++;
 	}
+	
+//	public Billett (String f, String e, String eP, String t) {
+//		fornavn = f;
+//		etternavn = e;
+//		epost = eP;
+//		tlf = t;
+//		nummer = teller;
+//		setenummer = teller;
+//		teller++;
+//	}
 	
 	
 	 /*//////////////////////
@@ -57,9 +64,21 @@ public class Billett {
 		return setenummer;
 	}
 	
+	public boolean get_Solgt() {
+		return solgt;
+	}
+	
 	 /*//////////////////////
 	 Get og Set metoder finish
 	 *//////////////////////
+	
+	public void selgBillett(String f, String e, String eP, String t){
+		fornavn = f;
+		etternavn = e;
+		epost = eP;
+		tlf = t;
+		solgt = true;
+	}
 	
 	 public String toString(){
 		 return	 "BILLETNUMMER - " + nummer + "\r\n"
