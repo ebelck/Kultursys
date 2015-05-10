@@ -1,10 +1,14 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+
 
 public class Lokale {
 	private String navn, beskrivelse;
 	private int refNr;
 	private static int nrTeller = 1;
-	Lokale neste = null;
-	Arrangement første = null;
+	private ArrayList<Arrangement> arrangementInhouse = new ArrayList<>();
+	private Iterator<Arrangement> iterator;
 	
 	public Lokale (String n, String b) {
 		navn = n;
@@ -21,70 +25,53 @@ public class Lokale {
 		if(a == null)
 			return false;
 		
-		if(første == null){
-			første = a;
-			return true;
-		}
-		
-		Arrangement peker = første;
-		while(peker.neste != null)
-			peker = peker.neste;
-		
-		peker.neste = a;
+		arrangementInhouse.add(a);
 		return true;
 	}
 	
 	public boolean slettArrangement(int n){
-		if(første == null)
-			return false;
-		
-		if(første.get_aId() == n){
-			første = første.neste;
+		n = n - 1;
+		try {
+			arrangementInhouse.remove(n);
 			return true;
+		} catch (IndexOutOfBoundsException IOOBE) {
+			return false;
 		}
-		
-		Arrangement peker = første;
-		while(peker.neste != null){
-			if(peker.neste.get_aId() == n){
-				peker.neste = peker.neste.neste;
-				return true;
-			}
-			peker = peker.neste;
-		}
-		return false;	
 	}
 	
 	public Arrangement finnArrangement(int n){
-		if(første == null)
-			return null;
-		
-		Arrangement peker = første;
-		while (peker != null){
-			if(peker.get_aId() == n)
-				return peker;
-			peker = peker.neste;
+		Arrangement funnet = null;
+		try {
+			iterator = arrangementInhouse.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = iterator.next();
+	            if (funnet.get_aId() == n) {
+	            	return funnet;
+	            }
+	        }
+			
+		} catch(Exception ex){
+			return funnet;
 		}
-		return null;
+		return funnet;
 	}
 	
 	public String listArrangmenter(){
-		String svar = "";
-		if(første == null) {
-			svar = "Ingen arrangementer registrert på " + this.get_Navn() + "\r\n";
-			return svar; 
+		String melding = "";
+		for (Arrangement s : arrangementInhouse) {
+			melding += s.toString();
 		}
-		
-		Arrangement peker = første;
-		while(peker != null){
-			svar += "* " + peker.toString() + "\r\n";
-			peker = peker.neste;
+		return melding;
+	}
+	public HashSet<Arrangement> kontaktOpplysning(Kontaktperson k) {
+		HashSet<Arrangement> arrHash = new HashSet<>();
+		for (Arrangement s : arrangementInhouse) {
+			if (s.get_Kontaktperson().equals(k)) 
+				arrHash.add(s);
 		}
-		return svar;
+		return arrHash;
 	}
 
-	 /*//////////////////////////
-	  BILLETTMANIPULERING FINISH
-	 *//////////////////////////
 	
 	 /*//////////////////////
 	 Get og Set metoder start

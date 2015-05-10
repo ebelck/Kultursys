@@ -22,26 +22,27 @@ public class Lokalvindu extends JApplet {
 	private void addSpecificC(String l) {
 		if (l.equals("Kino")) {
 			north.setLayout(new GridLayout(6, 2)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(" Hvilken film spilles: "));
+			north.add(new JLabel(" Ytterligere info: "));
 			north.add(altFelt1);
 		}
 		else if (l.equals("Cafe")) {
 			north.setLayout(new GridLayout(6, 2)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(" Hvor mange gjester er det plass til: "));
+			north.add(new JLabel(" Antall gjester det er plass til: "));
 			north.add(altFelt1);
 		}
 		else if (l.equals("Konferanse")) {
 			north.setLayout(new GridLayout(7, 2)); // 6 rows 2 columns; no gaps);
 			north.add(new JLabel(" Antall gjester det er plass til: "));
 			north.add(altFelt1);
-			north.add(new JLabel(" Hvilken type konferanse er det: "));
-			north.add(altFelt2);
 		}
-		else if (l.equals("Selskap")) {
+		else if (l.equals("Selskapslokale")) {
+			north.setLayout(new GridLayout(6, 2)); // 5 rows 2 columns; no gaps);
+			north.add(new JLabel(" Ytterligere info: "));
+			north.add(altFelt1);
 		}
 		else if (l.equals("Scene")) {
 			north.setLayout(new GridLayout(6, 2)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(" Forestilling som skal holdes: "));
+			north.add(new JLabel(" Ytterligere info: "));
 			north.add(altFelt1);
 		}
 		else if (l.equals("Valg")) {
@@ -69,7 +70,7 @@ public class Lokalvindu extends JApplet {
 		
 			k = kH;
 		
-			String[] lokalvalg = new String[]{"Valg","Kino","Scene","Konferanse","Cafe","Selskap"};
+			String[] lokalvalg = new String[]{"Valg","Kino","Scene","Konferanse","Cafe","Selskapslokale"};
 
 			navnFelt = new JTextField( 18 );
 			beskFelt = new JTextField( 18 );
@@ -181,20 +182,19 @@ public class Lokalvindu extends JApplet {
 	    			}
 	    			else if (lokalnavn.equals("Konferanse")) {
 	    				  int gjesteplass = Integer.parseInt(altFelt1.getText());
-	    				  String type = altFelt2.getText();
-		    			  Konferanse konf = new Konferanse(navn,besk,type,gjesteplass);
+		    			  Konferanse konf = new Konferanse(navn,besk,gjesteplass);
 		    			  if (k.leggTilLokale(konf)) {
 		    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
 		    			  }
 	    			}
-	    			else if (lokalnavn.equals("Selskap")) {
-		    				Selskap selskap = new Selskap(navn,besk);
-			    			  if (k.leggTilLokale(selskap)) {
+	    			else if (lokalnavn.equals("Selskapslokale")) {
+		    				Selskapslokale selskapslokale = new Selskapslokale(navn,besk,altFelt1.getText());
+			    			  if (k.leggTilLokale(selskapslokale)) {
 			    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
 			    			  }	
 			    			}
 	    			else if (lokalnavn.equals("Scene")) {
-		    			  Scene scene = new Scene(navn,besk);
+		    			  Scene scene = new Scene(navn,besk,altFelt1.getText());
 		    			  if (k.leggTilLokale(scene)) {
 		    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
 		    			  }

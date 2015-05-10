@@ -1,14 +1,17 @@
 import java.util.ArrayList;
-
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class Kulturhus {
-	Lokale første = null;
-	Kontaktperson førsteK = null;
 	private String beskrivelse, navn;
-
+	private ArrayList<Lokale> LokalerInhouse = new ArrayList<>();
+	private Iterator<Lokale> iterator;
+	private ArrayList<Kontaktperson> kontaktInhouse = new ArrayList<>();
+	private Iterator<Kontaktperson> kontaktIterator;
+	
 	public Kulturhus (String n, String b) {
 		navn = n;
-		beskrivelse = b;
+		beskrivelse = b;	
 	}
 	
 	
@@ -20,166 +23,95 @@ public class Kulturhus {
 		if(l == null)
 			return false;
 		
-		if(første == null){
-			første = l;
-			return true;
-		}
-		
-		Lokale peker = første;
-		while(peker.neste != null)
-			peker = peker.neste;
-		
-		peker.neste = l;
+		LokalerInhouse.add(l);
 		return true;
 	}
 	
 	public boolean slettLokale(int n){
-		if(første == null)
-			return false;
-		
-		if(første.get_RefNr() == n){
-			første = første.neste;
+		n = n - 1;
+		try {
+			LokalerInhouse.remove(n);
 			return true;
+		} catch (IndexOutOfBoundsException IOOBE) {
+			return false;
 		}
-		
-		Lokale peker = første;
-		while(peker.neste != null){
-			if(peker.neste.get_RefNr() == n){
-				peker.neste = peker.neste.neste;
-				return true;
-			}
-			peker = peker.neste;
-		}
-		return false;	
 	}
 	
 	public Lokale finnLokale(int n){
-		if(første == null)
-			return null;
-		
-		Lokale peker = første;
-		while (peker != null){
-			if(peker.get_RefNr() == n)
-				return peker;
-			peker = peker.neste;
+		Lokale funnet = null;
+		try {
+			iterator = LokalerInhouse.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = iterator.next();
+	            if (funnet.get_RefNr() == n) {
+	            	return funnet;
+	            }
+	        }
+			
+		} catch(Exception ex){
+			return funnet;
 		}
-		return null;
+		return funnet;
 	}
 	
 	public String listLokaler(){
-		String svar = "Lokaler:\r\n";
-		if(første ==null)
-			return svar += "* Ingen lokaler registrert på kulturhus"; 
-		
-		Lokale peker = første;
-		while(peker != null){
-			svar += "* " + peker.toString() + "\r\n";
-			peker = peker.neste;
+		String melding = "";
+		for (Lokale s : LokalerInhouse) {
+			melding += s.toString();
 		}
-		return svar;
+		return melding;
 	}
 	
 	public String listArrangementerILokaler() {
-		String svar = "Arrangementer i kulturhuset nå: \r\n";
-		if(første == null) {
-			svar = "Vi har ingen lokaler, så vi har IHVERTFALL ingen arrangementer. Get your head straight.";
-			return svar;
+		String melding = "";
+		for (Lokale s : LokalerInhouse) {
+			melding += s.listArrangmenter();
 		}
-		
-		Lokale peker = første;
-		while (peker != null) {
-			svar += peker.listArrangmenter();
-			peker = peker.neste;
-		}
-		return svar;
+		return melding;
 	}
 	
-	
-	 /*//////////////////////////////////////////////
-	  AVGJØR HVILKE LOKALTYPER SOM ER TILGJENGELIGE
-	 *//////////////////////////////////////////////
-	
-	public boolean finnesKino(){
-		if(første ==null)
-			return false; 
-		
-		Lokale peker = første;
-		while(peker != null){
-			if(peker instanceof Kino)
-				return true;
-			peker = peker.neste;
-		}
-		return false;
-	}
-	public boolean finnesCafe(){
-		if(første ==null)
-			return false; 
-		
-		Lokale peker = første;
-		while(peker != null){
-			if(peker instanceof Cafe)
-				return true;
-			peker = peker.neste;
-		}
-		return false;
-	}
-	public boolean finnesKonferanse(){
-		if(første ==null)
-			return false; 
-		
-		Lokale peker = første;
-		while(peker != null){
-			if(peker instanceof Konferanse)
-				return true;
-			peker = peker.neste;
-		}
-		return false;
-	}
-	public boolean finnesScene(){
-		if(første ==null)
-			return false; 
-		
-		Lokale peker = første;
-		while(peker != null){
-			if(peker instanceof Scene)
-				return true;
-			peker = peker.neste;
-		}
-		return false;
-	}
-	public boolean finnesSelskap(){
-		if(første ==null)
-			return false; 
-		
-		Lokale peker = første;
-		while(peker != null){
-			if(peker instanceof Selskap)
-				return true;
-			peker = peker.neste;
-		}
-		return false;
-	}
-	public String[] lokalListe() {
-		
-		ArrayList<String> a = new ArrayList<>();
-		a.add("Valg");
 
-		if(finnesCafe())
-			a.add("Cafe");
-		if(finnesKino())
-			a.add("Kino");
-		if(finnesSelskap())
-			a.add("Selskap");
-		if(finnesScene())
-			a.add("Scene");
-		if(finnesKonferanse())
-			a.add("Konferanse");
+	public String[] lokalListe() {
+		ArrayList<String> a = new ArrayList<>();
+		a.add("Oppdater liste");
+
+		for (Lokale s : LokalerInhouse) {
+			a.add(s.get_Navn());
+		}
 		
 	    String[] s = ((ArrayList<String>)a).toArray(new String[a.size()]);
 		
 		return s;
 	}
+	public Lokale arrangementViaK(int n) {
+		Lokale l = null;
+		
+		iterator = LokalerInhouse.iterator();
+        while (iterator.hasNext()) {
+        	l = iterator.next();
+            if (l.finnArrangement(n) != null) {
+            	return l;
+            }
+        }
+        return l;
+	}
 	
+	public Lokale finnType(String s) {
+		Lokale funnet = null;
+		try {
+			iterator = LokalerInhouse.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = iterator.next();
+	            if (funnet.get_Navn().equals(s)) {
+	            	return funnet;
+	            }
+	        }
+			
+		} catch(Exception ex){
+			return funnet;
+		}
+		return funnet;
+	}
 	 /*//////////////////////////
 	  LOKALE MANIPULERING FINISH
 	 *//////////////////////////
@@ -192,102 +124,140 @@ public class Kulturhus {
 	public boolean leggTilKontaktperson( Kontaktperson k){
 		if(k == null)
 			return false;
-		
-		if(førsteK == null){
-			førsteK = k;
-			return true;
-		}
-		
-		Kontaktperson peker = førsteK;
-		while(peker.neste != null)
-			peker = peker.neste;
-		
-		peker.neste = k;
+		kontaktInhouse.add(k);
 		return true;
 	}
 	
 	public boolean slettKontaktpersonViaEpost(String e){
-		if(førsteK == null)
+		Kontaktperson funnet = null;
+		try {
+			kontaktIterator = kontaktInhouse.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = kontaktIterator.next();
+	            if (funnet.get_Epost().equals(e)) {
+	            	kontaktInhouse.remove(funnet);
+	            	return true;
+	            }
+	        }
+			
+		} catch(Exception ex){
 			return false;
-		
-		if(førsteK.get_Epost().equalsIgnoreCase(e)){
-			førsteK = førsteK.neste;
-			return true;
 		}
-		
-		Kontaktperson peker = førsteK;
-		while(peker.neste != null){
-			if(peker.neste.get_Epost().equalsIgnoreCase(e)){
-				peker.neste = peker.neste.neste;
-				return true;
-			}
-			peker = peker.neste;
-		}
-		return false;	
+		return false;
 	}
-	public boolean slettKontaktpersonViaTlf(String t){
-		if(førsteK == null)
+	
+	public boolean slettKontaktpersonViaTelefon(String t){
+		Kontaktperson funnet = null;
+		try {
+			kontaktIterator = kontaktInhouse.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = kontaktIterator.next();
+	            if (funnet.get_Tlf().equals(t)) {
+	            	kontaktInhouse.remove(funnet);
+	            	return true;
+	            }
+	        }
+			
+		} catch(Exception ex){
 			return false;
-		
-		if(førsteK.get_Tlf().equalsIgnoreCase(t)){
-			førsteK = førsteK.neste;
-			return true;
 		}
-		
-		Kontaktperson peker = førsteK;
-		while(peker.neste != null){
-			if(peker.neste.get_Tlf().equalsIgnoreCase(t)){
-				peker.neste = peker.neste.neste;
-				return true;
-			}
-			peker = peker.neste;
-		}
-		return false;	
+		return false;
 	}
-
-	// Disse tre funksjonene blir kanskje utdaterte av en klasse høyere opp i hierarkiet.
 	
 	public Kontaktperson finnKontaktpersonViaEpost(String e){
-		if(førsteK == null)
-			return null;
-		
-		Kontaktperson peker = førsteK;
-		while (peker != null){
-			if(peker.get_Epost().equalsIgnoreCase(e))
-				return peker;
-			peker = peker.neste;
+		Kontaktperson funnet = null;
+		try {
+			kontaktIterator = kontaktInhouse.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = kontaktIterator.next();
+	            if (funnet.get_Epost().equals(e)) {
+	            	return funnet;
+	            }
+	        }
+			
+		} catch(Exception ex){
+			return funnet;
 		}
-		return null;
+		return funnet;
 	}
 
+	public Kontaktperson finnKontaktpersonViaNavn(String n){
+		Kontaktperson funnet = null;
+		try {
+			kontaktIterator = kontaktInhouse.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = kontaktIterator.next();
+	            if (funnet.get_Navn().equals(n)) {
+	            	return funnet;
+	            }
+	        }
+			
+		} catch(Exception ex){
+			return funnet;
+		}
+		return funnet;
+	}
 
 	public Kontaktperson finnKontaktpersonViaTlf(String t){
-		if(førsteK == null)
-			return null;
-		
-		Kontaktperson peker = førsteK;
-		while (peker != null){
-			if(peker.get_Tlf().equalsIgnoreCase(t))
-				return peker;
-			peker = peker.neste;
+		Kontaktperson funnet = null;
+		try {
+			kontaktIterator = kontaktInhouse.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = kontaktIterator.next();
+	            if (funnet.get_Tlf().equals(t)) {
+	            	return funnet;
+	            }
+	        }
+			
+		} catch(Exception ex){
+			return funnet;
 		}
-		return null;
+		return funnet;
 	}
 	
 	public String[] listKontaktpersoner(){
 		ArrayList<String> a = new ArrayList<>();
-		String[] b = new String[]{"Ingen kontaktpersoner i registeret"};
-		if(førsteK == null) {
-			return b;
+		a.add("Oppdater liste");
+
+		for (Kontaktperson s : kontaktInhouse) {
+			a.add(s.get_Navn());
 		}
-		a.add("Valg");
-		Kontaktperson peker = førsteK;
-		while(peker != null){
-			a.add(peker.get_Navn() + " - " + peker.get_Tlf());
-			peker = peker.neste;
-		}
+		
 	    String[] s = ((ArrayList<String>)a).toArray(new String[a.size()]);
+		
 		return s;
+	}
+	
+	public String kontaktDetaljerTlf(String t) {
+		String melding = "";
+		Kontaktperson person = finnKontaktpersonViaTlf(t);
+		melding += person.toString();
+		HashSet<Arrangement> arrHash = new HashSet<>();
+		for (Lokale l : LokalerInhouse) {
+			arrHash.addAll(l.kontaktOpplysning(person));
+		}
+		melding += "* Kontaktperson for følgende *";
+		Arrangement[] hashToString = arrHash.toArray(new Arrangement[arrHash.size()]);
+		for (Arrangement a : hashToString) {
+			melding += a.toString();
+		}
+		return melding;
+	}
+	
+	public String kontaktDetaljerEpost(String e) {
+		String melding = "";
+		Kontaktperson person = finnKontaktpersonViaEpost(e);
+		melding += person.toString();
+		HashSet<Arrangement> arrHash = new HashSet<>();
+		for (Lokale l : LokalerInhouse) {
+			arrHash.addAll(l.kontaktOpplysning(person));
+		}
+		melding += "* Kontaktperson for følgende *";
+		Arrangement[] hashToString = arrHash.toArray(new Arrangement[arrHash.size()]);
+		for (Arrangement a : hashToString) {
+			melding += a.toString();
+		}
+		return melding;
 	}
 
 

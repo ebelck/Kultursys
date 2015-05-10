@@ -8,15 +8,17 @@ import javax.imageio.*;
 
 /*//////////BESKRIVELSE//////////*/
 public class Arrangement {
-	Arrangement neste = null;
-	Kontaktperson førsteK = null;
-	private static int aId = 0;
+	Kontaktperson kontakt;
+	Billettregister reg;
+	private static int aId = 1;
 	private int pris;
 	private boolean betalbar = true;
 	private Date dato;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
 	private String beskrivelse, navn;
-	BufferedImage bilde = null;
+	private BufferedImage bilde = null;
+	private String bildeSti;
+	
 	
 	/*Minimumskravet for å opprette et arrangement*/
 	public Arrangement (String n, Kontaktperson k) {
@@ -52,6 +54,13 @@ public class Arrangement {
 		navn = n;
 		pris = p;
 	}
+	/*Bilde sent med*/
+	public Arrangement (String n, String b, String f, Kontaktperson k) {
+		
+		beskrivelse = b;
+		navn = n;
+		bildeSti = f;
+	}
 
 	
 	 /*//////////////////////
@@ -60,6 +69,9 @@ public class Arrangement {
 	
 	public void set_Navn(String n) {
 		navn = n;
+	}
+	public void set_Kontaktperson(Kontaktperson k) {
+		kontakt = k;
 	}
 	public void set_Beskrivelse(String b) {
 		beskrivelse = b;
@@ -82,6 +94,8 @@ public class Arrangement {
 		return beskrivelse;
 	}
 	public String get_Dato() {
+		if (dato==null)
+			return "";
 		String datoString = sdf.format(dato);
 		return datoString;
 	}
@@ -91,15 +105,24 @@ public class Arrangement {
 	public boolean get_Betalbar() {
 		return betalbar;
 	}
+	public Kontaktperson get_Kontaktperson() {
+		return kontakt;
+	}
 	 /*//////////////////////
 	 Get og Set metoder finish
 	 *//////////////////////
 	
 	public String toString() {
 		String meld = "";
+		meld += "REFERANSE: " + get_aId() + "\r\n";
 		String b = (get_Beskrivelse() != null) ? "Beskrivelse: " + get_Beskrivelse() : "Ingen beskrivelse";
-		meld += "Navn på arrangement: " + get_Navn() + "\r\n" 
-				+ "Dato " + get_Dato() + "\r\n"
+		if (bildeSti != null)
+			meld+="Arrangement har et bilde som vedlegg.";
+		else
+			meld+="Ikke noe bilde";
+		meld += "Navn på arrangement: " + get_Navn() + "\r\n";
+		if (get_Dato().equals(""))
+			meld += "Dato " + get_Dato() + "\r\n"
 				+ b + "\r\n";
 		if(get_Betalbar() == true)
 			meld += "Pris: " + get_Pris() + "kr \r\n";

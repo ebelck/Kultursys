@@ -9,17 +9,15 @@ import javax.swing.*;
 public class Konferanse extends Lokale {
 	
 	private int antStoler, antBord, antPersoner; 			// Antall stoler, bord og personer
-	private String typeArrangement; 						// Type arrangement
 	private String typeRom;
 	private int pris;
 	private final static int MIN_LITEN = 1, MAX_LITEN = 50;	// Min og max personer for lite rom
 	private final static int MIN_STOR = 50; // Min og max personer for stort rom
 	
 	
-	public Konferanse(String n, String b, String tA, int aP) {
+	public Konferanse(String n, String b, int aP) {
 		super(n,b);
 		antPersoner= aP;
-		typeArrangement = tA;
 		
 		if(antPersoner >= MIN_LITEN && antPersoner <= MAX_LITEN) {
 			antStoler = MAX_LITEN;
@@ -43,10 +41,6 @@ public class Konferanse extends Lokale {
 	
 	public int get_AntPersoner() {
 		return antPersoner;
-	}
-	
-	public String get_TypeArrangement() {
-		return typeArrangement;
 	}
 	
 	public int get_AntStoler() {
@@ -82,7 +76,6 @@ public class Konferanse extends Lokale {
 	public String toString() {
 		String meld = super.toString();
 		meld += "Antall personer det er bestilt for: " + get_AntPersoner() + "\n";
-		meld += "Type arrangement: " + get_TypeArrangement() + "\n";
 		meld += "Type rom: " + get_TypeRom() + "\n";
 		meld += "Antall stoler: " + get_AntStoler() + "\n";
 		meld += "Antall bord: " + get_AntBord() + "\n";

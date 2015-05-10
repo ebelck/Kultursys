@@ -6,12 +6,12 @@
  * */
 public class Scene extends Lokale {
 	
-	private String type;
+	private String info;
 	private final static int ANTPLASSER = 100;
 	
-	public Scene(String n, String b) {
+	public Scene(String n, String b, String i) {
 		super(n,b);
-		type = "Scene";
+		info = i;
 	}
 	
 	
@@ -19,8 +19,8 @@ public class Scene extends Lokale {
 	 Get og Set metoder start
 	 *//////////////////////
 	
-	public String getType() {
-		return type;
+	public String get_Info() {
+		return info;
 	}
 	
 	public int getAntPlasser() {
@@ -34,7 +34,7 @@ public class Scene extends Lokale {
 	
 	public String toString() {
 		String meld = super.toString();
-		meld += "Type: " + getType() + "\n";
+		meld += "Ytterligere info: " + get_Info() + "\n";
 		meld += "Antall plasser: " + getAntPlasser() + "\n";
 		return meld;
 	}

@@ -1,13 +1,18 @@
 import java.awt.*;
 
-import javax.imageio.ImageIO;
+import javax.swing.*;
+
+import java.util.*;
+
 import javax.swing.border.EmptyBorder;
+import javax.imageio.ImageIO;
 
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
-import javax.swing.*;
+
 
 public class Arrangementvindu extends JApplet {
 	private static final long serialVersionUID = 1L;
@@ -18,56 +23,75 @@ public class Arrangementvindu extends JApplet {
 	private JScrollPane utskriftområde;
 	private BorderLayout layout,centerLayout,centerPageStartLayout;
 	private Container c;
-	JComboBox<String> lokalvelger,kontaktvelger;
 	private GridLayout bottomGrid,topGrid,centerBot;
 	public Kulturhus k;
+	private JComboBox<String> lokalvelger,kontaktvelger;
 	public Lokale l;
 	public Arrangement a;
 	public Bildehandler bildehandler;
 	private JCheckBox checkbox;
 	private EmptyBorder border;
 	private StretchIcon bildeIcon;
-	BufferedImage bilde = null;
+	private String[] lokalvalg,kontaktvalg;
+	private BufferedImage bilde = null;
 
 	private String lokalnavn = "Valg";
 	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartTopPanel;
 	private JLabel bildeLabel, bildeContainer;
 	
+	private String[] ekstraInput() {
+		HashSet<String> a = new HashSet<>(Arrays.asList(k.lokalListe()));
+		HashSet<String> b = new HashSet<>(Arrays.asList(lokalvalg));
+		lokalvalg = k.lokalListe();
+		a.removeAll(b);
+		String[] ab = a.toArray(new String[a.size()]);
+		return ab;
+	}
+	
 	private void addSpecificC(String l) {
-		if (l.equals("Kino")) {
-			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(" Hvilken film spilles: "));
-			north.add(altFelt1);
+		
+		Lokale lok = k.finnType(l);
+		
+		if (l.equalsIgnoreCase("oppdater liste")) {
+			north.setLayout(new GridLayout(7, 1)); // 5 rows 2 columns; no gaps);
+			
+			for (String s : ekstraInput()) {
+				lokalvelger.addItem(s);
+			}
+			lokalvelger.revalidate();
+			System.out.println(ekstraInput());
+			north.add(new JLabel(""));
+			north.add(new JLabel("Lokal-liste er oppdatert!"));
 		}
-		else if (l.equals("Cafe")) {
+		else if (lok instanceof Cafe) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Hvor mange gjester er det plass til: "));
 			north.add(altFelt1);
 		}
-		else if (l.equals("Konferanse")) {
+		else if (lok instanceof Konferanse) {
 			north.setLayout(new GridLayout(8, 2)); // 6 rows 2 columns; no gaps);
 			north.add(new JLabel(" Antall gjester det er plass til: "));
 			north.add(altFelt1);
 			north.add(new JLabel(" Hvilken type konferanse er det: "));
 			north.add(altFelt2);
 		}
-		else if (l.equals("Selskap")) {
+		else if (lok instanceof Selskapslokale) {
 		}
-		else if (l.equals("Scene")) {
+		else if (lok instanceof Scene) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Forestilling som skal holdes: "));
 			north.add(altFelt1);
 		}
-		else if (l.equals("Valg")) {
-			north.setLayout(new GridLayout(7, 1)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(""));
-			north.add(new JLabel("Velg type!"));
+		else if (lok instanceof Kino) {
+			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
+			north.add(new JLabel(" Ytterligere info: "));
+			north.add(altFelt1);
 		}
 		else {
 			System.out.println("Aner ikke hvorfor du endte opp her");
 		}
 	}
-	private void repainter() {
+	private void repainter() {		
 		north.add(new JLabel(" Referansenummer:"));
 		north.add(refFelt);
 		north.add(new JLabel(" Navn på arrangement:"));
@@ -80,11 +104,16 @@ public class Arrangementvindu extends JApplet {
 		north.add(kontaktvelger);
 	}
 	
+	
 	public Arrangementvindu(Kulturhus kH) {
 		
 			k = kH;
-			String[] lokalvalg = k.lokalListe();
-			String[] kontaktvalg = k.listKontaktpersoner();
+			lokalvalg = k.lokalListe();
+			kontaktvalg = k.listKontaktpersoner();
+			System.out.println("Lokalvalg blir opprettet. Den inneholder " + lokalvalg.length);
+			
+			lokalvelger = new JComboBox<String>(lokalvalg);
+			kontaktvelger = new JComboBox<String>(kontaktvalg);
 
 			navnFelt = new JTextField( 18 );
 			beskFelt = new JTextField( 18 );
@@ -103,14 +132,6 @@ public class Arrangementvindu extends JApplet {
 			bildeNavnFelt.setEditable(false);
 			bildeNavnFelt.setForeground(Color.BLACK);
 			bildeNavnFelt.setMargin(new Insets(10,10,10,10));
-
-
-
-			
-			lokalvelger = new JComboBox<>(lokalvalg);
-			lokalvelger.setSelectedIndex(0);
-			kontaktvelger = new JComboBox<>(kontaktvalg);
-			kontaktvelger.setSelectedIndex(0);
 			
 			finnKnapp = new JButton("Finn arrangement.");
 			slettKnapp = new JButton( "Slett arrangement" );
@@ -257,15 +278,6 @@ public class Arrangementvindu extends JApplet {
     	 }
       }
     }
- /////
-	public boolean leggTilKonferranseArrangement() {
-		String navn = navnFelt.getText();
-		String besk = beskFelt.getText();
-		Kontaktperson kont = new Kontaktperson("Partye","hei","kjshdf");
-		Arrangement arr = new Arrangement(navn,besk,kont, "31-08-1982 10:20",154);
-		l.leggTilArrangement(arr);
-		return true;
-	}
     
     
 	private class Knappelytter implements ActionListener
@@ -281,44 +293,33 @@ public class Arrangementvindu extends JApplet {
 	    			  tekstområde.setText("Du må fylle ut navn og beskrivelse.");
 	    			  return;
 	    		  }
-	    		  if (lokalnavn.equals("Kino")) {
-	    			  String film = altFelt1.getText();
-	    			  Kino kino = new Kino(navn,besk,film);
-	    			  if (k.leggTilLokale(kino)) {
-	    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
+	    		  String lokNavn = (String) lokalvelger.getSelectedItem();
+	    		  System.out.println(lokNavn);
+	    		  String kontaktNavn = (String) kontaktvelger.getSelectedItem();
+	    		  Lokale lokale = k.finnType(lokNavn);
+	    		  if (!lokNavn.equalsIgnoreCase("oppdater liste")){
+	    			  if (!bildeNavnFelt.equals("")) {
+	    				  String bildenavn = navn+"_"+"bilde.png";
+	    				  try {
+	    					    File outputfile = new File(bildenavn);
+	    					    ImageIO.write(bilde, "png", outputfile);
+	    			    		Kontaktperson kontakt = k.finnKontaktpersonViaNavn(kontaktNavn);
+	    			    		Arrangement arr = new Arrangement(navn,kontakt,bildenavn);
+	    			    		lokale.leggTilArrangement(arr);
+	    			    		tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    			    		return;
+	    					} catch (IOException ex) {
+	    					    tekstområde.setText("Vi kunne ikke bruke dette bilde, noe gikk galt");
+	    					}
+  			    		Kontaktperson kontakt = k.finnKontaktpersonViaNavn(kontaktNavn);
+  			    		Arrangement arr = new Arrangement(navn,kontakt,bildenavn);
+  			    		lokale.leggTilArrangement(arr);
 	    			  }
+	    		  } else {
+	    			  tekstområde.setText("Velg hvilket lokale det skal holdes på!");
+	    			  return;
 	    		  }
-	    		  else if (lokalnavn.equals("Cafe")) {
-	    			  int gjesteplass = Integer.parseInt(altFelt1.getText());
-	    			  Cafe cafe = new Cafe(navn,besk,gjesteplass);
-	    			  if (k.leggTilLokale(cafe)) {
-	    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
-	    			  }
-	    		  }
-	    		  else if (lokalnavn.equals("Konferanse")) {
-	    			  int gjesteplass = Integer.parseInt(altFelt1.getText());
-	   				  String type = altFelt2.getText();
-	   				  
-	    			  
-	    		  }
-	    		  else if (lokalnavn.equals("Selskap")) {
-	    			  Selskap selskap = new Selskap(navn,besk);
-			    	  if (k.leggTilLokale(selskap)) {
-			    		  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
-			    	  }	
-	    		  }
-	    		  else if (lokalnavn.equals("Scene")) {
-	    			  Scene scene = new Scene(navn,besk);
-	    			  if (k.leggTilLokale(scene)) {
-	    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
-	    			  }
-	    		  }
-	    		  else if (lokalnavn.equals("Valg")) {
-	    			  tekstområde.setText("Du må liksom velge noe davel...");
-	    		  }
-	    		  else {
-	    			  System.out.println("Aner ikke hvorfor du endte opp her");
-	    		  }
+	    		  
 	    	  } catch (Exception ex) {
 	    		  tekstområde.setText("Det oppsto en feil, vennligst prøv på nytt" + e.getClass());
 	    	  }
@@ -330,12 +331,13 @@ public class Arrangementvindu extends JApplet {
 	    		  
 	    	  } else {
 				try {
-					Lokale lokalFunnet = k.finnLokale(Integer.parseInt(refFelt.getText()));
-					if (lokalFunnet != null) {
+					int refNr = Integer.parseInt(refFelt.getText());
+					Lokale lokFunnet = k.arrangementViaK(refNr);
+					if (lokFunnet != null) {
 						Object[] options = {"Ja",
 						                    "Avbryt",};
 						int n = JOptionPane.showOptionDialog(null,
-						    "Er du sikker på at du vil slette dette rommet?",
+						    "Er du sikker på at du vil slette dette arrangement?",
 						    "Advarsel",
 						    JOptionPane.OK_CANCEL_OPTION,
 						    JOptionPane.WARNING_MESSAGE,
@@ -343,19 +345,20 @@ public class Arrangementvindu extends JApplet {
 						    options,
 						    options[0]);
 						if (n == 1) {
-							tekstområde.setText("Lokalet ble ikke slettet");
+							tekstområde.setText("Arrangementet ble ikke slettet");
 							return;
 						}
 					}
-					if (k.slettLokale(Integer.parseInt(refFelt.getText()))) {
-						tekstområde.setText("Lokalet med navn "
-								+ lokalFunnet.get_Navn() + " og referanse "
-								+ lokalFunnet.get_RefNr()
+					Arrangement arrFunnet = lokFunnet.finnArrangement(refNr);
+					if (lokFunnet.slettArrangement(refNr)) {
+						tekstområde.setText("Arrangement med navn "
+								+ arrFunnet.get_Navn() + " og referanse "
+								+ arrFunnet.get_aId()
 								+ " er slettet fra kulturhuset.");
 					} else {
 						tekstområde
-								.setText("Vi kunne ikke finne et lokale med referanse "
-										+ refFelt.getText() + " i kulturhuset.");
+								.setText("Vi kunne ikke finne et arrangement med referanse "
+										+ refNr + " i kulturhuset.");
 					}
 				} catch (Exception ex) {
 					tekstområde.setText("En feil har oppstått, prøv igjen.");
@@ -368,13 +371,14 @@ public class Arrangementvindu extends JApplet {
 	      }
 	      else if ( e.getSource() == finnKnapp ) {
 	    	  try {
-	      		Lokale lokalFunnet = k.finnLokale(Integer.parseInt(refFelt.getText()));
-	      		System.out.println(refFelt.getText());
-	      		System.out.println(lokalFunnet.get_Navn());
-	      		System.out.println("Fant vi noe?");
-	      		tekstområde.setText(lokalFunnet.toString());
+	    		  int refNr = Integer.parseInt(refFelt.getText());
+					Lokale lokFunnet = k.arrangementViaK(refNr);
+					if (lokFunnet != null) {
+						Arrangement arrFunnet = lokFunnet.finnArrangement(refNr);
+						tekstområde.setText(arrFunnet.toString());
+					}
 	    	  } catch(Exception ex) {
-	    		  tekstområde.setText("Fant ikke lokale med dette referansenummer.");
+	    		  tekstområde.setText("Fant ikke Arrangement med dette referansenummer.");
 	    	  }
 	      }
 	      else if ( e.getSource() == bildeKnapp ) {
@@ -405,7 +409,6 @@ public class Arrangementvindu extends JApplet {
 		    c.repaint();
 	    }
 	  }
-	
 }
 
 /*

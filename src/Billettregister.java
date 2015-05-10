@@ -5,6 +5,7 @@ import java.util.*;
 public class Billettregister implements Serializable{
 	
 	private List<Billett> reg = new ArrayList<Billett>();
+	private Iterator<Billett> iterator;
 	
 	private int nesteNr;
 	private int antSolgt;
@@ -27,15 +28,21 @@ public class Billettregister implements Serializable{
 	}
 	
 	
-	public Billett finnBillett(int n) {
-		n = n - 1;
+	public Billett finnBillett(String s) {
+		Billett funnet = null;
 		try {
-			Billett funnet;
-			funnet = reg.get(n);
+			iterator = reg.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = iterator.next();
+	            if (funnet.get_Tlf().equals(s)) {
+	            	return funnet;
+	            }
+	        }
+			
+		} catch(Exception ex){
 			return funnet;
-		} catch(IndexOutOfBoundsException IOOBE){
-			return null;
 		}
+		return funnet;
 	}
 	
 	public boolean slettBillett(int n){
