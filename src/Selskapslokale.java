@@ -4,10 +4,13 @@
  * Subklasse av Lokale.java
  * 
  * */
-public class Selskap extends Lokale {
+public class Selskapslokale extends Lokale {
 	
-	public Selskap (String n, String b) {
+	String info;
+	
+	public Selskapslokale (String n, String b, String i) {
 		super(n,b);
+		info = i;
 	}
 	
 	
@@ -15,12 +18,16 @@ public class Selskap extends Lokale {
 	 Get og Set metoder start
 	 *//////////////////////
 	
+	public String get_Info() {
+		return info;
+	}
 	
 	 /*//////////////////////
 	 Get og Set metoder finish
 	 *//////////////////////
 	public String toString() {
 		String meld = super.toString();
+		meld += "Ytterligere info: " + get_Info() + "\n";
 		return meld;
 	}
 }
