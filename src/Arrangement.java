@@ -5,6 +5,8 @@ import java.io.*;
 
 import javax.imageio.*;
 
+
+/*//////////BESKRIVELSE//////////*/
 public class Arrangement {
 	Kontaktperson kontakt;
 	Billettregister reg;
