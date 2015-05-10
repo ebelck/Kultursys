@@ -75,7 +75,7 @@ public class Billettregister implements Serializable{
 			ledigeBilletter = antallBilletter == antallSolgteBilletter();
 			return true;
 		}
-		
+	
 	public Billett finnBillett(String tlf) {
 	//Søker opp Billett på telefonnr
 		Billett funnet = null;
@@ -92,6 +92,13 @@ public class Billettregister implements Serializable{
 		return funnet;
 	}
 	
+	public void avbestillBilletter(int antall, String tlf){
+	// avbestiller X billetter med telefonnr
+		for(int i = 0; i < antall; i++){
+			finnBillett(tlf).avbestillBillett();
+		}
+	}
+	
 	
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//
@@ -104,4 +111,4 @@ public class Billettregister implements Serializable{
 		}
 		return melding;
 	}
-} // KLASSE BILLETTREGISTER SLUTT
+}// KLASSE BILLETTREGISTER SLUTT
