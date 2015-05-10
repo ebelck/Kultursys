@@ -27,6 +27,20 @@ public class Billettregister implements Serializable{
 		antallBilletter = n;
 		fyllRegister(n);
 	}
+	public int antallBilletter(){
+		return antallBilletter;
+	}
+	
+	public boolean get_ledigeBilletter(){
+		return ledigeBilletter;
+	}
+	
+	public int get_antallLedigeBilletter(){
+		if(ledigeBilletter)
+			return antallBilletter - antallSolgteBilletter();
+		
+		return 0;
+	}
 	
 	//////////////////////////////
 	//	MANIPULERINGS-METODER	//

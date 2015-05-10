@@ -11,7 +11,7 @@
 public class Billett {
 	
 	private int bnr;
-	private static int teller = 1;				
+	private static int teller = 1;	//DETTE KAN BLI ET PROBLEM NÅR VI SKAL GJENNOPPRETTE FRA FIL	
 	private int plassnr;
 	boolean solgt = false;
 	private String fornavn,etternavn,epost,tlf;
