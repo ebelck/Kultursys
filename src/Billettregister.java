@@ -1,6 +1,15 @@
+////////////////////////////////BESKRIVELSE///////////////////////////////
+//	Denne klassen er et register over billetter som er solgt til et 	//
+//	overordnet arrangement. 											//
+//	Klassen har:														//
+// 	# En liste med billetter											//
+// 	# Antall billetter i registeret										//
+// 	# Indikator for ledige Billetter									//
+//	# Metoder for å manipulere billettene i registeret					//
+//////////////////////////////////////////////////////////////////////////
+
 import java.io.Serializable;
 import java.util.*;
-
 
 public class Billettregister implements Serializable{
 	
@@ -8,97 +17,91 @@ public class Billettregister implements Serializable{
 	private Iterator<Billett> iterator;
 	
 	private int antallBilletter;
-	private boolean utsolgt = false;
+	private boolean ledigeBilletter = true;
 	
-	//private int nesteNr;	//neste ledige billett
-	//private int antSolgt;	//antall billetter som er solgt
+	//////////////////
+	//	KONSTRUKTØR	//
+	//////////////////
 	
 	public Billettregister(int n){
 		antallBilletter = n;
-		fyllRegister(n);	//fyller registeret med usolgte billetter
+		fyllRegister(n);
 	}
 	
-	/////////////////////////////////
-	////// Billettmanipulering //////
+	//////////////////////////////
+	//	MANIPULERINGS-METODER	//
+	//////////////////////////////
 	
-	/////Fyller registeret med nye billetter/////
 	public void fyllRegister(int antall){
+	//Fyller registeret med nye billetter
 		for(int i = 0; i < antall; i++)
 			reg.add(new Billett());
 	}
 	
-	
-	//Lage metode for å legge til flere billetter
-	
-	/////Registrerer billetter som solgt/////
-	public boolean selgBillett(int antall, String f, String e, String eP, String t){
-		if( antall + antallSolgteBilletter() > antallBilletter)
-			return false;
-		else{
-			for(int i = 0; i < antall; i++){
-				System.out.println("Kjører løkke "+ (i+1) + " gang");
-				nesteLedigeBillett().selgBillett(f, e, eP, t);
-			}
-			return true;
-		}
+	public void leggTilBilletter(int antall){
+	//Legger til nye billetter i registeret
+		fyllRegister(antall);
+		antallBilletter = reg.size();
+		ledigeBilletter = true;
 	}
 	
-	/////Finner antallet solgte billetter/////
 	public int antallSolgteBilletter() {
+	//Finner antallet solgte billetter
 		int antSolgt = 0;
 		iterator = reg.iterator();
-        while (iterator.hasNext()) {
-        	Billett billett = iterator.next();
-            if (billett.get_Solgt()) {
+        
+		while (iterator.hasNext()) {
+			Billett b = iterator.next();
+        	if (b.get_Solgt())
             	antSolgt++;
-            }
         }
 		return antSolgt;
 	}
 	
-	/////Finner første ledige billett/////
 	public Billett nesteLedigeBillett() {
+	//Finner første ledige billett
 		for(Billett b : reg)
 			if(!b.get_Solgt())
 				return b;
 		return null;
 	}
 	
-	/////Søker opp Billett på telefonnr/////
-	public Billett finnBillett(String s) {
+	public boolean selgBillett(int antall, String f, String e, String eP, String t){
+		//Registrerer billetter som solgt hvis det er nok ledige billetter
+			if( antallSolgteBilletter() + antall > antallBilletter )
+				return false;
+			for(int i = 0; i < antall; i++)
+				nesteLedigeBillett().selgBillett(f, e, eP, t);
+			ledigeBilletter = antallBilletter == antallSolgteBilletter();
+			return true;
+		}
+		
+	public Billett finnBillett(String tlf) {
+	//Søker opp Billett på telefonnr
 		Billett funnet = null;
 		try {
 			iterator = reg.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = iterator.next();
-	            if (funnet.get_Tlf().equals(s)) {
+	            if (funnet.get_Tlf().equals(tlf))
 	            	return funnet;
-	            }
 	        }
-			
-		} catch(Exception ex){
+		}catch(Exception ex){
 			return funnet;
 		}
 		return funnet;
 	}
 	
-//	public boolean slettBillett(int n){
-//		n = n - 1;
-//		try {
-//			reg.remove(n);
-//			return true;
-//		} catch (IndexOutOfBoundsException IOOBE) {
-//			return false;
-//		}
-//	}
 	
-	// Billettmanipulering slutt //
-	///////////////////////////////
+	//////////////////////////////////
+	//	MANIPULERINGS-METODER SLUTT	//
+	//////////////////////////////////
+	
 	public String toString() {
 		String melding = "Billetter: \r\n";
 		for (Billett b : reg) {
-			melding += b.toString() + "\r\n";
+			melding += b.toString() + "\r\n\t<<<<<#>>>>>\r\n";
 		}
 		return melding;
 	}
-} // Billettregister-klasse slutt
+} // KLASSE BILLETTREGISTER SLUTT

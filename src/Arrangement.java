@@ -8,14 +8,15 @@ import javax.imageio.*;
 
 /*//////////BESKRIVELSE//////////*/
 public class Arrangement {
+		
+	private static int aId = 1;
+	private String beskrivelse, navn;
 	Kontaktperson kontakt;
 	Billettregister reg;
-	private static int aId = 1;
 	private int pris;
 	private boolean betalbar = true;
 	private Date dato;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
-	private String beskrivelse, navn;
 	private BufferedImage bilde = null;
 	private String bildeSti;
 	

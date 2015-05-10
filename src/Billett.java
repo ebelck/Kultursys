@@ -1,35 +1,35 @@
+////////////////////////////////BESKRIVELSE///////////////////////////////
+//	Denne klassen inneholder informasjon om billetter:					//
+//	# Billettnummer														//
+//	# Neste billetnr													//
+//	# Plassinformasjon													//
+//	# Om billetten er solgt eller ikke									//
+//	# Opplysniger om billettholder										//
+//	# Metoder for å manipulere billetter								//
+//////////////////////////////////////////////////////////////////////////
 
 public class Billett {
 	
-	private int nummer;							//serienummer på billett
-	private static int teller = 1;				//holder styr på neste serienummer				
-	private String fornavn,etternavn,epost,tlf;	//Info om kunde
-	//Billettregister bR;
-	boolean solgt = false;						//indikerer om billetten er solgt eller ikke.
-	private int setenummer;						//Det bør være mulig å lage billetter som ikke har nummererte plasser
+	private int bnr;
+	private static int teller = 1;				
+	private int plassnr;
+	boolean solgt = false;
+	private String fornavn,etternavn,epost,tlf;
 	
-	//lag konstruktor for usolgt billett ( uten personinfo )
+	//////////////////
+	//	KONSTRUKTØR	//
+	//////////////////
 	
 	public Billett(){
-		nummer = teller;
-		setenummer = teller;
+		bnr = teller;
+		plassnr = teller;
 		teller++;
 	}
 	
-//	public Billett (String f, String e, String eP, String t) {
-//		fornavn = f;
-//		etternavn = e;
-//		epost = eP;
-//		tlf = t;
-//		nummer = teller;
-//		setenummer = teller;
-//		teller++;
-//	}
-	
-	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
+	//////////////////////
+	//	GET/SET-METODER	//
+	//////////////////////
+
 	public void set_Fornavn(String f) {
 		fornavn = f;
 	}
@@ -42,6 +42,9 @@ public class Billett {
 	public void set_Tlf(String t) {
 		tlf = t;
 	}
+	
+	//////////////////////
+	
 	public String get_Fornavn() {
 		return fornavn;
 	}
@@ -57,22 +60,27 @@ public class Billett {
 	public String get_Tlf() {
 		return tlf;
 	}
-	public int get_Nummer() {
-		return nummer;
+	public int get_Billettnummer() {
+		return bnr;
 	}
-	public int get_Setenummer() {
-		return setenummer;
+	public int get_Plassnummer() {
+		return plassnr;
 	}
 	
 	public boolean get_Solgt() {
 		return solgt;
 	}
 	
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
+	//////////////////////////////
+	//	GET/SET-METODER SLUTT	//
+	//////////////////////////////
+	
+	//////////////////////////////
+	//	MANIPULERINGS-METODER	//
+	//////////////////////////////
 	
 	public void selgBillett(String f, String e, String eP, String t){
+	//Registrerer opplysninger om billettholder
 		fornavn = f;
 		etternavn = e;
 		epost = eP;
@@ -80,10 +88,23 @@ public class Billett {
 		solgt = true;
 	}
 	
+	public void avbestillBillett(){
+	//Fjerner opplysninger om billettholder
+		fornavn = null;
+		etternavn = null;
+		epost = null;
+		tlf = null;
+		solgt = false;
+	}
+	
+	//////////////////////////////////
+	//	MANIPULERINGS-METODER SLUTT	//
+	//////////////////////////////////
+	
 	 public String toString(){
-		 return	 "BILLETNUMMER - " + nummer + "\r\n"
-				+ "Setenummer - " + setenummer + "\r\n"
-		 		+ "Billettholder: " + fornavn +" "+etternavn +"\r\n"
-				 + "Epost: " + epost + "\r\n" + "Telefon: " + tlf;
+		 return	"BILLETNUMMER:\t" + bnr + "\r\n"
+				+ "Plassnummer:\t" + plassnr + "\r\n"
+		 		+ "Billettholder:\t" + fornavn +" "+etternavn +"\r\n"
+				+ "Epost:\t\t" + epost + "\r\n" + "Telefon:\t" + tlf;
 	 }
-}
+}// KLASSE BILLETT SLUTT
