@@ -178,7 +178,7 @@ public class Arrangement {
 	//////////////////////////////////
 	
 	public String toString(){
-		String melding = "Referansenr:\t" + aId + "\r\n";
+		String melding = "ARRANGEMENTNR:\t" + aId + "\r\n";
 		melding += "Arrangement:\t" + navn + "\r\n";
 		melding += (beskrivelse != null) ? "Beskrivelse:\t" + beskrivelse + "\r\n" : "Ingen beskrivelse" + "\r\n";
 		melding += (bildeSti != null) ? "Bilde:\t" + bildeSti + "\r\n" : "Mangler bilde" + "\r\n";

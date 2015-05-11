@@ -112,8 +112,8 @@ public class Lokale {
 	//////////////////////////////////
 	
 	public String toString() {
-		String meld = "Referansenr:\t" + get_RefNr() + "\r\n";
-		meld += "Navn:\t" + get_Navn() + "\r\n";
+		String meld = "LOKALENR:\t" + get_RefNr() + "\r\n";
+		meld += "Navn:\t\t" + get_Navn() + "\r\n";
 		meld += "Beskrivelse:\t" + get_Beskrivelse() + "\r\n";
 		return meld;
 	}
