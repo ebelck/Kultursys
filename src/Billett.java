@@ -11,54 +11,26 @@
 public class Billett {
 	
 	private int bnr;
-	private static int teller = 1;	//DETTE KAN BLI ET PROBLEM NÅR VI SKAL GJENNOPPRETTE FRA FIL	
+	private static int nesteNr = 1;	//DETTE KAN BLI ET PROBLEM NÅR VI SKAL GJENNOPPRETTE FRA FIL	
 	private int plassnr;
 	boolean solgt = false;
-	private String fornavn,etternavn,epost,tlf;
+	private Person kunde;
 	
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
 	
 	public Billett(){
-		bnr = teller;
-		plassnr = teller;
-		teller++;
+		bnr = nesteNr;
+		plassnr = nesteNr++;
 	}
 	
 	//////////////////////
 	//	GET/SET-METODER	//
 	//////////////////////
 
-	public void set_Fornavn(String f) {
-		fornavn = f;
-	}
-	public void set_Etternavn(String e) {
-		etternavn = e;
-	}
-	public void set_Epost(String e) {
-		epost = e;
-	}
-	public void set_Tlf(String t) {
-		tlf = t;
-	}
-	
-	//////////////////////
-	
-	public String get_Fornavn() {
-		return fornavn;
-	}
-	public String get_Etternavn() {
-		return etternavn;
-	}
-	public String get_FulltNavn() {
-		return fornavn + " " + etternavn;
-	}
-	public String get_Epost() {
-		return epost;
-	}
-	public String get_Tlf() {
-		return tlf;
+	public Person get_kunde() {
+		return kunde;
 	}
 	public int get_Billettnummer() {
 		return bnr;
@@ -71,6 +43,12 @@ public class Billett {
 		return solgt;
 	}
 	
+	//////////////////////
+	
+	public void set_kunde(Person k){
+		kunde = k;
+	}
+	
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
 	//////////////////////////////
@@ -79,21 +57,15 @@ public class Billett {
 	//	MANIPULERINGS-METODER	//
 	//////////////////////////////
 	
-	public void selgBillett(String f, String e, String eP, String t){
+	public void selgBillett(Person k){
 	//Registrerer opplysninger om billettholder
-		fornavn = f;
-		etternavn = e;
-		epost = eP;
-		tlf = t;
+		kunde = k;
 		solgt = true;
 	}
 	
 	public void avbestillBillett(){
 	//Fjerner opplysninger om billettholder
-		fornavn = null;
-		etternavn = null;
-		epost = null;
-		tlf = null;
+		kunde = null;
 		solgt = false;
 	}
 	
@@ -104,7 +76,6 @@ public class Billett {
 	 public String toString(){
 		 return	"BILLETNUMMER:\t" + bnr + "\r\n"
 				+ "Plassnummer:\t" + plassnr + "\r\n"
-		 		+ "Billettholder:\t" + fornavn +" "+etternavn +"\r\n"
-				+ "Epost:\t\t" + epost + "\r\n" + "Telefon:\t" + tlf;
+		 		+ "Billettholder:\t" + kunde +"\r\n";
 	 }
 }// KLASSE BILLETT SLUTT

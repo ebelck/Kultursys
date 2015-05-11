@@ -80,12 +80,12 @@ public class Billettregister implements Serializable{
 		return null;
 	}
 	
-	public boolean selgBillett(int antall, String f, String e, String eP, String t){
+	public boolean selgBillett(int antall, Person k){
 		//Registrerer billetter som solgt hvis det er nok ledige billetter
 			if( antallSolgteBilletter() + antall > antallBilletter )
 				return false;
 			for(int i = 0; i < antall; i++)
-				nesteLedigeBillett().selgBillett(f, e, eP, t);
+				nesteLedigeBillett().selgBillett(k);
 			ledigeBilletter = antallBilletter == antallSolgteBilletter();
 			return true;
 		}
@@ -97,7 +97,7 @@ public class Billettregister implements Serializable{
 			iterator = reg.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = iterator.next();
-	            if (funnet.get_Tlf().equals(tlf))
+	            if (funnet.kunde.get_Telefon().equals(tlf))
 	            	return funnet;
 	        }
 		}catch(Exception ex){
