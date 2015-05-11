@@ -27,7 +27,12 @@ public class Billettregister implements Serializable{
 		antallBilletter = n;
 		fyllRegister(n);
 	}
-	public int antallBilletter(){
+	
+	//////////////////////
+	//	GET/SET-METODER	//
+	//////////////////////
+	
+	public int get_antallBilletter(){
 		return antallBilletter;
 	}
 	
@@ -35,32 +40,33 @@ public class Billettregister implements Serializable{
 		return ledigeBilletter;
 	}
 	
-	public int get_antallLedigeBilletter(){
-		if(ledigeBilletter)
-			return antallBilletter - antallSolgteBilletter();
-		
-		return 0;
-	}
+	//////////////////////////////
+	//	GET/SET-METODER SLUTT	//
+	//////////////////////////////	
 	
 	//////////////////////////////
 	//	MANIPULERINGS-METODER	//
 	//////////////////////////////
 	
-	public void fyllRegister(int antall){
 	//Fyller registeret med nye billetter
-		for(int i = 0; i < antall; i++)
-			reg.add(new Billett());
+	public boolean fyllRegister(int antall){
+		try{
+			for(int i = 0; i < antall; i++)
+				reg.add(new Billett());
+		}catch(Exception e){
+			return false;
+		}return true;
+	}
+		
+	//Finner antallet usolgte billetter
+	public int antallLedigeBilletter(){
+		if(ledigeBilletter)
+			return antallBilletter - antallSolgteBilletter();
+		return 0;
 	}
 	
-	public void leggTilBilletter(int antall){
-	//Legger til nye billetter i registeret
-		fyllRegister(antall);
-		antallBilletter = reg.size();
-		ledigeBilletter = true;
-	}
-	
-	public int antallSolgteBilletter() {
 	//Finner antallet solgte billetter
+	public int antallSolgteBilletter() {
 		int antSolgt = 0;
 		iterator = reg.iterator();
         
@@ -72,32 +78,58 @@ public class Billettregister implements Serializable{
 		return antSolgt;
 	}
 	
-	public Billett nesteLedigeBillett() {
+	//Legger til nye billetter til i registeret
+	public boolean leggTilBilletter(int antall){
+		if(fyllRegister(antall)){
+			antallBilletter = reg.size();
+			ledigeBilletter = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	//Fjerner billetter fra registeret
+	public boolean fjernBilletter(int antall){
+		if(antall > antallLedigeBilletter())
+			return false;
+		else{
+			for(int i = 0; i < antall; i++)
+				if(nesteLedigeBillett() != null)
+					reg.remove(nesteLedigeBillett());
+				
+			antallBilletter = reg.size();
+			ledigeBilletter = antallLedigeBilletter() != 0;
+			return true;	
+		}
+	}
+			
 	//Finner første ledige billett
+	public Billett nesteLedigeBillett() {
 		for(Billett b : reg)
 			if(!b.get_Solgt())
 				return b;
 		return null;
 	}
 	
-	public boolean selgBillett(int antall, Person k){
-		//Registrerer billetter som solgt hvis det er nok ledige billetter
-			if( antallSolgteBilletter() + antall > antallBilletter )
-				return false;
-			for(int i = 0; i < antall; i++)
-				nesteLedigeBillett().selgBillett(k);
-			ledigeBilletter = antallBilletter == antallSolgteBilletter();
-			return true;
-		}
+	//Registrerer billetter som solgt hvis det er nok ledige billetter
+	public boolean kjøpBillett(int antall, Person k){
+		if( (antallSolgteBilletter() + antall) > antallBilletter )
+			return false;
+		for(int i = 0; i < antall; i++)
+			nesteLedigeBillett().selgBillett(k);
+		ledigeBilletter = antallBilletter != antallSolgteBilletter();
+		return true;
+	}
 	
-	public Billett finnBillett(String tlf) {
 	//Søker opp Billett på telefonnr
+	public Billett finnBillett(String tlf) {
 		Billett funnet = null;
 		try {
 			iterator = reg.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = iterator.next();
-	            if (funnet.kunde.get_Telefon().equals(tlf))
+	            if (funnet.get_kunde().get_Telefon().equals(tlf))
 	            	return funnet;
 	        }
 		}catch(Exception ex){
@@ -106,11 +138,17 @@ public class Billettregister implements Serializable{
 		return funnet;
 	}
 	
-	public void avbestillBilletter(int antall, String tlf){
 	// avbestiller X billetter med telefonnr
-		for(int i = 0; i < antall; i++){
-			finnBillett(tlf).avbestillBillett();
+	public boolean avbestillBilletter(int antall, String tlf){
+		if(finnBillett(tlf) == null)
+			return false;
+		try{
+			for(int i = 0; i < antall; i++)
+				finnBillett(tlf).avbestillBillett();
+		}catch(Exception e){
+			return false;
 		}
+		return true;
 	}
 	
 	

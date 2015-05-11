@@ -9,6 +9,7 @@ public class Person {
 	
 	private String fornavn;
 	private String etternavn;
+	private String fulltnavn;
 	private String epost;
 	private String tlf;
 	
@@ -19,6 +20,7 @@ public class Person {
 	public Person (String f, String e, String m, String t) {
 		fornavn = f;
 		etternavn = e;
+		fulltnavn = f + e;
 		epost = m;
 		tlf = t;
 	}
@@ -27,12 +29,16 @@ public class Person {
 	//	GET/SET-METODER	//
 	//////////////////////
 	
-	public String get_Fronavn(){
+	public String get_Fornavn(){
 		return fornavn;
 	}
 	
 	public String get_Etternavn(){
 		return etternavn;
+	}
+	
+	public String get_Navn(){
+		return fulltnavn;
 	}
 	
 	public String get_Epost(){

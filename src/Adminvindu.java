@@ -25,12 +25,11 @@ public Adminvindu()
 	Lokale l1 = new Konferanse("Testkonferansesal","Dette er en test",2);
 	Lokale l2 = new Konferanse("Testkonferansesal2","Dette er en test2",50);
 	Lokale l3 = new Cafe("Testkonferansesal2","Dette er en test2",50);
-	Kontaktperson kontakt = new Kontaktperson("Partyfiksern Geir","hallis@hollis.no","99999999");
+	Kontaktperson kontakt = new Kontaktperson("Partyfiksern Geir","Olson","hallis@hollis.no","99999999");
 	//Arrangement a = new Arrangement("Testarrangement",kontakt,"17-05-2015 20:30");
-	Arrangement kinoA = new Arrangement("Kinoarrangement",kontakt,"17-05-2015 20:30");
-	Billett b = new Billett("fornavn","etternavn","epost","tlf");
-	Billett b2 = new Billett("fornavn","etternavn","epost","tlf");
-	Billett b3 = new Billett("fornavn","etternavn","epost","tlf");
+	Arrangement kinoA = new Arrangement("Kinofilm","Batman",kontakt,"17-05-2015 20:30", 200, 50);
+	Person kunde = new Person("fornavn","etternavn","epost","tlf");
+	kinoA.kjøpBillett(3, kunde);
 	k.leggTilLokale(l);
 	k.leggTilLokale(l1);
 	k.leggTilLokale(l2);

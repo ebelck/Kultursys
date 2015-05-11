@@ -152,7 +152,7 @@ public class Kulturhus {
 			kontaktIterator = kontaktInhouse.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = kontaktIterator.next();
-	            if (funnet.get_Tlf().equals(t)) {
+	            if (funnet.get_Telefon().equals(t)) {
 	            	kontaktInhouse.remove(funnet);
 	            	return true;
 	            }
@@ -180,14 +180,14 @@ public class Kulturhus {
 		}
 		return funnet;
 	}
-
-	public Kontaktperson finnKontaktpersonViaNavn(String n){
+	
+	public Kontaktperson finnKontaktpersonViaNavn(String fn){
 		Kontaktperson funnet = null;
 		try {
 			kontaktIterator = kontaktInhouse.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = kontaktIterator.next();
-	            if (funnet.get_Navn().equals(n)) {
+	            if (funnet.get_Navn().equals(fn)) {
 	            	return funnet;
 	            }
 	        }
@@ -204,7 +204,7 @@ public class Kulturhus {
 			kontaktIterator = kontaktInhouse.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = kontaktIterator.next();
-	            if (funnet.get_Tlf().equals(t)) {
+	            if (funnet.get_Telefon().equals(t)) {
 	            	return funnet;
 	            }
 	        }
@@ -220,7 +220,7 @@ public class Kulturhus {
 		a.add("Oppdater liste");
 
 		for (Kontaktperson s : kontaktInhouse) {
-			a.add(s.get_Navn());
+			a.add(s.get_Fornavn() + " " + a.add(s.get_Navn()));
 		}
 		
 	    String[] s = ((ArrayList<String>)a).toArray(new String[a.size()]);

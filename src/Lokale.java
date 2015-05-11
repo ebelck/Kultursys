@@ -17,6 +17,7 @@ public class Lokale {
 	private int refNr;
 	private static int nesteNr = 1;
 	private String navn, beskrivelse;
+	
 	private ArrayList<Arrangement> reg = new ArrayList<>();
 	private Iterator<Arrangement> iterator;
 	
@@ -54,6 +55,7 @@ public class Lokale {
 	//	MANIPULERINGS-METODER	//
 	//////////////////////////////
 	
+	//legger til et nytt arrangement
 	public boolean leggTilArrangement( Arrangement a){
 		if(a == null)
 			return false;
@@ -62,9 +64,13 @@ public class Lokale {
 		return true;
 	}
 	
-	public boolean slettArrangement(int n){
-		//Kanskje legge inn en sjekk på om det er solgt billetter til arrangementet før det kan slettes?
+	//sletter arangement med index n
+	public boolean slettArrangement(int n){//!!! Hvordan finner vi fram til n?
 		n = n - 1;
+		//kontrollerer at det ikke er solgt billetter til arrangementet
+		if(reg.get(n).antallSolgteBilletter() > 0)
+			return false;
+		
 		try {
 			reg.remove(n);
 			return true;
@@ -73,6 +79,7 @@ public class Lokale {
 		}
 	}
 	
+	//finner arrangement med index n
 	public Arrangement finnArrangement(int n){
 		Arrangement funnet = null;
 		try {
@@ -90,7 +97,11 @@ public class Lokale {
 		return funnet;
 	}
 	
+	//lister ut alle arrangementene tilknyttet lokalet
 	public String listArrangmenter(){
+		if(reg.isEmpty())
+			return "Ingen arrangementer lagret";
+		
 		String melding = "";
 		for (Arrangement s : reg) {
 			melding += s.toString();
