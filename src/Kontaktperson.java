@@ -1,20 +1,30 @@
+////////////////////////////////BESKRIVELSE///////////////////////////////
+//	Denne klassen inneholder informasjon om kontaktpersoner				//
+//	# Navn på kontaktperson												//
+//	# Epost til kontaktperson											//
+//	# Telefonnummer til kontaktperson									//
+//	# Metoder for å manipulere arrangementet og bilettregisteret		//
+//////////////////////////////////////////////////////////////////////////
 
 public class Kontaktperson {
 	private String navn;
 	private String epost;
 	private String tlf;
-	Kontaktperson neste;
 
+	//////////////////
+	//	KONSTRUKTØR	//
+	//////////////////
+	
 	public Kontaktperson (String n, String e, String t) {
 		navn = n;
 		epost = e;
 		tlf = t;
 	}
 	
+	//////////////////////
+	//	GET/SET-METODER	//
+	//////////////////////
 	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
 	public void set_Navn(String n) {
 		navn = n;
 	}
@@ -24,6 +34,9 @@ public class Kontaktperson {
 	public void set_Tlf(String t) {
 		tlf = t;
 	}
+	
+	//////////////////////
+	
 	public String get_Navn() {
 		return navn;
 	}
@@ -33,11 +46,12 @@ public class Kontaktperson {
 	public String get_Tlf() {
 		return tlf;
 	}
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
+	
+	//////////////////////////////
+	//	GET/SET-METODER SLUTT	//
+	//////////////////////////////
 	
 	public String toString() {
-		return navn + "- " + epost + "- " + tlf;
+		return navn + ", " + epost + ", Tlf: " + tlf + "\r\n";
 	}
-}
+}//KLASSE KONTAKTPERSON SLUTT

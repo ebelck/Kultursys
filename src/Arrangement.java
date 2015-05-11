@@ -1,13 +1,14 @@
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Denne klassen inneholder informasjon om arrangementene:				//
 //	# Referansenummer for arrangementet									//
+//	# Neste referansenummer												//
 //	# Navn/tittel på arrangementet										//
 //	# Beskrivelse av arrangementet										//
 //	# Bilde for arrangementet											//
 //	# Dato for arrangementet											//
-//	# Kontaktperson for arrangementet									//
 //	# Indikator for billettsalg											//
 //	# Billettpris														//
+//	# Kontaktperson for arrangementet									//
 //	# Register over alle solgte billetter								//
 //	# Metoder for å manipulere arrangementet og bilettregisteret		//
 //////////////////////////////////////////////////////////////////////////
@@ -23,14 +24,15 @@ public class Arrangement {
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
 	
-	private static int aId = 1;		//DETTE KAN BLI ET PROBLEM NÅR VI SKAL GJENNOPPRETTE FRA FIL
+	private  int aId = 0;
+	private static int nesteId = 1;
 	private String navn, beskrivelse;
 	private BufferedImage bilde = null;
 	private String bildeSti;
 	private Date dato;
-	Kontaktperson kontakt;
 	private boolean billettsalg = false;
 	private int pris;
+	Kontaktperson kontakt;
 	Billettregister reg;
 	
 	//////////////////////
@@ -39,8 +41,9 @@ public class Arrangement {
 	
 	public Arrangement (String n, Kontaktperson k) {
 	//Minimumskrav = navn + Kontaktperson
+		aId = nesteId++;
 		navn = n;
-		aId++;
+		kontakt = k;
 	}
 	
 	public Arrangement (String n, Kontaktperson k, String d) {
@@ -53,7 +56,9 @@ public class Arrangement {
 			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
 		}
 		
+		aId = nesteId++;
 		navn = n;
+		kontakt = k;
 	}
 	
 	public Arrangement (String n, String b, Kontaktperson k, String d, int p, int a) {
@@ -65,10 +70,12 @@ public class Arrangement {
 		} catch (ParseException e) {
 			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
 		}
-		beskrivelse = b;
+		aId = nesteId++;
 		navn = n;
+		beskrivelse = b;
 		billettsalg = true;
 		pris = p;
+		kontakt = k;
 		reg = new Billettregister(a);
 	}
 	
@@ -76,9 +83,11 @@ public class Arrangement {
 	/*Bilde sent med*/
 	public Arrangement (String n, String b, String f, Kontaktperson k) {
 		
-		beskrivelse = b;
+		aId = nesteId++;
 		navn = n;
+		beskrivelse = b;
 		bildeSti = f;
+		kontakt = k;
 	}
 
 	//////////////////////////
@@ -168,31 +177,17 @@ public class Arrangement {
 	//	MANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////
 	
-	//!!!!!DENNE MÅ RYDDES I !!!!!
-	
-	public String toString() {
-		String meld = "";
-		meld += "REFERANSENUMMER:\t" + get_aId() + "\r\n";
-		//Funker fram til hit
+	public String toString(){
+		String melding = "ARRANGEMENTNR:\t" + aId + "\r\n";
+		melding += "Arrangement:\t" + navn + "\r\n";
+		melding += (beskrivelse != null) ? "Beskrivelse:\t" + beskrivelse + "\r\n" : "Ingen beskrivelse" + "\r\n";
+		melding += (bildeSti != null) ? "Bilde:\t" + bildeSti + "\r\n" : "Mangler bilde" + "\r\n";
+		melding += (dato != null) ? "Dato:\t\t" + sdf.format(dato) + "\r\n" : "Dato ikke satt" + "\r\n";
+		melding += (!billettsalg) ? "Pris:\t\tGratis\r\n" : "Pris:\t\tkr " + pris +".00\r\n";
+		melding += (billettsalg) ? "Ledige bill.:\t" + (reg.antallBilletter() - reg.antallSolgteBilletter()) + "\r\n": "";
+		melding += "Kontaktperson:\t" + kontakt + "\r\n";
 		
-		String b = (get_Beskrivelse() != null) ? "Beskrivelse:\t" + get_Beskrivelse() : "Ingen beskrivelse";
-		if (bildeSti != null)
-			meld+="Arrangement har et bilde som vedlegg.\r\n";
-		else
-			meld+="Ikke noe bilde\r\n";
-		meld += "Navn på arrangement:\t" + get_Navn() + "\r\n";
-		if (get_Dato().equals(""))
-			meld += "Dato:\t" + get_Dato() + "\r\n"
-				+ b + "\r\n";
-		//Funker herfra
-		if(get_Billettsalg() == true){
-			meld += "Pris:\t" + get_Pris() + " kr\r\n";
-			meld += "Ledige billetter:\t" + reg.get_antallLedigeBilletter();
-		}
-		else
-			meld += "Pris:\tGratis \r\n";
-		
-		return meld;
+		return melding;
 	}
 	
-}
+}//KLASSE ARRANGEMENT SLUTT
