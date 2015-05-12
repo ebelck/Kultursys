@@ -357,8 +357,8 @@ public class Arrangementvindu extends JApplet {
 								+ " er slettet fra kulturhuset.");
 					} else {
 						tekstområde
-								.setText("Vi kunne ikke finne et arrangement med referanse "
-										+ refNr + " i kulturhuset.");
+								.setText(" Kunne ikke slette arrangement nr. "
+										+ refNr + " siden det har solgt billetter, eller ikke finnes. ");
 					}
 				} catch (Exception ex) {
 					tekstområde.setText("En feil har oppstått, prøv igjen.");

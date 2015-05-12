@@ -14,9 +14,10 @@ import java.util.Iterator;
 
 
 public class Lokale {
-	private int refNr;
+	private int plasser, refNr;
 	private static int nesteNr = 1;
-	private String navn, beskrivelse;
+	private String navn, beskrivelse, type;
+	
 	
 	private ArrayList<Arrangement> reg = new ArrayList<>();
 	private Iterator<Arrangement> iterator;
@@ -25,10 +26,12 @@ public class Lokale {
 	//	KONSTRUKTØR	//
 	//////////////////
 	
-	public Lokale (String n, String b) {
+	public Lokale (String n, String b) { // her kommer String t, int p
 		refNr = nesteNr++;
 		navn = n;
 		beskrivelse = b;
+//		type = t;
+//		plasser = p
 	}
 	
 	//////////////////////
@@ -55,6 +58,11 @@ public class Lokale {
 	//	MANIPULERINGS-METODER	//
 	//////////////////////////////
 	
+	// Sjekker om registere for de forskjellige arrangementene er tomme
+	public boolean tomtRegister(){
+		return reg.isEmpty();
+	}
+	
 	//legger til et nytt arrangement
 	public boolean leggTilArrangement( Arrangement a){
 		if(a == null)
@@ -64,41 +72,47 @@ public class Lokale {
 		return true;
 	}
 	
-	//sletter arangement med index n
-	public boolean slettArrangement(int n){//!!! Hvordan finner vi fram til n?
-		n = n - 1;
-		//kontrollerer at det ikke er solgt billetter til arrangementet
-		if(reg.get(n).antallSolgteBilletter() > 0)
-			return false;
-		
+	//sletter arangement med get_aId = n
+	public boolean slettArrangement(int n){
 		try {
-			reg.remove(n);
-			return true;
+			for(Arrangement slett : reg){
+				if(slett.get_aId() == n){
+					//kontrollerer at det ikke er solgt billetter til arrangementet
+					//if(slett.antallSolgteBilletter() > 0)
+						//return false;
+					
+					// Kommentert ut fordi vi må sende med rikitge parametere slik at 
+					// funksjonen returnerer en verdi.
+					////////////////////////
+					
+					reg.remove(slett);
+					reg.trimToSize();
+					return true;
+				}
+			}
 		} catch (IndexOutOfBoundsException IOOBE) {
 			return false;
 		}
+		return false;
 	}
 	
 	//finner arrangement med index n
 	public Arrangement finnArrangement(int n){
-		Arrangement funnet = null;
+
 		try {
-			iterator = reg.iterator();
-	        while (iterator.hasNext()) {
-	        	funnet = iterator.next();
-	            if (funnet.get_aId() == n) {
-	            	return funnet;
-	            }
-	        }
+			for(Arrangement funnet : reg)
+				if(funnet.get_aId() == n)
+					return funnet;
+	        
 			
 		} catch(Exception ex){
-			return funnet;
+			return null;
 		}
-		return funnet;
+		return null;
 	}
 	
 	//lister ut alle arrangementene tilknyttet lokalet
-	public String listArrangmenter(){
+	public String listArrangementer(){
 		if(reg.isEmpty())
 			return "Ingen arrangementer lagret";
 		
