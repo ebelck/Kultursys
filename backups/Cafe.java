@@ -8,15 +8,12 @@ public class Cafe extends Lokale {
 
 	private boolean bestilt;
 	private int refNr;
+	private int gjesteplass;
 	
-	public Cafe(String n, String b, boolean c) {
+	public Cafe(String n, String b, int i) {
 		super(n, b);
 		refNr = super.get_RefNr();
-		if(c){
-			bestilt = true;
-		} else {
-			bestilt = false;
-		}
+		gjesteplass = i;
 		
 	}	
 	
@@ -24,25 +21,26 @@ public class Cafe extends Lokale {
 	 Get og Set metoder start
 	 *//////////////////////
 	
-	public boolean getBestilt() {
-		return bestilt;
+
+	public int get_Gjesteplass() {
+		return gjesteplass;
 	}
 	
-	public int getRefNr() {
+	public int get_RefNr() {
 		return refNr;
 	}
+	
+	public void set_Gjesteplass(int n) {
+		gjesteplass = n;
+	}
+	
 	 /*//////////////////////
 	 Get og Set metoder finish
 	 *//////////////////////
 	
 	public String toString() {
-		String meld = "Cafe: ";
-		
-		if(!bestilt) {
-			meld += "ikke inkludert";
-		} else {
-			meld += "inkludert.";
-		}
+		String meld = super.toString();
+		meld += "Gjesteplass: " + get_Gjesteplass() + "\r\n";
 		return meld;
 	}
 }

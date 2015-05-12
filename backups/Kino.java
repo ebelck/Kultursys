@@ -7,14 +7,14 @@
  * */
 public class Kino extends Lokale {
 
-	private final static int ANTPLASSER = 150;
-	private String film;
+	private int antPlasser = 150;
+	private String info;
 	private String type;
 	
 	
 	public Kino(String n, String b, String f) {
 		super(n,b);
-		film = f;
+		info = f;
 		type = "Kino";
 		
 	}
@@ -24,15 +24,15 @@ public class Kino extends Lokale {
 	 Get og Set metoder start
 	 *//////////////////////
 	
-	public int getAntPlasser() {
-		return ANTPLASSER;
+	public int get_AntPlasser() {
+		return antPlasser;
 	}
 	
-	public String getFilm() {
-		return film;
+	public String get_Info() {
+		return info;
 	}
 	
-	public String getType() {
+	public String get_Type() {
 		return type;
 	}
 	
@@ -42,9 +42,9 @@ public class Kino extends Lokale {
 	
 	public String toString() {
 		String meld = super.toString();
-		meld += "Type: " + getType() + "\n";
-		meld += "Antall plasser: " + getAntPlasser() + "\n";
-		meld += "Film: " + getFilm() + "\n";
+		meld += "Type: " + get_Type() + "\n";
+		meld += "Antall plasser: " + get_AntPlasser() + "\n";
+		meld += "Ytterligere info: " + get_Info() + "\n";
 		return meld;
 	}
 }
