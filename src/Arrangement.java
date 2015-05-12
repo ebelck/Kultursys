@@ -220,12 +220,16 @@ public class Arrangement {
 		return reg.finnBillett(tlf);
 	}
 	
+	public Billett finnBillett(int nr){
+		return reg.finnBillett(nr);
+	}
+	
 	public int antallSolgteBilletter(){
 		return reg.antallSolgteBilletter();
 	}
 	
 	public String listBilletter(){
-		return reg.toString();
+		return "ARRANGEMENTNR:\t" + aId + "\r\nArrangement:\t" + navn + "\r\n" + reg.listSolgteBilletter();
 	}
 	
 	//////////////////////////////////

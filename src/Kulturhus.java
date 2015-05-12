@@ -160,6 +160,13 @@ public class Kulturhus {
 		return false;
 	}
 	
+	public Billett finnBillett(int nr){
+		for(Lokale l: lreg)
+			if(l.finnBillett(nr) != null)
+				return l.finnBillett(nr);
+		return null;
+	}
+	
 	//////////////////////////////
 	//	BILLETT-METODER SLUTT	//
 	//////////////////////////////

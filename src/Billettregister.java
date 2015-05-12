@@ -138,6 +138,18 @@ public class Billettregister implements Serializable{
 		return funnet;
 	}
 	
+	//Søker opp Billett på telefonnr
+	public Billett finnBillett(int nr) {
+		try{
+			for(Billett b: reg)
+				if(b.get_Billettnummer() == nr)
+					return b;
+			return null;
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
 	// avbestiller X billetter med telefonnr
 	public boolean avbestillBilletter(int antall, String tlf){
 		if(finnBillett(tlf) == null)
@@ -149,6 +161,13 @@ public class Billettregister implements Serializable{
 			return false;
 		}
 		return true;
+	}
+	
+	public String listSolgteBilletter(){
+		String retur = "Solgte billetter: " + antallSolgteBilletter() + " av " + antallBilletter + "\r\n\r\n";
+				for(Billett b : reg)
+					retur += (b.get_Solgt()) ? b : "";
+		return retur;
 	}
 	
 	

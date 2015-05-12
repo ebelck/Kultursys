@@ -139,6 +139,25 @@ public class Lokale {
 	//	MANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////
 	
+	//////////////////////
+	//	BILLETT-METODER	//
+	//////////////////////
+	
+	public Billett finnBillett(int nr){
+		try{
+			for(Arrangement a: reg)
+				if(a.finnBillett(nr) != null)
+					return a.finnBillett(nr);
+		}catch(Exception e){
+			return null;
+		}
+		return null;
+	}
+	
+	//////////////////////////////
+	//	BILLETT-METODER SLUTT	//
+	//////////////////////////////
+	
 	public String toString() {
 		String meld = "LOKALENR:\t" + get_RefNr() + "\r\n";
 		meld += "Navn:\t\t" + get_Navn() + "\r\n";

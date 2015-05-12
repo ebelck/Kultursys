@@ -55,7 +55,10 @@ public class KulturhusTest {
 		hus.bestillBillett(1, 17, new Person("Lene","Sæter","mail3@norge.no","20010003"));
 		hus.bestillBillett(1, 8, new Person("Ingrid","Korneliussen","mail4@norge.no","20010004"));
 		
-		System.out.println(hus.listArrangementerILokaler());
+		//System.out.println(hus.listArrangementerILokaler());
+		
+		//System.out.println(hus.finnLokale(1).finnArrangement(1).listBilletter());
+		
+		System.out.println(hus.finnBillett(6));
 	}
-
 }
