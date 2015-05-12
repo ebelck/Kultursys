@@ -54,52 +54,47 @@ public class Lokale {
 	//	MANIPULERINGS-METODER	//
 	//////////////////////////////
 	
-	public boolean tomtRegister(){
-		return reg.isEmpty();
-	}
-	
 	public boolean leggTilArrangement( Arrangement a){
 		if(a == null)
 			return false;
 		
 		reg.add(a);
-		reg.trimToSize();
 		return true;
 	}
 	
 	public boolean slettArrangement(int n){
 		//Kanskje legge inn en sjekk på om det er solgt billetter til arrangementet før det kan slettes?
+		n = n - 1;
 		try {
-			for(Arrangement slett : reg){
-				if(slett.get_aId() == n){
-					System.out.println(slett);
-					reg.remove(slett);
-					reg.trimToSize();
-					return true;
-				}
-			}
+			reg.remove(n);
+			return true;
 		} catch (IndexOutOfBoundsException IOOBE) {
 			return false;
 		}
-		return false;
 	}
 	
 	public Arrangement finnArrangement(int n){
+		Arrangement funnet = null;
 		try {
-			for(Arrangement funnet : reg)
-				if(funnet.get_aId() == n)
-					return funnet;
+			iterator = reg.iterator();
+	        while (iterator.hasNext()) {
+	        	funnet = iterator.next();
+	            if (funnet.get_aId() == n) {
+	            	return funnet;
+	            }
+	        }
+			
 		} catch(Exception ex){
-			return null;
+			return funnet;
 		}
-		return null;
+		return funnet;
 	}
 	
-	public String listArrangementer(){
+	public String listArrangmenter(){
 		String melding = "";
-		for (Arrangement s : reg)
+		for (Arrangement s : reg) {
 			melding += s.toString();
-		
+		}
 		return melding;
 	}
 	
