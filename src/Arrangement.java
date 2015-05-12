@@ -22,7 +22,7 @@ import javax.imageio.*;
 
 public class Arrangement {
 	
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	
 	private  int aId = 0;
 	private static int nesteId = 1;
@@ -165,13 +165,33 @@ public class Arrangement {
 	//	MANIPULERINGS-METODER	//
 	//////////////////////////////
 	
-	//	Metoder som må lages:
-	//	¤ Legge til flere billetter
-	//	¤ Fjerne billetter
-	//	¤ Bestille billetter
-	//	¤ Avbestille billetter
-	//	¤ Søke opp Billetter
-	// 	¤ Flere?
+	public boolean leggTilBilletter(int antall){
+		return reg.leggTilBilletter(antall);
+	}
+	
+	public boolean fjernBilletter(int antall){
+		return reg.fjernBilletter(antall);
+	}
+	
+	public boolean kjøpBillett(int antall, Person k){
+		return reg.kjøpBillett(antall, k);
+	}
+	
+	public boolean avbestillBillett(int antall, String tlf){
+		return reg.avbestillBilletter(antall, tlf);
+	}
+	
+	public Billett finnBillett(String tlf){
+		return reg.finnBillett(tlf);
+	}
+	
+	public int antallSolgteBilletter(){
+		return reg.antallSolgteBilletter();
+	}
+	
+	public String listBilletter(){
+		return reg.toString();
+	}
 	
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//
@@ -184,7 +204,7 @@ public class Arrangement {
 		melding += (bildeSti != null) ? "Bilde:\t" + bildeSti + "\r\n" : "Mangler bilde" + "\r\n";
 		melding += (dato != null) ? "Dato:\t\t" + sdf.format(dato) + "\r\n" : "Dato ikke satt" + "\r\n";
 		melding += (!billettsalg) ? "Pris:\t\tGratis\r\n" : "Pris:\t\tkr " + pris +".00\r\n";
-		melding += (billettsalg) ? "Ledige bill.:\t" + (reg.antallBilletter() - reg.antallSolgteBilletter()) + "\r\n": "";
+		melding += (billettsalg) ? "Ledige bill.:\t" + (reg.get_antallBilletter() - reg.antallSolgteBilletter()) + "/" + reg.get_antallBilletter() + "\r\n": "";
 		melding += "Kontaktperson:\t" + kontakt + "\r\n";
 		
 		return melding;

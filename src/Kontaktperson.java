@@ -1,57 +1,34 @@
 ////////////////////////////////BESKRIVELSE///////////////////////////////
-//	Denne klassen inneholder informasjon om kontaktpersoner				//
-//	# Navn på kontaktperson												//
-//	# Epost til kontaktperson											//
-//	# Telefonnummer til kontaktperson									//
-//	# Metoder for å manipulere arrangementet og bilettregisteret		//
+//	Denne klassen er en utvidelse av klassen Person og inneholder 		//
+//	informasjon om kontaktpersoner										//
+//	# Den utvider Person med et idnummer								//
 //////////////////////////////////////////////////////////////////////////
 
-public class Kontaktperson {
-	private String navn;
-	private String epost;
-	private String tlf;
+public class Kontaktperson extends Person {
+	
+	private int pId;
+	private static int nesteId = 1;
+	
 
 	//////////////////
 	//	KONSTRUKTØR	//
-	//////////////////
+	////////////////// 
 	
-	public Kontaktperson (String n, String e, String t) {
-		navn = n;
-		epost = e;
-		tlf = t;
+	public Kontaktperson (String f, String e, String m, String t) {
+		super(f,e,m,t);
+		pId = nesteId++;
 	}
 	
 	//////////////////////
 	//	GET/SET-METODER	//
 	//////////////////////
 	
-	public void set_Navn(String n) {
-		navn = n;
-	}
-	public void set_Epost(String e) {
-		epost = e;
-	}
-	public void set_Tlf(String t) {
-		tlf = t;
-	}
-	
-	//////////////////////
-	
-	public String get_Navn() {
-		return navn;
-	}
-	public String get_Epost() {
-		return epost;
-	}
-	public String get_Tlf() {
-		return tlf;
+	public int get_pId(){
+		return pId;
 	}
 	
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
 	//////////////////////////////
 	
-	public String toString() {
-		return navn + ", " + epost + ", Tlf: " + tlf + "\r\n";
-	}
 }//KLASSE KONTAKTPERSON SLUTT
