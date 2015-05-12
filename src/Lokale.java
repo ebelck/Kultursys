@@ -85,13 +85,12 @@ public class Lokale {
 			for(Arrangement slett : reg){
 				if(slett.get_aId() == n){		//Finner matchende ID
 					//Hvis billettsalg er false eller antall solgte billetter er 0
-					if(!slett.get_Billettsalg() || slett.antallSolgteBilletter() == 0)
-					reg.remove(slett);
-					reg.trimToSize();
-					return true;
+					if(!slett.get_Billettsalg() || slett.antallSolgteBilletter() == 0) {
+						reg.remove(slett);
+						reg.trimToSize();
+						return true;
+					}
 				}	
-				else
-					return false;
 			}
 		} catch (IndexOutOfBoundsException IOOBE) {
 			return false;
