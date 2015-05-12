@@ -1,159 +1,213 @@
+////////////////////////////////BESKRIVELSE///////////////////////////////
+//	Denne klassen inneholder informasjon om arrangementene:				//
+//	# Referansenummer for arrangementet									//
+//	# Neste referansenummer												//
+//	# Navn/tittel på arrangementet										//
+//	# Beskrivelse av arrangementet										//
+//	# Bilde for arrangementet											//
+//	# Dato for arrangementet											//
+//	# Indikator for billettsalg											//
+//	# Billettpris														//
+//	# Kontaktperson for arrangementet									//
+//	# Register over alle solgte billetter								//
+//	# Metoder for å manipulere arrangementet og bilettregisteret		//
+//////////////////////////////////////////////////////////////////////////
+
 import java.util.*;
 import java.text.*;
 import java.awt.image.*;
 import java.io.*;
+
 import javax.imageio.*;
 
 public class Arrangement {
-	Billett første = null;
-	Arrangement neste = null;
-	Kontaktperson kontaktperson;
-	private static int aId = 0;
+	
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+	
+	private  int aId = 0;
+	private static int nesteId = 1;
+	private String navn, beskrivelse;
+	private BufferedImage bilde = null;
+	private String bildeSti;
 	private Date dato;
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm");
-	private String beskrivelse, navn;
-	BufferedImage bilde = null; {
-		
-		try {
-		    bilde = ImageIO.read(new File("navn.*"));
-		} catch (IOException e) {
-			System.out.println("Finner ikke bilde ved angitt filbane");
-		}
-	}
+	private boolean billettsalg = false;
+	private int pris;
+	Kontaktperson kontakt;
+	Billettregister reg;
 	
-	/*Minimumskravet for å opprette et arrangement*/
+	//////////////////////
+	//	KONSTRUKTØRER	//
+	//////////////////////	
+	
 	public Arrangement (String n, Kontaktperson k) {
-		
+	//Minimumskrav = navn + Kontaktperson
+		aId = nesteId++;
 		navn = n;
-		kontaktperson = k;
-		aId++;
+		kontakt = k;
 	}
-	/*Minimumskrav + dato er satt*/
+	
 	public Arrangement (String n, Kontaktperson k, String d) {
-		
-		
-		/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
+	//Minimumskarv + dato
+	//Dato må være oppgitt i formatet dd-mm-ååå tt:mm
+	//Kan dette løses med en RegEx-validering? str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		try {
 		dato = sdf.parse(d);
 		} catch (ParseException e) {
 			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
 		}
 		
+		aId = nesteId++;
 		navn = n;
-		kontaktperson = k;
+		kontakt = k;
 	}
-	/*All informasjon satt*/
-	public Arrangement (String n, String b, Kontaktperson k, String d) {
-		
-		
-		/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
+	
+	public Arrangement (String n, String b, Kontaktperson k, String d, int p, int a) {
+	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
+	//Dato må være oppgitt i formatet dd-mm-ååå tt:mm
+	//Kan dette løses med en RegEx-validering? str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
 		try {
 		dato = sdf.parse(d);
 		} catch (ParseException e) {
 			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
 		}
+		aId = nesteId++;
+		navn = n;
 		beskrivelse = b;
+		billettsalg = true;
+		pris = p;
+		kontakt = k;
+		reg = new Billettregister(a);
+	}
+	
+	//HER MÅ DET LAGES FLERE KONSTRUKTØRER HVIS VI SKAL DEKKE OPP FOR ALLE MULIGHETER
+	/*Bilde sent med*/
+	public Arrangement (String n, String b, String f, Kontaktperson k) {
+		
+		aId = nesteId++;
 		navn = n;
-		kontaktperson = k;
+		beskrivelse = b;
+		bildeSti = f;
+		kontakt = k;
 	}
-	
-	
-	 /*//////////////////////////
-	  BILLETTMANIPULERING START
-	 *//////////////////////////
-	
-	public boolean leggTilBillett( Billett b){
-		if(b == null)
-			return false;
-		
-		if(første == null){
-			første = b;
-			return true;
-		}
-		
-		Billett peker = første;
-		while(peker.neste != null)
-			peker = peker.neste;
-		
-		peker.neste = b;
-		return true;
-	}
-	
-	public boolean slettBillett(int n){
-		if(første == null)
-			return false;
-		
-		if(første.get_Nummer() == n){
-			første = første.neste;
-			return true;
-		}
-		
-		Billett peker = første;
-		while(peker.neste != null){
-			if(peker.neste.get_Nummer() == n){
-				peker.neste = peker.neste.neste;
-				return true;
-			}
-			peker = peker.neste;
-		}
-		return false;	
-	}
-	
-	public Billett finnBillett(int n){
-		if(første == null)
-			return null;
-		
-		Billett peker = første;
-		while (peker != null){
-			if(peker.get_Nummer() == n)
-				return peker;
-			peker = peker.neste;
-		}
-		return null;
-	}	
 
-	 /*//////////////////////////
-	  BILLETTMANIPULERING FINISH
-	 *//////////////////////////
+	//////////////////////////
+	//	KONSTRUKTØRER SLUTT	//
+	//////////////////////////
 	
-	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
+	//////////////////////
+	//	GET/SET-METODER	//
+	//////////////////////
 	
 	public void set_Navn(String n) {
 		navn = n;
 	}
+	
+	public void set_Kontaktperson(Kontaktperson k) {
+		kontakt = k;
+	}
+	
 	public void set_Beskrivelse(String b) {
 		beskrivelse = b;
 	}
-	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
+	
 	public void set_Dato(String d) {
+	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
 		try {
 		dato = sdf.parse(d);
 		} catch (ParseException e) {
 			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
 		}
 	}
+
+	
+	//////////////////////
+	
 	public String get_Navn() {
 		return navn;
-	}
+	}	
+	
 	public int get_aId() {
 		return aId;
 	}
+	
 	public String get_Beskrivelse() {
 		return beskrivelse;
 	}
+	
 	public String get_Dato() {
+		if (dato==null)
+			return "";
 		String datoString = sdf.format(dato);
 		return datoString;
 	}
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
 	
-	public String toString() {
-		return navn + " skal holdes " + get_Dato() + ".\n" + "Kontaktperson er: " + kontaktperson + "\n";
+	public int get_Pris() {
+		return pris;
 	}
 	
-}
+	public boolean get_Billettsalg() {
+		return billettsalg;
+	}
+	
+	public Billettregister get_reg(){
+		return reg;
+	}
+	
+	public Kontaktperson get_Kontaktperson() {
+		return kontakt;
+	}
+	
+	//////////////////////////////
+	//	GET/SET-METODER SLUTT	//
+	//////////////////////////////
+	
+	//////////////////////////////
+	//	MANIPULERINGS-METODER	//
+	//////////////////////////////
+	
+	public boolean leggTilBilletter(int antall){
+		return reg.leggTilBilletter(antall);
+	}
+	
+	public boolean fjernBilletter(int antall){
+		return reg.fjernBilletter(antall);
+	}
+	
+	public boolean kjøpBillett(int antall, Person k){
+		return reg.kjøpBillett(antall, k);
+	}
+	
+	public boolean avbestillBillett(int antall, String tlf){
+		return reg.avbestillBilletter(antall, tlf);
+	}
+	
+	public Billett finnBillett(String tlf){
+		return reg.finnBillett(tlf);
+	}
+	
+	public int antallSolgteBilletter(){
+		return reg.antallSolgteBilletter();
+	}
+	
+	public String listBilletter(){
+		return reg.toString();
+	}
+	
+	//////////////////////////////////
+	//	MANIPULERINGS-METODER SLUTT	//
+	//////////////////////////////////
+	
+	public String toString(){
+		String melding = "ARRANGEMENTNR:\t" + aId + "\r\n";
+		melding += "Arrangement:\t" + navn + "\r\n";
+		melding += (beskrivelse != null) ? "Beskrivelse:\t" + beskrivelse + "\r\n" : "Ingen beskrivelse" + "\r\n";
+		melding += (bildeSti != null) ? "Bilde:\t" + bildeSti + "\r\n" : "Mangler bilde" + "\r\n";
+		melding += (dato != null) ? "Dato:\t" + sdf.format(dato) + "\r\n" : "Dato ikke satt" + "\r\n";
+		melding += (!billettsalg) ? "Pris:\tGratis\r\n" : "Pris:\tkr " + pris +".00\r\n";
+		melding += (billettsalg) ? "Ledige bill.:\t" + (reg.get_antallBilletter() - reg.antallSolgteBilletter()) + "/" + reg.get_antallBilletter() + "\r\n": "";
+		melding += "Kontaktperson:\t" + kontakt + "\r\n";
+		
+		return melding;
+	}
+	
+}//KLASSE ARRANGEMENT SLUTT
