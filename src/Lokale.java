@@ -80,22 +80,18 @@ public class Lokale {
 	}
 	
 	//sletter arangement med get_aId = n
-	public boolean slettArrangement(int n){
+	public boolean slettArrangement(int n){ //mottar en arrangementsID
 		try {
 			for(Arrangement slett : reg){
-				if(slett.get_aId() == n){
-					//kontrollerer at det ikke er solgt billetter til arrangementet
-					//if(slett.antallSolgteBilletter() > 0)
-						//return false;
-					
-					// Kommentert ut fordi vi må sende med rikitge parametere slik at 
-					// funksjonen returnerer en verdi.
-					////////////////////////
-					
+				if(slett.get_aId() == n){		//Finner matchende ID
+					//Hvis billettsalg er false eller antall solgte billetter er 0
+					if(!slett.get_Billettsalg() || slett.antallSolgteBilletter() == 0)
 					reg.remove(slett);
 					reg.trimToSize();
 					return true;
-				}
+				}	
+				else
+					return false;
 			}
 		} catch (IndexOutOfBoundsException IOOBE) {
 			return false;
