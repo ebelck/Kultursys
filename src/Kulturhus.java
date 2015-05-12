@@ -65,7 +65,11 @@ public class Kulturhus {
 	public String listArrangementerILokaler() {
 		String melding = "";
 		for (Lokale s : LokalerInhouse) {
-			melding += s.listArrangmenter();
+			melding += "LOKALE:\t" + s.get_Navn() + "\r\n";
+			if(!s.tomtRegister())
+				melding += s.listArrangementer();
+			else
+				melding += "Ingen arrangementer\r\n";
 		}
 		return melding;
 	}
