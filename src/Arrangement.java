@@ -216,7 +216,7 @@ public class Arrangement {
 		return reg.avbestillBilletter(antall, tlf);
 	}
 	
-	public Billett finnBillett(String tlf){
+	public Billett finnBilletter(String tlf){
 		return reg.finnBillett(tlf);
 	}
 	

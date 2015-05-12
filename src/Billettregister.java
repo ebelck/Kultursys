@@ -122,7 +122,30 @@ public class Billettregister implements Serializable{
 		return true;
 	}
 	
-	//Søker opp Billett på telefonnr
+	//Søker opp Billett som matcher søk
+	public ArrayList<Billett> finnBilletter(String søk){
+		ArrayList<Billett> resultat = new ArrayList<Billett>();
+		Billett b;
+		try{
+			iterator = reg.iterator();
+			while(iterator.hasNext()){
+				b = iterator.next();
+				if(	b.get_kunde().get_Fornavn().equals(søk) ||
+					b.get_kunde().get_Etternavn().equals(søk) ||
+					(b.get_kunde().get_Fornavn() + " " + b.get_kunde().get_Etternavn()).equals(søk) ||
+					b.get_kunde().get_Epost().equals(søk) ||
+					b.get_kunde().get_Telefon().equals(søk)){
+					
+					resultat.add(b);
+				}
+			}
+			return resultat;
+		}catch(Exception e){
+			return resultat;
+		}
+	}
+	
+	//Søker opp Billett som matcher telefonnr
 	public Billett finnBillett(String tlf) {
 		Billett funnet = null;
 		try {

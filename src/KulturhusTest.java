@@ -59,6 +59,11 @@ public class KulturhusTest {
 		
 		//System.out.println(hus.finnLokale(1).finnArrangement(1).listBilletter());
 		
-		System.out.println(hus.finnBillett(6));
+		
+		System.out.println(hus.finnLokale(1).finnArrangement(1).finnBilletter("20010001"));
+		
+		for(Billett b: hus.finnLokale(1).finnArrangement(1).reg.finnBilletter("Jan "
+				+ "Olsen"))
+			System.out.println(b);
 	}
 }
