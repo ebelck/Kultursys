@@ -27,7 +27,7 @@ public Adminvindu()
 	Lokale l3 = new Cafe("Testkonferansesal2","Dette er en test2",50);
 	Kontaktperson kontakt = new Kontaktperson("Partyfiksern Geir","Olson","hallis@hollis.no","99999999");
 	//Arrangement a = new Arrangement("Testarrangement",kontakt,"17-05-2015 20:30");
-	Arrangement kinoA = new Arrangement("Kinofilm","Batman",kontakt,"17-05-2015 20:30", 200, 50);
+	Arrangement kinoA = new Arrangement("Kinofilm",kontakt,"17-05-2015 20:30","Batman", 200, 50); 		//endre rekkefølge på parametere
 	Person kunde = new Person("fornavn","etternavn","epost","tlf");
 	kinoA.kjøpBillett(3, kunde);
 	k.leggTilLokale(l);

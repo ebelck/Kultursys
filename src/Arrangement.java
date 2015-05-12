@@ -17,6 +17,7 @@ import java.util.*;
 import java.text.*;
 import java.awt.image.*;
 import java.io.*;
+import javax.swing.*;
 
 import javax.imageio.*;
 
@@ -27,7 +28,7 @@ public class Arrangement {
 	private  int aId = 0;
 	private static int nesteId = 1;
 	private String navn, beskrivelse;
-	private BufferedImage bilde = null;
+	private BufferedImage bilde = null;			//hva brukes denne til?
 	private String bildeSti;
 	private Date dato;
 	private boolean billettsalg = false;
@@ -48,46 +49,80 @@ public class Arrangement {
 	
 	//Minimumskarv + dato
 	public Arrangement (String n, Kontaktperson k, String d) {
-	//Dato må være oppgitt i formatet dd-mm-ååå tt:mm
-	//Kan dette løses med en RegEx-validering? str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		try {
 		dato = sdf.parse(d);
 		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
+			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
 		}
 		
 		aId = nesteId++;
 		navn = n;
 		kontakt = k;
+	}
+	
+	//Minimumskarv + dato + beskrivelse	
+	public Arrangement (String n, Kontaktperson k, String d, String b) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		try {
+		dato = sdf.parse(d);
+		} catch (ParseException e) {
+			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
+		}
+		aId = nesteId++;
+		navn = n;
+		kontakt = k;
+		beskrivelse = b;
 	}
 	
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
 	public Arrangement (String n, Kontaktperson k, String d, String b, int p, int a) {
-	//Dato må være oppgitt i formatet dd-mm-ååå tt:mm
-	//Kan dette løses med en RegEx-validering? str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		try {
 		dato = sdf.parse(d);
 		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
+			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
 		}
 		aId = nesteId++;
 		navn = n;
+		kontakt = k;
 		beskrivelse = b;
 		billettsalg = true;
 		pris = p;
-		kontakt = k;
 		reg = new Billettregister(a);
 	}
 	
-	//HER MÅ DET LAGES FLERE KONSTRUKTØRER HVIS VI SKAL DEKKE OPP FOR ALLE MULIGHETER
-	/*Bilde sent med*/
-	public Arrangement (String n, Kontaktperson k, String b, String f) {
-		
+	//Minimumskarv + dato + beskrivelse + bilde
+	public Arrangement (String n, Kontaktperson k, String d, String b, String f) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		try {
+			dato = sdf.parse(d);
+		} catch (ParseException e) {
+			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
+		}
 		aId = nesteId++;
 		navn = n;
+		kontakt = k;
 		beskrivelse = b;
 		bildeSti = f;
+	}
+	
+	//Minimumskarv + dato + beskrivelse + bilde  + pris og antall billetter
+	public Arrangement (String n, Kontaktperson k, String d, String b, String f, int p, int a) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		try {
+			dato = sdf.parse(d);
+		} catch (ParseException e) {
+			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
+		}
+		aId = nesteId++;
+		navn = n;
 		kontakt = k;
+		beskrivelse = b;
+		bildeSti = f;
+		billettsalg = true;
+		pris = p;
+		reg = new Billettregister(a);
 	}
 
 	//////////////////////////

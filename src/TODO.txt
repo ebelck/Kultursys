@@ -3,3 +3,4 @@
 * Legge til Plasser og Type i Lokale: 							Halvor 						CHECK
 * Lage ferdig alle konstruktørene i Arrangement: 				Einar
 * Gå igjennom alle subtypene til Lokale og se hva kan slettes: 	Roger, Einar og Halvor
+* Lage final Validator-klasse for testing av input: 			Einar 
