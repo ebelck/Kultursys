@@ -367,7 +367,12 @@ public class Arrangementvindu extends JApplet {
 	      }
 	      else if ( e.getSource() == listeKnapp ) {
 	    	  System.out.println("Knappen er trykket og jeg ber om k.listArrangementer.");
+	    	  if(!k.listArrangementerILokaler().equals("")){
 	    	  	tekstområde.setText(k.listArrangementerILokaler());
+	    	  }
+	    	  else {
+	    		  tekstområde.setText("Ingen arrangementer per dags dato");
+	    	  }
 	      }
 	      else if ( e.getSource() == finnKnapp ) {
 	    	  try {

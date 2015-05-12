@@ -28,9 +28,9 @@ public Adminvindu()
 	Kontaktperson kontakt = new Kontaktperson("Partyfiksern Geir","hallis@hollis.no","99999999");
 	//Arrangement a = new Arrangement("Testarrangement",kontakt,"17-05-2015 20:30");
 	Arrangement kinoA = new Arrangement("Kinoarrangement",kontakt,"17-05-2015 20:30");
-	Billett b = new Billett("fornavn","etternavn","epost","tlf");
-	Billett b2 = new Billett("fornavn","etternavn","epost","tlf");
-	Billett b3 = new Billett("fornavn","etternavn","epost","tlf");
+	Billett b = new Billett();
+	Billett b2 = new Billett();
+	Billett b3 = new Billett();
 	k.leggTilLokale(l);
 	k.leggTilLokale(l1);
 	k.leggTilLokale(l2);
