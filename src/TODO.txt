@@ -1,3 +1,3 @@
-* Legge til Kontaktpersonregister: Einar
-* Feilhåndtering i Kulturhus, Lokaler og Arrangement: Halvor
-* Legge til Plasser og Type i Lokale: Halvor 
+* Legge til Kontaktpersonregister: Einar	CHECK
+* Feilhåndtering i Kulturhus, Lokaler og Arrangement: Halvor	CHECK
+* Legge til Plasser og Type i Lokale: Halvor 	CHECK
