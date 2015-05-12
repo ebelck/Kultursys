@@ -142,7 +142,7 @@ public class Personregister {
 	//lister ut alle kontaktpersoner
 	public String[] listKontaktpersoner(){
 		ArrayList<String> a = new ArrayList<>();
-		a.add("Oppdatert liste");
+		a.add("Oppdater liste");
 
 		for (Kontaktperson s : reg) {
 			//a.add(s.get_Fornavn() + " " + a.add(s.get_Etternavn()));

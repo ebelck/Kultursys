@@ -208,7 +208,7 @@ public class Arrangement {
 		return reg.fjernBilletter(antall);
 	}
 	
-	public boolean kjøpBillett(int antall, Person k){
+	public boolean bestillBillett(int antall, Person k){
 		return reg.kjøpBillett(antall, k);
 	}
 	

@@ -1,6 +1,6 @@
 * Legge til Kontaktpersonregister: 								Einar						CHECK
 * Feilhåndtering i Kulturhus, Lokaler og Arrangement: 			Halvor						CHECK
 * Legge til Plasser og Type i Lokale: 							Halvor 						CHECK
-* Lage ferdig alle konstruktørene i Arrangement: 				Einar
+* Lage ferdig alle konstruktørene i Arrangement: 				Einar						CHEKC
 * Gå igjennom alle subtypene til Lokale og se hva kan slettes: 	Roger, Einar og Halvor
-* Lage final Validator-klasse for testing av input: 			Einar 
+* Lage final Validator-klasse for testing av input: 			Einar 						CHECK

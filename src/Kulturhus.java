@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class Kulturhus {
 	private String beskrivelse, navn;
-	private ArrayList<Lokale> LokalerInhouse = new ArrayList<>();
+	private ArrayList<Lokale> lreg = new ArrayList<>();
 	private Iterator<Lokale> iterator;
 //	private ArrayList<Kontaktperson> kontaktInhouse = new ArrayList<>();
 //	private Iterator<Kontaktperson> kontaktIterator;
@@ -51,14 +51,14 @@ public class Kulturhus {
 		if(l == null)
 			return false;
 		
-		LokalerInhouse.add(l);
+		lreg.add(l);
 		return true;
 	}
 	
 	public boolean slettLokale(int n){
 		n = n - 1;
 		try {
-			LokalerInhouse.remove(n);
+			lreg.remove(n);
 			return true;
 		} catch (IndexOutOfBoundsException IOOBE) {
 			return false;
@@ -68,7 +68,7 @@ public class Kulturhus {
 	public Lokale finnLokale(int n){
 		Lokale funnet = null;
 		try {
-			iterator = LokalerInhouse.iterator();
+			iterator = lreg.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = iterator.next();
 	            if (funnet.get_RefNr() == n) {
@@ -84,7 +84,7 @@ public class Kulturhus {
 	
 	public String listLokaler(){
 		String melding = "";
-		for (Lokale s : LokalerInhouse) {
+		for (Lokale s : lreg) {
 			melding += s.toString();
 		}
 		return melding;
@@ -92,7 +92,7 @@ public class Kulturhus {
 	
 	public String listArrangementerILokaler() {
 		String melding = "";
-		for (Lokale s : LokalerInhouse) {
+		for (Lokale s : lreg) {
 			melding += "LOKALE:\t" + s.get_Navn() + "\r\n";
 			if(!s.tomtRegister())
 				melding += s.listArrangementer();
@@ -107,7 +107,7 @@ public class Kulturhus {
 		ArrayList<String> a = new ArrayList<>();
 		a.add("Oppdater liste");
 
-		for (Lokale s : LokalerInhouse) {
+		for (Lokale s : lreg) {
 			a.add(s.get_Navn());
 		}
 		
@@ -118,7 +118,7 @@ public class Kulturhus {
 	public Lokale arrangementViaK(int n) {
 		Lokale l = null;
 		
-		iterator = LokalerInhouse.iterator();
+		iterator = lreg.iterator();
         while (iterator.hasNext()) {
         	l = iterator.next();
             if (l.finnArrangement(n) != null) {
@@ -131,7 +131,7 @@ public class Kulturhus {
 	public Lokale finnType(String s) {
 		Lokale funnet = null;
 		try {
-			iterator = LokalerInhouse.iterator();
+			iterator = lreg.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = iterator.next();
 	            if (funnet.get_Navn().equals(s)) {
@@ -147,6 +147,22 @@ public class Kulturhus {
 	//////////////////////////////////////////
 	//	LOKALEMANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////////////
+
+	//////////////////////
+	//	BILLETT-METODER	//
+	//////////////////////
+	
+	public boolean bestillBillett(int id, int antall, Person k){
+		for(Lokale l : lreg){
+			if(l.finnArrangement(id) != null)
+				return l.finnArrangement(id).bestillBillett(antall, k);
+		}
+		return false;
+	}
+	
+	//////////////////////////////
+	//	BILLETT-METODER SLUTT	//
+	//////////////////////////////
 	
 	
 	//////////////////////////////////////////
@@ -279,7 +295,7 @@ public class Kulturhus {
 		Kontaktperson person = finnKontaktpersonViaTlf(t);
 		melding += person.toString();
 		HashSet<Arrangement> arrHash = new HashSet<>();
-		for (Lokale l : LokalerInhouse) {
+		for (Lokale l : lreg) {
 			arrHash.addAll(l.kontaktOpplysning(person));
 		}
 		melding += "* Kontaktperson for følgende *";
@@ -295,7 +311,7 @@ public class Kulturhus {
 		Kontaktperson person = finnKontaktpersonViaEpost(e);
 		melding += person.toString();
 		HashSet<Arrangement> arrHash = new HashSet<>();
-		for (Lokale l : LokalerInhouse) {
+		for (Lokale l : lreg) {
 			arrHash.addAll(l.kontaktOpplysning(person));
 		}
 		melding += "* Kontaktperson for følgende *";

@@ -29,7 +29,7 @@ public Adminvindu()
 	//Arrangement a = new Arrangement("Testarrangement",kontakt,"17-05-2015 20:30");
 	Arrangement kinoA = new Arrangement("Kinofilm",kontakt,"17-05-2015 20:30","Batman", 200, 50); 		//endre rekkefølge på parametere
 	Person kunde = new Person("fornavn","etternavn","epost","tlf");
-	kinoA.kjøpBillett(3, kunde);
+	kinoA.bestillBillett(3, kunde);
 	k.leggTilLokale(l);
 	k.leggTilLokale(l1);
 	k.leggTilLokale(l2);
