@@ -39,15 +39,15 @@ public class Arrangement {
 	//	KONSTRUKTØRER	//
 	//////////////////////	
 	
+	//Minimumskrav
 	public Arrangement (String n, Kontaktperson k) {
-	//Minimumskrav = navn + Kontaktperson
 		aId = nesteId++;
 		navn = n;
 		kontakt = k;
 	}
 	
-	public Arrangement (String n, Kontaktperson k, String d) {
 	//Minimumskarv + dato
+	public Arrangement (String n, Kontaktperson k, String d) {
 	//Dato må være oppgitt i formatet dd-mm-ååå tt:mm
 	//Kan dette løses med en RegEx-validering? str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		try {
@@ -61,8 +61,8 @@ public class Arrangement {
 		kontakt = k;
 	}
 	
-	public Arrangement (String n, String b, Kontaktperson k, String d, int p, int a) {
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
+	public Arrangement (String n, Kontaktperson k, String d, String b, int p, int a) {
 	//Dato må være oppgitt i formatet dd-mm-ååå tt:mm
 	//Kan dette løses med en RegEx-validering? str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
 		try {
@@ -81,7 +81,7 @@ public class Arrangement {
 	
 	//HER MÅ DET LAGES FLERE KONSTRUKTØRER HVIS VI SKAL DEKKE OPP FOR ALLE MULIGHETER
 	/*Bilde sent med*/
-	public Arrangement (String n, String b, String f, Kontaktperson k) {
+	public Arrangement (String n, Kontaktperson k, String b, String f) {
 		
 		aId = nesteId++;
 		navn = n;
