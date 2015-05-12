@@ -6,18 +6,46 @@ public class Kulturhus {
 	private String beskrivelse, navn;
 	private ArrayList<Lokale> LokalerInhouse = new ArrayList<>();
 	private Iterator<Lokale> iterator;
-	private ArrayList<Kontaktperson> kontaktInhouse = new ArrayList<>();
-	private Iterator<Kontaktperson> kontaktIterator;
+//	private ArrayList<Kontaktperson> kontaktInhouse = new ArrayList<>();
+//	private Iterator<Kontaktperson> kontaktIterator;
+	private Personregister preg = new Personregister();
+	
+	//////////////////////
+	//	KONSTRUKTØRER	//
+	//////////////////////	
 	
 	public Kulturhus (String n, String b) {
 		navn = n;
 		beskrivelse = b;	
 	}
 	
+	//////////////////////
+	//	GET/SET-METODER	//
+	//////////////////////
 	
-	 /*//////////////////////////
-	  LOKALE MANIPULERING START
-	 *//////////////////////////
+	public String get_Navn() {
+		return navn;
+	}
+	public String get_Beskrivelse() {
+		return beskrivelse;
+	}
+
+	//////////////////////
+
+	public void set_Navn(String n) {
+		navn = n;
+	}
+	public void set_Beskrivelse(String b) {
+		beskrivelse = b;
+	}
+
+	//////////////////////////////
+	//	GET/SET-METODER SLUTT	//
+	//////////////////////////////
+	
+	//////////////////////////////////
+	//	LOKALEMANIPULERINGS-METODER	//
+	//////////////////////////////////
 	
 	public boolean leggTilLokale( Lokale l){
 		if(l == null)
@@ -112,120 +140,134 @@ public class Kulturhus {
 		}
 		return funnet;
 	}
-	 /*//////////////////////////
-	  LOKALE MANIPULERING FINISH
-	 *//////////////////////////
+	//////////////////////////////////////////
+	//	LOKALEMANIPULERINGS-METODER SLUTT	//
+	//////////////////////////////////////////
 	
 	
-	 /*//////////////////////////
-	  KONTAKTPERSON MANIPULERING START
-	 *//////////////////////////
+	//////////////////////////////////////////
+	//	PERSONLOKALEMANIPULERINGS-METODER	//
+	//////////////////////////////////////////
 	
+	//Legger til en Kontakperson i Kontakpersonregisteret
 	public boolean leggTilKontaktperson( Kontaktperson k){
-		if(k == null)
-			return false;
-		kontaktInhouse.add(k);
-		return true;
+		return preg.leggTilKontaktperson(k);
+//		if(k == null)
+//			return false;
+//		kontaktInhouse.add(k);
+//		return true;
 	}
-	
+
+	//Sletter en Kontaktperson fra registeret via Epost
 	public boolean slettKontaktpersonViaEpost(String e){
-		Kontaktperson funnet = null;
-		try {
-			kontaktIterator = kontaktInhouse.iterator();
-	        while (iterator.hasNext()) {
-	        	funnet = kontaktIterator.next();
-	            if (funnet.get_Epost().equals(e)) {
-	            	kontaktInhouse.remove(funnet);
-	            	return true;
-	            }
-	        }
-			
-		} catch(Exception ex){
-			return false;
-		}
-		return false;
+		return preg.slettKontaktpersonViaEpost(e);
+//		Kontaktperson funnet = null;
+//		try {
+//			kontaktIterator = kontaktInhouse.iterator();
+//	        while (iterator.hasNext()) {
+//	        	funnet = kontaktIterator.next();
+//	            if (funnet.get_Epost().equals(e)) {
+//	            	kontaktInhouse.remove(funnet);
+//	            	return true;
+//	            }
+//	        }
+//			
+//		} catch(Exception ex){
+//			return false;
+//		}
+//		return false;
 	}
 	
+	//Sletter en Kontaktperson fra registeret via Telefonnr
 	public boolean slettKontaktpersonViaTelefon(String t){
-		Kontaktperson funnet = null;
-		try {
-			kontaktIterator = kontaktInhouse.iterator();
-	        while (iterator.hasNext()) {
-	        	funnet = kontaktIterator.next();
-	            if (funnet.get_Telefon().equals(t)) {
-	            	kontaktInhouse.remove(funnet);
-	            	return true;
-	            }
-	        }
-			
-		} catch(Exception ex){
-			return false;
-		}
-		return false;
+		return preg.slettKontaktpersonViaTelefon(t);
+//		Kontaktperson funnet = null;
+//		try {
+//			kontaktIterator = kontaktInhouse.iterator();
+//	        while (iterator.hasNext()) {
+//	        	funnet = kontaktIterator.next();
+//	            if (funnet.get_Telefon().equals(t)) {
+//	            	kontaktInhouse.remove(funnet);
+//	            	return true;
+//	            }
+//	        }
+//			
+//		} catch(Exception ex){
+//			return false;
+//		}
+//		return false;
 	}
 	
-	public Kontaktperson finnKontaktpersonViaEpost(String e){
-		Kontaktperson funnet = null;
-		try {
-			kontaktIterator = kontaktInhouse.iterator();
-	        while (iterator.hasNext()) {
-	        	funnet = kontaktIterator.next();
-	            if (funnet.get_Epost().equals(e)) {
-	            	return funnet;
-	            }
-	        }
-			
-		} catch(Exception ex){
-			return funnet;
-		}
-		return funnet;
+	//finner en Kontaktperson fra registeret via Epost
+	public Kontaktperson finnKontaktpersonViaEpost(String e){	
+		return preg.finnKontaktpersonViaEpost(e);
+//		Kontaktperson funnet = null;
+//		try {
+//			kontaktIterator = kontaktInhouse.iterator();
+//	        while (iterator.hasNext()) {
+//	        	funnet = kontaktIterator.next();
+//	            if (funnet.get_Epost().equals(e)) {
+//	            	return funnet;
+//	            }
+//	        }
+//			
+//		} catch(Exception ex){
+//			return funnet;
+//		}
+//		return funnet;
 	}
 	
-	public Kontaktperson finnKontaktpersonViaNavn(String fn){
-		Kontaktperson funnet = null;
-		try {
-			kontaktIterator = kontaktInhouse.iterator();
-	        while (iterator.hasNext()) {
-	        	funnet = kontaktIterator.next();
-	            if (funnet.get_Navn().equals(fn)) {
-	            	return funnet;
-	            }
-	        }
-			
-		} catch(Exception ex){
-			return funnet;
-		}
-		return funnet;
+	//finner en Kontaktperson fra registeret via navn
+	public Kontaktperson finnKontaktpersonViaNavn(String fn){	//OBS! OBS! Må justeres til ny Personklasse
+		return preg.finnKontaktpersonViaNavn(fn);
+//		Kontaktperson funnet = null;
+//		try {
+//			kontaktIterator = kontaktInhouse.iterator();
+//	        while (iterator.hasNext()) {
+//	        	funnet = kontaktIterator.next();
+//	            if (funnet.get_Navn().equals(fn)) {
+//	            	return funnet;
+//	            }
+//	        }
+//			
+//		} catch(Exception ex){
+//			return funnet;
+//		}
+//		return funnet;
 	}
 
+	//finner en Kontaktperson fra registeret via telefonnr
 	public Kontaktperson finnKontaktpersonViaTlf(String t){
-		Kontaktperson funnet = null;
-		try {
-			kontaktIterator = kontaktInhouse.iterator();
-	        while (iterator.hasNext()) {
-	        	funnet = kontaktIterator.next();
-	            if (funnet.get_Telefon().equals(t)) {
-	            	return funnet;
-	            }
-	        }
-			
-		} catch(Exception ex){
-			return funnet;
-		}
-		return funnet;
+		return preg.finnKontaktpersonViaTlf(t);
+//		Kontaktperson funnet = null;
+//		try {
+//			kontaktIterator = kontaktInhouse.iterator();
+//	        while (iterator.hasNext()) {
+//	        	funnet = kontaktIterator.next();
+//	            if (funnet.get_Telefon().equals(t)) {
+//	            	return funnet;
+//	            }
+//	        }
+//			
+//		} catch(Exception ex){
+//			return funnet;
+//		}
+//		return funnet;
 	}
 	
+	//lister ut alle kontaktpersoner
 	public String[] listKontaktpersoner(){
-		ArrayList<String> a = new ArrayList<>();
-		a.add("Oppdater liste");
-
-		for (Kontaktperson s : kontaktInhouse) {
-			a.add(s.get_Fornavn() + " " + a.add(s.get_Navn()));
-		}
-		
-	    String[] s = ((ArrayList<String>)a).toArray(new String[a.size()]);
-		
-		return s;
+		return preg.listKontaktpersoner();
+//		ArrayList<String> a = new ArrayList<>();
+//		a.add("Oppdater liste");
+//
+//		for (Kontaktperson s : kontaktInhouse) {
+//			a.add(s.get_Fornavn() + " " + a.add(s.get_Etternavn()));
+//		}
+//		
+//	    String[] s = ((ArrayList<String>)a).toArray(new String[a.size()]);
+//		
+//		return s;
 	}
 	
 	public String kontaktDetaljerTlf(String t) {
@@ -260,32 +302,14 @@ public class Kulturhus {
 		return melding;
 	}
 
-
+	//////////////////////////////////////////////
+	//	PERSONLOKALEMANIPULERINGS-METODER SLUTT	//
+	//////////////////////////////////////////////
 	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
-	
-	public void set_Navn(String n) {
-		navn = n;
-	}
-	public void set_Beskrivelse(String b) {
-		beskrivelse = b;
-	}
 
-	public String get_Navn() {
-		return navn;
-	}
-	public String get_Beskrivelse() {
-		return beskrivelse;
-	}
-
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
 	
 	public String toString() {
 		return get_Navn() + "- " + get_Beskrivelse();
 	}
 	
-}
+}//KLASSE KULTURHUS SLUTT
