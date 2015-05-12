@@ -3,7 +3,7 @@ import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.jdesktop.swingx.JXDatePicker;
+//import org.jdesktop.swingx.JXDatePicker;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
