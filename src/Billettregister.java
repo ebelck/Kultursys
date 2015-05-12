@@ -175,15 +175,25 @@ public class Billettregister implements Serializable{
 	
 	// avbestiller X billetter med telefonnr
 	public boolean avbestillBilletter(int antall, String tlf){
+		int teller = 0;
 		if(finnBillett(tlf) == null)
 			return false;
 		try{
-			for(int i = 0; i < antall; i++)
-				finnBillett(tlf).avbestillBillett();
+			System.out.println("er inne i løkka "+ (teller) + " ganger");
+			System.out.println(finnBillett(tlf));
+			for(Billett b : reg){
+				if(teller < antall){
+					if(b.get_kunde().get_Telefon() == tlf){
+						b.avbestillBillett();
+						teller++;						
+					}
+				}
+			}
+			return true;
+			
 		}catch(Exception e){
 			return false;
 		}
-		return true;
 	}
 	
 	public String listSolgteBilletter(){
