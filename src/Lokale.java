@@ -46,8 +46,15 @@ public class Lokale {
 		return beskrivelse;
 	}
 	
+	public String get_Type() {
+		return type;
+	}
 	public int get_RefNr() {
 		return refNr;
+	}
+	
+	public int get_Plasser() {
+		return plasser;
 	}
 	
 	//////////////////////////////
