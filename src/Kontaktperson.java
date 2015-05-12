@@ -9,7 +9,6 @@ public class Kontaktperson extends Person {
 	private int pId;
 	private static int nesteId = 1;
 	
-
 	//////////////////
 	//	KONSTRUKTØR	//
 	////////////////// 

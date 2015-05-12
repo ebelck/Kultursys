@@ -109,6 +109,7 @@ public class Lokale {
 		return melding;
 	}
 	
+	//VAT IZ DIZ?
 	public HashSet<Arrangement> kontaktOpplysning(Kontaktperson k) {
 		HashSet<Arrangement> arrHash = new HashSet<>();
 		for (Arrangement s : reg) {

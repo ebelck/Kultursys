@@ -1,5 +1,5 @@
 ////////////////////////////////BESKRIVELSE///////////////////////////////
-//	Denne klassen inneholder informasjon om personer				//
+//	Denne klassen inneholder informasjon om personer					//
 //	# Navn på kontaktperson												//
 //	# Epost til kontaktperson											//
 //	# Telefonnummer til kontaktperson									//
