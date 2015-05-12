@@ -10,22 +10,6 @@ tilknyttet kulturhuset. Den inneholder:
 # Liste over kontaktpersoner
 /////////////////////////////////////////////////////////////////
 
-KONTAKTPERSON:
-///////////////////////////BESKRIVELSE///////////////////////////
-Denne klassen inneholder informasjon om konktaktpersoner:
-# Navn på kontaktpersonen
-# epost og telefonnummer til kontaktpersonen
-/////////////////////////////////////////////////////////////////
-
-LOKALE:
-///////////////////////////BESKRIVELSE///////////////////////////
-Denne klassen inneholder informasjon om lokalene i kulturhuset:
-# Navn på lokalet
-# Beskrivelse av lokalet
-# Referansenummer til lokalet
-# En liste over arrangement tilknyttet lokalet
-/////////////////////////////////////////////////////////////////
-
 CAFE:
 ///////////////////////////BESKRIVELSE///////////////////////////
 Denne klassen er en sub-klasse av lokale. Den inneholder 
@@ -60,31 +44,3 @@ Denne klassen er en sub-klasse av lokale. Den inneholder
 tillegsinformasjon om:
 # 
 /////////////////////////////////////////////////////////////////
-
-ARRANGEMENT:
-///////////////////////////BESKRIVELSE///////////////////////////
-Denne klassen inneholder informasjon om arrangementene:
-# Navn/tittel på arrangementet
-# Beskrivelse av arrangementet
-# Dato for arrangementet
-# Kontaktperson for arrangementet
-# Indikator for billettsalg
-# Billettpris
-# Register over alle solgte billetter
-/////////////////////////////////////////////////////////////////
-
-BILLETTREGISTER:
-///////////////////////////BESKRIVELSE///////////////////////////
-Denne klassen er et register over billetter som er solgt til et 
-overordnet arrangement. Klassen har:
-# En liste med billetter
-/////////////////////////////////////////////////////////////////
-
-BILLETT:
-///////////////////////////BESKRIVELSE///////////////////////////
-Denne klassen inneholder informasjon om billetter:
-# Billettnummer
-# Plassinformasjon
-# Om billetten er solgt eller ikke
-/////////////////////////////////////////////////////////////////
-

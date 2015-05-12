@@ -32,7 +32,7 @@ public class Arrangement {
 	private String bildeSti;
 	private Date dato;
 	private boolean billettsalg = false;
-	private int pris;
+	private int pris = 0;
 	Kontaktperson kontakt;
 	Billettregister reg;
 	
