@@ -5,6 +5,9 @@ public class Totaltest {
 		
 		Adminvindu admin = new Adminvindu();
 		admin.createAndShowGUI();
+		
+//		Brukervindu bruker = new Brukervindu();
+//		bruker.createAndShowGUI();
 	}
 
 }

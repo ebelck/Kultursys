@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
  private static final long serialVersionUID = 1L;
  
 	
-public Adminvindu()
+public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra Main-metoden
    {
      super(new GridLayout(1, 1));
      
@@ -69,7 +69,7 @@ public Adminvindu()
      //Add the tabbed pane to this panel.
      add(tabbedPane);
    }
-
+	
    protected JComponent makeTextPanel(String text)
    {
      JPanel panel = new JPanel(false);

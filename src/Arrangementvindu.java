@@ -91,6 +91,7 @@ public class Arrangementvindu extends JApplet {
 			System.out.println("Aner ikke hvorfor du endte opp her");
 		}
 	}
+	
 	private void repainter() {		
 		north.add(new JLabel(" Referansenummer:"));
 		north.add(refFelt);
