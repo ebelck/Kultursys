@@ -321,6 +321,8 @@ public class Kontaktvindu extends JApplet {
 	      		bilde = ImageIO.read(bildeFil);
 	      		bildeIconK.setImage(bilde);
 	      		bildeNavnFelt.setText(bildeFil.getName());
+	      		bildeLabelK.repaint();
+	      		
 	    	  } catch(Exception ex) {
 	    		  tekstområde.setText("Noe gikk galt.");
 	    	  }
@@ -328,11 +330,3 @@ public class Kontaktvindu extends JApplet {
 	    }
 	  }
 }
-
-/*
- * 
- * MÅ LAGE EN NY GREIE FOR KONTAKTPERSONEN
- * 
- * 
-
- */
