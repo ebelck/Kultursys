@@ -125,18 +125,17 @@ public class Billettregister implements Serializable{
 	//Søker opp Billett som matcher søk
 	public ArrayList<Billett> finnBilletter(String søk){
 		ArrayList<Billett> resultat = new ArrayList<Billett>();
-		Billett b;
 		try{
-			iterator = reg.iterator();
-			while(iterator.hasNext()){
-				b = iterator.next();
-				if(	b.get_kunde().get_Fornavn().equals(søk) ||
-					b.get_kunde().get_Etternavn().equals(søk) ||
-					(b.get_kunde().get_Fornavn() + " " + b.get_kunde().get_Etternavn()).equals(søk) ||
-					b.get_kunde().get_Epost().equals(søk) ||
-					b.get_kunde().get_Telefon().equals(søk)){
-					
-					resultat.add(b);
+			for(Billett b : reg){
+				if(b.get_kunde() != null){
+					if( b.get_kunde().get_Fornavn().equals(søk) ||
+						b.get_kunde().get_Etternavn().equals(søk) ||
+						(b.get_kunde().get_Fornavn() + " " + b.get_kunde().get_Etternavn()).equals(søk) ||
+						b.get_kunde().get_Epost().equals(søk) ||
+						b.get_kunde().get_Telefon().equals(søk)){
+						
+						resultat.add(b);
+					}
 				}
 			}
 			return resultat;
@@ -179,8 +178,6 @@ public class Billettregister implements Serializable{
 		if(finnBillett(tlf) == null)
 			return false;
 		try{
-			System.out.println("er inne i løkka "+ (teller) + " ganger");
-			System.out.println(finnBillett(tlf));
 			for(Billett b : reg){
 				if(teller < antall){
 					if(b.get_kunde().get_Telefon() == tlf){
