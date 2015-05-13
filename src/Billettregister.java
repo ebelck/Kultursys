@@ -8,6 +8,13 @@
 //	# Metoder for å manipulere billettene i registeret					//
 //////////////////////////////////////////////////////////////////////////
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 
@@ -22,6 +29,10 @@ public class Billettregister implements Serializable{
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
+	
+	public Billettregister(){
+		// Opprettes et tomt register hvis fil er tom
+	}
 	
 	public Billettregister(int n){
 		antallBilletter = n;
@@ -214,4 +225,43 @@ public class Billettregister implements Serializable{
 		}
 		return melding;
 	}
+	
+	//////////////////////////////////////////
+	//	SKRIVING OG LESING --> BILLREG.DTA	//
+	//////////////////////////////////////////
+	
+	public String lagreBillettregister(){
+		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "../regfiles/billreg.dta" ) )){
+			utfil.writeObject( this );
+		}catch(Exception e){
+			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
+		}
+
+		return "Suksess!";
+	}
+
+	public Billettregister lagReg(){
+		Billettregister reg = null;
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "../regfiles/billreg.dta" ) )){
+				reg = (Billettregister) innfil.readObject();
+		}catch(FileNotFoundException eofe){
+			reg = null;
+		}catch(EOFException eofe){
+	
+		}catch(InvalidClassException ice){
+			
+		}
+		catch(Exception e){
+			System.out.println("Feil i lagReg(): " + e.getClass());
+		}
+		if(reg == null)
+			reg = new Billettregister();
+		
+		return reg;
+	}
+	
+	///////////////////////////////////////////////
+	//	SKRIVING OG LESING --> BILLREG.DTA SLUTT //
+	///////////////////////////////////////////////
+	
 }// KLASSE BILLETTREGISTER SLUTT
