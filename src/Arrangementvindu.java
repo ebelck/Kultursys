@@ -17,8 +17,8 @@ import java.io.IOException;
 public class Arrangementvindu extends JApplet {
 	private static final long serialVersionUID = 1L;
 	private JLabel placeholder;
-	private JTextField kNavnFelt, kEpostFelt, kTlfFelt, navnFelt, beskFelt, prisFelt, refFelt,altFelt1,altFelt2,bildeNavnFelt;
-	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp, kontaktKnapp, kontaktListeKnapp,bildeKnapp;
+	private JTextField navnFelt, beskFelt, prisFelt, refFelt,altFelt1,altFelt2,bildeNavnFelt;
+	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp,bildeKnapp;
 	private JTextArea tekstområde;
 	private JScrollPane utskriftområde;
 	private BorderLayout layout,centerLayout,centerPageStartLayout;
@@ -26,8 +26,6 @@ public class Arrangementvindu extends JApplet {
 	private GridLayout bottomGrid,topGrid,centerBot;
 	public Kulturhus k;
 	private JComboBox<String> lokalvelger,kontaktvelger;
-	public Lokale l;
-	public Arrangement a;
 	public Bildehandler bildehandler;
 	private JCheckBox checkbox;
 	private EmptyBorder border;
@@ -35,12 +33,12 @@ public class Arrangementvindu extends JApplet {
 	private String[] lokalvalg,kontaktvalg;
 	private BufferedImage bilde = null;
 
-	private String lokalnavn = "Valg";
+	private String lokalnavn;
 	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartTopPanel;
 	private JLabel bildeLabel;
 	private Kalenderpanel kalenderpanel;
 	
-	private String[] ekstraInput() {
+	private String[] ekstraInput() { // Sørger for å legge til nye unike oppføringer av lokaler.
 		HashSet<String> a = new HashSet<>(Arrays.asList(k.lokalListe()));
 		HashSet<String> b = new HashSet<>(Arrays.asList(lokalvalg));
 		lokalvalg = k.lokalListe();
@@ -49,7 +47,7 @@ public class Arrangementvindu extends JApplet {
 		return ab;
 	}
 	
-	private void addSpecificC(String l) {
+	private void addSpecificC(String l) { // Maler opp spesifikke felt med beskrivende tekst, avhengig av type lokale man velger.
 		
 		Lokale lok = k.finnType(l);
 		
@@ -81,6 +79,11 @@ public class Arrangementvindu extends JApplet {
 			north.add(kalenderpanel.makePanels());
 		}
 		else if (lok instanceof Selskapslokale) {
+			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
+			north.add(new JLabel(" Ytterligere info: "));
+			north.add(altFelt1);
+			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(kalenderpanel.makePanels());
 		}
 		else if (lok instanceof Scene) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
@@ -91,7 +94,7 @@ public class Arrangementvindu extends JApplet {
 		}
 		else if (lok instanceof Kino) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(" Ytterligere info: "));
+			north.add(new JLabel(" Hvilken som skal vises: "));
 			north.add(altFelt1);
 			north.add(new JLabel(" Velg dato og tidspunkt: "));
 			north.add(kalenderpanel.makePanels());
@@ -101,7 +104,7 @@ public class Arrangementvindu extends JApplet {
 		}
 	}
 	
-	private void repainter() {		
+	private void repainter() {	// Maler opp grunnelementer på GUI ved behov ( removeAll() )	
 		north.add(new JLabel(" Referansenummer:"));
 		north.add(refFelt);
 		north.add(new JLabel(" Navn på arrangement:"));
@@ -133,9 +136,6 @@ public class Arrangementvindu extends JApplet {
 			refFelt = new JTextField( 18 );
 			altFelt1 = new JTextField( 18 );
 			altFelt2 = new JTextField( 18 );
-			kNavnFelt = new JTextField( 18 );
-			kEpostFelt = new JTextField( 18 );
-			kTlfFelt = new JTextField( 18 );
 			bildeNavnFelt = new JTextField( 18 );
 			placeholder = new JLabel(" ");
 			border = new EmptyBorder(5,5,5,5);
@@ -148,13 +148,12 @@ public class Arrangementvindu extends JApplet {
 			slettKnapp = new JButton( "Slett arrangement" );
 			regKnapp = new JButton( "Registrer arrangement" );
 			listeKnapp = new JButton( "List arrangement" );
-			kontaktKnapp = new JButton("Kontaktpersoninfo");
-			kontaktListeKnapp = new JButton("List kontaktpersoner");
 			bildeKnapp = new JButton("Last inn bilde");
 			
 			//////////////////////////////////////////
 			/////////// GUI LAYOUT START /////////////
 			
+			// DECLARATIONS START
 			layout = new BorderLayout(5, 5);
 			centerLayout = new BorderLayout(5,5);
 			centerPageStartLayout = new BorderLayout(6,5);
@@ -162,9 +161,7 @@ public class Arrangementvindu extends JApplet {
 			bottomGrid = new GridLayout(1, 4);
 			topGrid = new GridLayout(5, 2);
 			centerBot = new GridLayout(1,1);
-			
-
-
+			// DECLARATIONS END
 			
 			// TOP GRID START
 			north = new JPanel();
@@ -183,7 +180,6 @@ public class Arrangementvindu extends JApplet {
 			// TOP GRID END
 			
 			// CENTER GRID START
-
 			center = new JPanel();
 			centerLineEnd = new JPanel();
 			centerPageStartTopPanel = new JPanel();
@@ -195,7 +191,6 @@ public class Arrangementvindu extends JApplet {
 			centerLineEnd.setLayout(centerBot);
 			centerPageStart.setLayout(centerPageStartLayout);
 			centerPageStartTopPanel.setLayout(new GridLayout(2,2));
-			
 
       		bildeIcon = new StretchIcon("");
       		bildeLabel = new JLabel(bildeIcon);
@@ -212,13 +207,10 @@ public class Arrangementvindu extends JApplet {
 			
 			centerPageStart.add(centerPageStartTopPanel,BorderLayout.PAGE_START);
 			
-			
 			center.add(utskriftområde, BorderLayout.CENTER);
 			center.add(centerLineEnd, BorderLayout.PAGE_END);
 			center.add(centerPageStart,BorderLayout.LINE_START);
 			centerLineEnd.add(checkbox,placeholder);
-			
-
 			// CENTER GRID END
 			
 			//BOTTOM GRID START
@@ -264,7 +256,6 @@ public class Arrangementvindu extends JApplet {
       {
     	  if ( checkbox.isSelected() ) {
     		  try {
-    			System.out.println("checkbox trykket på");
     	 		centerLineEnd.remove(placeholder);
     	 		centerLineEnd.revalidate();
     	 		centerLineEnd.repaint();
@@ -276,7 +267,6 @@ public class Arrangementvindu extends JApplet {
     		  }
     	 } else {
     		 try {
-     			System.out.println("checkbox trykket av");
      			centerLineEnd.remove(prisFelt);
      			centerLineEnd.revalidate();
      			centerLineEnd.repaint();
@@ -322,10 +312,10 @@ public class Arrangementvindu extends JApplet {
 	    					} catch (IOException ex) {
 	    					    tekstområde.setText("Vi kunne ikke bruke dette bilde, noe gikk galt");
 	    					}
-  			    		Kontaktperson kontakt = k.finnKontaktpersonViaNavn(kontaktNavn);
-  			    		Arrangement arr = new Arrangement(navn,kontakt,bildenavn);
-  			    		lokale.leggTilArrangement(arr);
 	    			  }
+			    	Kontaktperson kontakt = k.finnKontaktpersonViaNavn(kontaktNavn);
+			    	Arrangement arr = new Arrangement(navn,kontakt);
+			    	lokale.leggTilArrangement(arr);
 	    		  } else {
 	    			  tekstområde.setText("Velg hvilket lokale det skal holdes på!");
 	    			  return;
@@ -421,18 +411,3 @@ public class Arrangementvindu extends JApplet {
 	    }
 	  }
 }
-
-/*
- * 
- * MÅ LAGE EN NY GREIE FOR KONTAKTPERSONEN
- * 
- * 
-			centerPageStartTopPanel.add(new JLabel("Kontaktperson"));
-			centerPageStartTopPanel.add(new JLabel(""));
-			centerPageStartTopPanel.add(new JLabel("Navn:"));
-			centerPageStartTopPanel.add(kNavnFelt);
-			centerPageStartTopPanel.add(new JLabel("Epost:"));
-			centerPageStartTopPanel.add(kEpostFelt);
-			centerPageStartTopPanel.add(new JLabel("Telefon:"));
-			centerPageStartTopPanel.add(kTlfFelt);
- */

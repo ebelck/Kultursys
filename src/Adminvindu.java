@@ -36,6 +36,7 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
 	
     Lokalvindu lk = new Lokalvindu(k);
     Arrangementvindu av = new Arrangementvindu(k);
+    Kontaktvindu kv = new Kontaktvindu();
      
 
 	/////////////////////////ALT OVER KUN FOR TESTING /////////////////////////	
@@ -51,8 +52,7 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
              "Does twice as much nothing");
      tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
-     JComponent panel3 = makeTextPanel("Panel #3");
-     tabbedPane.addTab("Tab 3", null, panel3, "Still does nothing");
+     tabbedPane.addTab("Administrer kontaktpersoner", null, kv, "Still does nothing");
      tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
      JComponent panel4 = makeTextPanel(

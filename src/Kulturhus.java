@@ -6,8 +6,6 @@ public class Kulturhus {
 	private String beskrivelse, navn;
 	private ArrayList<Lokale> lreg = new ArrayList<>();
 	private Iterator<Lokale> iterator;
-//	private ArrayList<Kontaktperson> kontaktInhouse = new ArrayList<>();
-//	private Iterator<Kontaktperson> kontaktIterator;
 	private Personregister preg = new Personregister();
 	
 	//////////////////////

@@ -20,7 +20,7 @@ public class Person {
 	public Person (String f, String e, String m, String t) {
 		fornavn = f;
 		etternavn = e;
-		fulltnavn = f + e;
+		fulltnavn = f + " " + e;
 		epost = m;
 		tlf = t;
 	}

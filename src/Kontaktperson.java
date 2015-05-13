@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Denne klassen er en utvidelse av klassen Person og inneholder 		//
 //	informasjon om kontaktpersoner										//
@@ -8,6 +10,7 @@ public class Kontaktperson extends Person {
 	
 	private int pId;
 	private static int nesteId = 1;
+	private String bildesti;
 	
 	//////////////////
 	//	KONSTRUKTØR	//
@@ -15,6 +18,12 @@ public class Kontaktperson extends Person {
 	
 	public Kontaktperson (String f, String e, String m, String t) {
 		super(f,e,m,t);
+		pId = nesteId++;
+	}
+	
+	public Kontaktperson (String f, String e, String m, String t, String bilde) {
+		super(f,e,m,t);
+		bildesti = bilde;
 		pId = nesteId++;
 	}
 	
