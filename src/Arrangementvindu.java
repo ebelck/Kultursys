@@ -37,7 +37,8 @@ public class Arrangementvindu extends JApplet {
 
 	private String lokalnavn = "Valg";
 	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartTopPanel;
-	private JLabel bildeLabel, bildeContainer;
+	private JLabel bildeLabel;
+	private Kalenderpanel kalenderpanel;
 	
 	private String[] ekstraInput() {
 		HashSet<String> a = new HashSet<>(Arrays.asList(k.lokalListe()));
@@ -67,6 +68,8 @@ public class Arrangementvindu extends JApplet {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Hvor mange gjester er det plass til: "));
 			north.add(altFelt1);
+			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(kalenderpanel.makePanels());
 		}
 		else if (lok instanceof Konferanse) {
 			north.setLayout(new GridLayout(8, 2)); // 6 rows 2 columns; no gaps);
@@ -74,6 +77,8 @@ public class Arrangementvindu extends JApplet {
 			north.add(altFelt1);
 			north.add(new JLabel(" Hvilken type konferanse er det: "));
 			north.add(altFelt2);
+			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(kalenderpanel.makePanels());
 		}
 		else if (lok instanceof Selskapslokale) {
 		}
@@ -81,11 +86,15 @@ public class Arrangementvindu extends JApplet {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Forestilling som skal holdes: "));
 			north.add(altFelt1);
+			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(kalenderpanel.makePanels());
 		}
 		else if (lok instanceof Kino) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Ytterligere info: "));
 			north.add(altFelt1);
+			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(kalenderpanel.makePanels());
 		}
 		else {
 			System.out.println("Aner ikke hvorfor du endte opp her");
@@ -112,6 +121,7 @@ public class Arrangementvindu extends JApplet {
 			lokalvalg = k.lokalListe();
 			kontaktvalg = k.listKontaktpersoner();
 			System.out.println("Lokalvalg blir opprettet. Den inneholder " + lokalvalg.length);
+			kalenderpanel = new Kalenderpanel();
 			
 			lokalvelger = new JComboBox<String>(lokalvalg);
 			kontaktvelger = new JComboBox<String>(kontaktvalg);
@@ -186,7 +196,7 @@ public class Arrangementvindu extends JApplet {
 			centerPageStart.setLayout(centerPageStartLayout);
 			centerPageStartTopPanel.setLayout(new GridLayout(2,2));
 			
-			bildeContainer = new JLabel();
+
       		bildeIcon = new StretchIcon("");
       		bildeLabel = new JLabel(bildeIcon);
       		centerPageStart.add(bildeLabel,BorderLayout.CENTER);

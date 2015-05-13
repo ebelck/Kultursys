@@ -15,9 +15,6 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
      JTabbedPane tabbedPane = new JTabbedPane();
      Kulturhus k = new Kulturhus("Testhuset","Dette kulturhuset er laget som en test");
 
-     
-     
-     
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////ALT UNDER KUN FOR TESTING////////////////////////

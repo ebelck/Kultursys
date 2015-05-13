@@ -1,35 +1,25 @@
+import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-//import org.jdesktop.swingx.JXDatePicker;
-import java.awt.image.BufferedImage;
-import java.io.*;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import org.jdesktop.swingx.JXDatePicker;
 
 public class Kalenderpanel extends JPanel {
+	JTextField tid = new JTextField("00:00");
+	JPanel panelHead = new JPanel(new GridLayout(1,2));
+	JXDatePicker kalender;
+	private SimpleDateFormat sdf;
 	
-	static Bildehandler bh = new Bildehandler();
-
-    public static void main(String[] args) {
-    	
-    	System.out.println(bh.hentFil().getName());
-    	
-        /*JFrame frame = new JFrame("JXPicker Example");
-               
-        JPanel panel = new JPanel();
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(400, 400, 250, 100);
-
-        JXDatePicker picker = new JXDatePicker();
-        picker.setDate(Calendar.getInstance().getTime());
-        picker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-
-        panel.add(picker);
-        frame.getContentPane().add(panel);
-
-        frame.setVisible(true);*/
-        
-    }
+	public Kalenderpanel() {
+		 kalender = new JXDatePicker();
+		 kalender.setDate(Calendar.getInstance().getTime());
+		 sdf = new SimpleDateFormat("dd.MM.yyyy");
+		 kalender.setFormats(sdf);
+	}
+	public JPanel makePanels() {
+		panelHead.add(tid);
+		panelHead.add(kalender);
+		return panelHead;
+	}
 }
