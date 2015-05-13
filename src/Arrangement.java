@@ -8,6 +8,7 @@
 //	# Dato for arrangementet											//
 //	# Indikator for billettsalg											//
 //	# Billettpris														//
+//  # Inntekt fra antall solgte billeter for arrangementet				//
 //	# Kontaktperson for arrangementet									//
 //	# Register over alle solgte billetter								//
 //	# Metoder for å manipulere arrangementet og bilettregisteret		//
@@ -226,6 +227,11 @@ public class Arrangement {
 	
 	public int antallSolgteBilletter(){
 		return reg.antallSolgteBilletter();
+	}
+	
+	public int inntektSolgteBilletter() {
+		int tot = reg.antallSolgteBilletter() * get_Pris();
+		return tot;
 	}
 	
 	public String listBilletter(){
