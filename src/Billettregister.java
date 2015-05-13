@@ -51,11 +51,13 @@ public class Billettregister implements Serializable{
 	//Fyller registeret med nye billetter
 	public boolean fyllRegister(int antall){
 		try{
-			for(int i = 0; i < antall; i++)
-				reg.add(new Billett());
+			int x = reg.size();
+			for(int i = 1; i <= antall; i++)
+				reg.add(new Billett(i+x));
+			return true;
 		}catch(Exception e){
 			return false;
-		}return true;
+		}
 	}
 		
 	//Finner antallet usolgte billetter

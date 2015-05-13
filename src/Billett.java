@@ -20,9 +20,9 @@ public class Billett {
 	//	KONSTRUKTØR	//
 	//////////////////
 	
-	public Billett(){
-		bnr = nesteNr;
-		plassnr = nesteNr++;
+	public Billett(int plass){
+		bnr = nesteNr++;
+		plassnr = plass;
 	}
 	
 	//////////////////////
