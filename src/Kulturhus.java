@@ -1,8 +1,16 @@
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
 public class Kulturhus {
+	Lokale l;
 	private String beskrivelse, navn;
 	private ArrayList<Lokale> lreg = new ArrayList<>();
 	private Iterator<Lokale> iterator;
@@ -42,6 +50,20 @@ public class Kulturhus {
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
 	//////////////////////////////
+	
+	/////////////////////////////////////////////
+	//	LAGRE PERSONREGISTER, BILLETTREGISTER, //
+	//  ARRANGEMENTER OG LOKALER TIL FIL	   //
+	/////////////////////////////////////////////
+	
+	public void lagre() {
+		lagreLokaler();
+		//preg.lagrePersonregister();
+		//l.lagre();
+		
+	}
+
+	
 	
 	//////////////////////////////////
 	//	LOKALEMANIPULERINGS-METODER	//
@@ -338,5 +360,43 @@ public class Kulturhus {
 	public String toString() {
 		return get_Navn() + "- " + get_Beskrivelse();
 	}
+	
+	//////////////////////////////////
+	//	LAGRE PERSONREGISTER OG 	//
+	//	LOKALER TIL FILER			//
+	//////////////////////////////////
+
+	public String lagreLokaler(){
+		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/lokreg.dta" ) )){
+			System.out.println("Inne i LagreLokaler()\r\n");
+			utfil.writeObject( lreg );
+		}catch(Exception e){
+			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
+		}
+
+		return "Suksess!";
+	}
+
+	public Lokale lagReg(){
+		Lokale reg = null;
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){
+			System.out.println("Inne i lagReg()\r\n");	
+			reg = (Lokale) innfil.readObject();
+		}catch(FileNotFoundException eofe){
+			reg = null;
+		}catch(EOFException eofe){
+	
+		}catch(InvalidClassException ice){
+			
+		}
+		catch(Exception e){
+			System.out.println("Feil i lagReg(): " + e.getClass());
+		}
+		//if(reg == null)
+			//reg = new Lokale();
+		
+		return reg;
+	}
+	
 	
 }//KLASSE KULTURHUS SLUTT
