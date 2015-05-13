@@ -57,6 +57,10 @@ public class Lokale {
 		return plasser;
 	}
 	
+	public ArrayList<Arrangement> get_reg(){
+		return reg;
+	}
+	
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
 	//////////////////////////////

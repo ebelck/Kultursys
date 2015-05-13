@@ -51,19 +51,22 @@ public class KulturhusTest {
 		hus.finnLokale(7).leggTilArrangement(new Arrangement("Månedes forfatter", hus.finnKontaktpersonViaTlf("90099009"), "25-05-2015 15:00", beskrivelse));
 		
 		hus.bestillBillett(1, 15, new Person("Jan","Olsen","mail1@norge.no","20010001"));
-		hus.bestillBillett(1, 24, new Person("Knut","Jensen","mail2@norge.no","20010002"));
+		hus.bestillBillett(2, 24, new Person("Knut","Jensen","mail2@norge.no","20010002"));
 		hus.bestillBillett(1, 17, new Person("Lene","Sæter","mail3@norge.no","20010003"));
-		hus.bestillBillett(1, 8, new Person("Ingrid","Korneliussen","mail4@norge.no","20010004"));
+		hus.bestillBillett(3, 8, new Person("Ingrid","Korneliussen","mail4@norge.no","20010004"));
 		
 		//System.out.println(hus.listArrangementerILokaler());
 		
 		//System.out.println(hus.finnLokale(1).finnArrangement(1).listBilletter());
 		
 		
-		System.out.println(hus.finnLokale(1).finnArrangement(1).finnBilletter("20010001"));
+		//System.out.println(hus.finnLokale(1).finnArrangement(1).finnBilletter("20010001"));
 		
-		for(Billett b: hus.finnLokale(1).finnArrangement(1).reg.finnBilletter("Jan "
-				+ "Olsen"))
-			System.out.println(b);
+		//for(Billett b: hus.finnLokale(1).finnArrangement(1).reg.finnBilletter("Jan "
+		//		+ "Olsen"))
+		//	System.out.println(b);
+		
+		for(Arrangement a: hus.finnLokale(1).get_reg())
+			System.out.println(a.listBilletter());
 	}
 }
