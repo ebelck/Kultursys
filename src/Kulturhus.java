@@ -146,6 +146,13 @@ public class Kulturhus implements Serializable {
 			}catch(Exception e){
 				return "Ooops: " + e;
 			}	
+<<<<<<< HEAD
+=======
+		}
+		while(knut.hasNext()){
+			a= knut.next();
+			
+>>>>>>> branch 'master' of https://github.com/ebelck/ProgUtvikling.git
 		}
 		while(knut.hasNext()){
 			a= knut.next();
