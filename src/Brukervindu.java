@@ -35,7 +35,7 @@ public class Brukervindu extends JPanel{
 		
 		//Oppretter vinduer for Oversikt og Billettbestilling
 		Oversiktsvindu ov = new Oversiktsvindu(k);
-		Billettvindu bv = new Billettvindu();
+		Billettvindu bv = new Billettvindu(k);
 		
 		//Knytter Oversiktsvindu til Oversiktsfane
 		faneVindu.addTab("Oversikt",null,ov,"Oversikt over arrangement på Kulturhuset");
