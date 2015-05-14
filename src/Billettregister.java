@@ -8,17 +8,10 @@
 //	# Metoder for å manipulere billettene i registeret					//
 //////////////////////////////////////////////////////////////////////////
 
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
-public class Billettregister implements Serializable{
+public class Billettregister {
 	
 	private List<Billett> reg = new ArrayList<Billett>();
 	private Iterator<Billett> iterator;
@@ -240,7 +233,7 @@ public class Billettregister implements Serializable{
 		return "Suksess!";
 	}
 
-	public Billettregister lagReg(){
+	public Billettregister lagBillettRegister(){
 		Billettregister reg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "../regfiles/billreg.dta" ) )){
 				reg = (Billettregister) innfil.readObject();

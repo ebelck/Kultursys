@@ -114,6 +114,14 @@ public class Kulturhus implements Serializable {
 		return melding;
 	}
 	
+	public String listArrangement(String n){
+		for(Lokale l: lreg)
+			if(l.get_Navn().equals(n))
+				return l.listArrangementer();
+		
+		return "Fant ikke lokale";
+	}
+	
 
 	public String[] lokalListe() {
 		ArrayList<String> a = new ArrayList<>();
@@ -372,8 +380,7 @@ public class Kulturhus implements Serializable {
 
 	public ArrayList<Lokale> lagLokaler(){
 		List<Lokale> reg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){
-			System.out.println("Inne i lagReg()\r\n");	
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){	
 			reg = (ArrayList<Lokale>) innfil.readObject();
 			innfil.close();
 		}catch(FileNotFoundException fnfe){
@@ -389,10 +396,7 @@ public class Kulturhus implements Serializable {
 		if(reg == null)
 			reg = new ArrayList<Lokale>();
 		
-		
-		System.out.println(reg);
 		return lreg = (ArrayList<Lokale>) reg;
-		
 	}
 	
 	
