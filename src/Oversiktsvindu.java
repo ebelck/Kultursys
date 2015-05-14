@@ -147,6 +147,7 @@ public class Oversiktsvindu extends JApplet {
 				return;
 			}
 			else if( e.getSource() == tilbake){
+				
 				resultat.setText("Går tilbake til defaultvisning");
 			}
 			else{

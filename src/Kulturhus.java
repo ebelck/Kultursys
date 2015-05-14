@@ -122,6 +122,19 @@ public class Kulturhus implements Serializable {
 		return "Fant ikke lokale";
 	}
 	
+	public String listArrangementDato(){
+		String melding = "";
+		LinkedList<Arrangement >liste = new LinkedList<Arrangement>();
+		Iterator<Arrangement> knut = liste.iterator();
+		for(Lokale l : lreg)
+			liste.addAll(l.get_reg());
+		
+		Date idag = new Date();
+		while(knut.hasNext())
+			Arrangement a = knut.next();
+		}
+	}
+	
 
 	public String[] lokalListe() {
 		ArrayList<String> a = new ArrayList<>();
