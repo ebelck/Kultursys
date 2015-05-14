@@ -5,8 +5,9 @@ import java.awt.image.BufferedImage;
 //	informasjon om kontaktpersoner										//
 //	# Den utvider Person med et idnummer								//
 //////////////////////////////////////////////////////////////////////////
+import java.io.Serializable;
 
-public class Kontaktperson extends Person {
+public class Kontaktperson extends Person implements Serializable {
 	
 	private int pId;
 	private static int nesteId = 1;

@@ -22,7 +22,7 @@ import javax.swing.*;
 
 import javax.imageio.*;
 
-public class Arrangement {
+public class Arrangement implements Serializable {
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	

@@ -372,8 +372,7 @@ public class Kulturhus implements Serializable {
 
 	public ArrayList<Lokale> lagLokaler(){
 		List<Lokale> reg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){
-			System.out.println("Inne i lagReg()\r\n");	
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){	
 			reg = (ArrayList<Lokale>) innfil.readObject();
 			innfil.close();
 		}catch(FileNotFoundException fnfe){
@@ -389,10 +388,7 @@ public class Kulturhus implements Serializable {
 		if(reg == null)
 			reg = new ArrayList<Lokale>();
 		
-		
-		System.out.println(reg);
 		return lreg = (ArrayList<Lokale>) reg;
-		
 	}
 	
 	
