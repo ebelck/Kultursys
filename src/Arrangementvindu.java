@@ -121,9 +121,9 @@ public class Arrangementvindu extends JApplet {
 			north.setLayout(new GridLayout(7, 1)); // 7 rows 2 columns; no gaps);
 			
 			for (String s : ekstraInputK()) {
-				lokalvelger.addItem(s);
+				kontaktvelger.addItem(s);
 			}
-			lokalvelger.revalidate();
+			kontaktvelger.revalidate();
 			north.add(new JLabel(""));
 			north.add(new JLabel("Liste over kontaktpersoner er oppdatert!"));
 		}
@@ -470,6 +470,8 @@ public class Arrangementvindu extends JApplet {
 	      		bilde = ImageIO.read(bildeFil);
 	      		bildeIcon.setImage(bilde);
 	      		bildeNavnFelt.setText(bildeFil.getName());
+	      		bildeLabel.repaint();
+	      		return;
 	    	  } catch(Exception ex) {
 	    		  tekstområde.setText("Noe gikk galt.");
 	    	  }
@@ -486,11 +488,14 @@ public class Arrangementvindu extends JApplet {
 		    north.repaint();
 		    repainter();
 			c.add(north, BorderLayout.PAGE_START);
-			addSpecificC(lokalnavn);
-			addSpecificK(kontaktnavn);
+			
+			if (e.getSource() == lokalvelger)
+				addSpecificC(lokalnavn);
+			else if (e.getSource() == kontaktvelger)
+				addSpecificK(kontaktnavn);
+			
 			c.add(center, BorderLayout.CENTER);
 			c.add(south, BorderLayout.PAGE_END);
-		    c.revalidate();
 		    c.repaint();
 	    }
 	  }
