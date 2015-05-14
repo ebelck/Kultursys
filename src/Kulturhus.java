@@ -114,6 +114,14 @@ public class Kulturhus implements Serializable {
 		return melding;
 	}
 	
+	public String listArrangement(String n){
+		for(Lokale l: lreg)
+			if(l.get_Navn().equals(n))
+				return l.listArrangementer();
+		
+		return "Fant ikke lokale";
+	}
+	
 
 	public String[] lokalListe() {
 		ArrayList<String> a = new ArrayList<>();
