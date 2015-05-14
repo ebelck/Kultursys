@@ -136,6 +136,28 @@ public class Personregister implements Serializable {
 		}
 		return funnet;
 	}
+	public boolean sjekkOmFinnesTlf(String t) {
+		Kontaktperson funnet = null;
+		iterator = reg.iterator();
+        while (iterator.hasNext()) {
+        	funnet = iterator.next();
+            if (funnet.get_Telefon().equals(t)) {
+            	return true;
+            }
+        }
+        return false;
+	}
+	public boolean sjekkOmFinnesEpost(String e) {
+		Kontaktperson funnet = null;
+		iterator = reg.iterator();
+        while (iterator.hasNext()) {
+        	funnet = iterator.next();
+            if (funnet.get_Epost().equals(e)) {
+            	return true;
+            }
+        }
+        return false;
+	}
 	
 	//lister ut alle kontaktpersoner
 	public String[] listKontaktpersoner(){

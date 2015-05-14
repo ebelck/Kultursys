@@ -231,7 +231,6 @@ public class Kontaktvindu extends JApplet {
       }
     }
     
-    
 	private class Knappelytter implements ActionListener
 	  {
 	    public void actionPerformed( ActionEvent e )
@@ -243,13 +242,12 @@ public class Kontaktvindu extends JApplet {
 	    		  String etternavn = etternavnFelt.getText();
 	    		  String tlf = tlfFelt.getText();
 	    		  String epost = epostFelt.getText();
-	    		  Kontaktperson unik = reg.finnKontaktpersonViaTlf(tlf);
-	    		  Kontaktperson unik2 = reg.finnKontaktpersonViaEpost(epost);
-	    		  if (!unik.get_Telefon().equals("") || !unik2.get_Telefon().equals("")) {
-	    			  tekstområde.setText("Det finnes allerede en kontaktperson med denne informasjonen");
+	    		  
+	    		  if (reg.sjekkOmFinnesEpost(epost) || reg.sjekkOmFinnesTlf(tlf)){
+	    			  tekstområde.setText("Telefon eller epost allerede i bruk");
 	    			  return;
 	    		  }
-
+	    		  
 	    		  if (fornavn.equals("") || etternavn.equals("") || tlf.equals("") || epost.equals("")) {
 	    			  tekstområde.setText("Du må fylle ut alle feltene for å registrere en kontaktperson ( bilde kan være tomt ).");
 	    			  return;
