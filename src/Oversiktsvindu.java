@@ -138,7 +138,7 @@ public class Oversiktsvindu extends JApplet {
 				String a = k.listArrangement(lokalenavn);
 				resultat.setText(a);
 				//resultat.setText(lokalenavn);
-				System.out.println(k.totatlString());
+				//System.out.println(k.totatlString());
 				return;
 			}
 			else if( e.getSource() == tilbake){
