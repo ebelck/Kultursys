@@ -3,11 +3,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Kulturhus implements Serializable {
-	Lokale l;
+
 	private String beskrivelse, navn;
 	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
 	private Personregister preg = new Personregister();
+	private Billettregister billreg;
+	private Personregister persreg;
+	private Lokale l;
 	
 	//////////////////////
 	//	KONSTRUKTØRER	//
@@ -49,9 +52,10 @@ public class Kulturhus implements Serializable {
 	
 	public void lagre() {
 		lagreLokaler();
-		//preg.lagrePersonregister();
-		//l.lagre();
-		
+		preg.lagrePersonregister();
+		l.lagreArrangementer();
+		billreg.lagreBillettregister();
+		persreg.lagrePersonregister();
 	}
 
 	

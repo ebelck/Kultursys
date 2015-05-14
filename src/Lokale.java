@@ -167,4 +167,41 @@ public class Lokale implements Serializable{
 		meld += "Beskrivelse:\t" + get_Beskrivelse() + "\r\n";
 		return meld;
 	}
+	
+	//////////////////////////////////////////
+	//	SKRIVING OG LESING --> ARRAREG.DTA	//
+	//////////////////////////////////////////
+	
+	public String lagreArrangementer(){
+		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "../regfiles/arrareg.dta" ) )){
+			utfil.writeObject( reg );
+			utfil.close();
+		}catch(Exception e){
+			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
+		}
+
+		return "Suksess!";
+	}
+
+	public ArrayList<Arrangement> lagArrangementer(){
+		ArrayList<Arrangement> areg = null;
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "../regfiles/arrareg.dta" ) )){
+				areg = (ArrayList<Arrangement>) innfil.readObject();
+				innfil.close();
+		}catch(FileNotFoundException eofe){
+			areg = null;
+		}catch(EOFException eofe){
+	
+		}catch(InvalidClassException ice){
+			
+		}
+		catch(Exception e){
+			System.out.println("Feil i lagReg(): " + e.getClass());
+		}
+		if(areg == null)
+			areg = new ArrayList<Arrangement>();
+		
+		return reg = (ArrayList<Arrangement>) areg;
+	}
+	
 }//KLASSE LOKALE SLUTT
