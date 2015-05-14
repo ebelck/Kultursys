@@ -58,7 +58,7 @@ public class Oversiktsvindu extends JApplet {
 		lokalvalg = k.lokalListe();
 		lokalvelger = new JComboBox<String>(lokalvalg);
 		
-		søkKnp = new JButton("Søl etter arrangement");
+		søkKnp = new JButton("Søk etter arrangement");
 		tilbake = new JButton("Tilbake");
 		border = new EmptyBorder(5,5,5,5);
 		
@@ -142,7 +142,8 @@ public class Oversiktsvindu extends JApplet {
 		public void actionPerformed( ActionEvent e){
 			//søker opp Arrangement
 			if(e.getSource() == søkKnp){
-				resultat.setText("Viser alle arrangement i valgt lokale");
+				String lokale = (String)lokalvelger.getSelectedItem();
+				resultat.setText(k.listArrangement(lokale));
 				return;
 			}
 			else if( e.getSource() == tilbake){
