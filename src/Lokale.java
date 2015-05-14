@@ -33,6 +33,9 @@ public class Lokale implements Serializable{
 //		plasser = p
 	}
 	
+	public Lokale(){
+		
+	}
 	//////////////////////
 	//	GET/SET-METODER	//
 	//////////////////////
@@ -173,19 +176,21 @@ public class Lokale implements Serializable{
 	//////////////////////////////////////////
 	
 	public String lagreArrangementer(){
-		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "../regfiles/arrareg.dta" ) )){
+		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/arrareg.dta" ) )){
+			System.out.print(reg);
 			utfil.writeObject( reg );
 			utfil.close();
 		}catch(Exception e){
 			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
 		}
-
+		
+		System.out.println("Suksess i lagreArrangementer");
 		return "Suksess!";
 	}
 
 	public ArrayList<Arrangement> lagArrangementer(){
 		ArrayList<Arrangement> areg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "../regfiles/arrareg.dta" ) )){
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/arrareg.dta" ) )){
 				areg = (ArrayList<Arrangement>) innfil.readObject();
 				innfil.close();
 		}catch(FileNotFoundException eofe){
