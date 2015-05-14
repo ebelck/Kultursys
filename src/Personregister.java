@@ -5,6 +5,13 @@
 //	# Metoder for å manipulere billettene i registeret					//
 //////////////////////////////////////////////////////////////////////////
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -13,7 +20,7 @@ import java.util.List;
 
 public class Personregister {
 	
-	private List<Kontaktperson> reg = new ArrayList<Kontaktperson>();
+	private ArrayList<Kontaktperson> reg = new ArrayList<Kontaktperson>();
 	private Iterator<Kontaktperson> iterator;
 	
 	//////////////////
@@ -169,5 +176,42 @@ public class Personregister {
 		}
 		return melding;
 	}
+	
+	//////////////////////////////////////////
+	//	SKRIVING OG LESING --> KONTREG.DTA	//
+	//////////////////////////////////////////
+	
+	public String lagrePersonregister(){
+		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "../regfiles/kontreg.dta" ) )){
+			utfil.writeObject( reg );
+			utfil.close();
+		}catch(Exception e){
+			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
+		}
+
+		return "Suksess!";
+	}
+
+	public ArrayList<Kontaktperson> lagPersonregister(){
+		ArrayList<Kontaktperson> kreg = null;
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "../regfiles/kontreg.dta" ) )){
+				kreg = (ArrayList<Kontaktperson>) innfil.readObject();
+				innfil.close();
+		}catch(FileNotFoundException eofe){
+			kreg = null;
+		}catch(EOFException eofe){
+	
+		}catch(InvalidClassException ice){
+			
+		}
+		catch(Exception e){
+			System.out.println("Feil i lagReg(): " + e.getClass());
+		}
+		if(kreg == null)
+			kreg = new ArrayList<Kontaktperson>();
+		
+		return reg = (ArrayList<Kontaktperson>) kreg;
+	}
+	
 }// KLASSE BILLETTREGISTER SLUTT
 

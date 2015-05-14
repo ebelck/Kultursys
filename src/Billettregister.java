@@ -13,7 +13,7 @@ import java.util.*;
 
 public class Billettregister {
 	
-	private List<Billett> reg = new ArrayList<Billett>();
+	private ArrayList<Billett> reg = new ArrayList<Billett>();
 	private Iterator<Billett> iterator;
 	
 	private int antallBilletter;
@@ -225,7 +225,8 @@ public class Billettregister {
 	
 	public String lagreBillettregister(){
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "../regfiles/billreg.dta" ) )){
-			utfil.writeObject( this );
+			utfil.writeObject( reg );
+			utfil.close();
 		}catch(Exception e){
 			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
 		}
@@ -233,12 +234,13 @@ public class Billettregister {
 		return "Suksess!";
 	}
 
-	public Billettregister lagBillettRegister(){
-		Billettregister reg = null;
+	public ArrayList<Billett> lagBillettregister(){
+		ArrayList<Billett> breg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "../regfiles/billreg.dta" ) )){
-				reg = (Billettregister) innfil.readObject();
+				breg = (ArrayList<Billett>) innfil.readObject();
+				innfil.close();
 		}catch(FileNotFoundException eofe){
-			reg = null;
+			breg = null;
 		}catch(EOFException eofe){
 	
 		}catch(InvalidClassException ice){
@@ -247,10 +249,10 @@ public class Billettregister {
 		catch(Exception e){
 			System.out.println("Feil i lagReg(): " + e.getClass());
 		}
-		if(reg == null)
-			reg = new Billettregister();
+		if(breg == null)
+			breg = new ArrayList<Billett>();
 		
-		return reg;
+		return reg = (ArrayList<Billett>) breg;
 	}
 	
 	///////////////////////////////////////////////
