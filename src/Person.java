@@ -5,7 +5,9 @@
 //	# Telefonnummer til kontaktperson									//
 //	# Metoder for å manipulere arrangementet og bilettregisteret		//
 //////////////////////////////////////////////////////////////////////////
-public class Person {
+import java.io.*;
+
+public class Person implements Serializable {
 	
 	private String fornavn;
 	private String etternavn;
@@ -51,7 +53,7 @@ public class Person {
 	
 	//////////////////////
 	
-	public void set_Fronavn(String f){
+	public void set_Fornavn(String f){
 		fornavn = f;
 	}
 	
