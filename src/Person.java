@@ -5,7 +5,9 @@
 //	# Telefonnummer til kontaktperson									//
 //	# Metoder for å manipulere arrangementet og bilettregisteret		//
 //////////////////////////////////////////////////////////////////////////
-public class Person {
+import java.io.*;
+
+public class Person implements Serializable {
 	
 	private String fornavn;
 	private String etternavn;

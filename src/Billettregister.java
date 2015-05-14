@@ -224,19 +224,21 @@ public class Billettregister {
 	//////////////////////////////////////////
 	
 	public String lagreBillettregister(){
-		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "../regfiles/billreg.dta" ) )){
+		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/billreg.dta" ) )){
+			System.out.println(reg);
 			utfil.writeObject( reg );
 			utfil.close();
 		}catch(Exception e){
 			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
 		}
-
+		
+		System.out.println("Suksess i lagreBilletter");
 		return "Suksess!";
 	}
 
 	public ArrayList<Billett> lagBillettregister(){
 		ArrayList<Billett> breg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "../regfiles/billreg.dta" ) )){
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/billreg.dta" ) )){
 				breg = (ArrayList<Billett>) innfil.readObject();
 				innfil.close();
 		}catch(FileNotFoundException eofe){
