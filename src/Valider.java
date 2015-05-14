@@ -33,7 +33,7 @@ public final class Valider {
 	
 	//Sjekker om strengene for oppretting av et personobjekt er gyldige
 	//returnerer en streng med feilmeldinger
-	public String person(String fornavn, String etternavn, String epost, String telefon){
+	public static String person(String fornavn, String etternavn, String epost, String telefon){
 		String retur ="";
 		if(!navn(fornavn))
 			retur += "Fornavn kan kun bestå av store og små bokstaver, mellomrom, ' eller -\r\n";

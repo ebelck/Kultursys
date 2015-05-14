@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
 import javax.imageio.ImageIO;
 
 import java.awt.event.*;
@@ -19,14 +20,25 @@ public class Billettvindu extends JApplet {
 	private JLabel tomrom = new JLabel(" ");
 	private JPanel top, lokvalg, arrvalg, billvalg, kundeinfo1, kundeinfo2, knapprad, tekstvindu;
 	private JComboBox velgLokale, velgArrangement;
+	private String[] lokalvalg, arrangementvalg;
 	private JLabel antallL, fnavnL,enavnL,epostL,telefonL;
 	private JTextField antall, fnavn, enavn, epost, telefon;
 	private JButton bestillKnapp, avbestillKnapp;
 	private JTextArea melding;
 	private JScrollPane meldingsområde;
-	
-	
+
 	private Kulturhus k;
+	private ActionListener lytter;
+	
+	
+	private String[] ekstraInput(){
+		HashSet<String> a = new HashSet<>(Arrays.asList(k.lokalListe()));
+		HashSet<String> b = new HashSet<>(Arrays.asList(lokalvalg));
+		lokalvalg = k.lokalListe();
+		a.removeAll(b);
+		String[] ab = a.toArray(new String[a.size()]);
+		return ab;
+	}
 	
 	public Billettvindu(Kulturhus hus) {
 		
@@ -44,7 +56,9 @@ public class Billettvindu extends JApplet {
 		top.add(lokvalg);
 		lokvalg.setLayout(new GridLayout(1, 1, 0, 0));
 		
-		velgLokale = new JComboBox();
+		lokalvalg = k.lokalListe();
+		velgLokale = new JComboBox<String>(lokalvalg);
+		velgLokale.addActionListener(lytter);
 		lokvalg.add(velgLokale);
 		
 		//LOAKLEVELGER SLUTT
@@ -54,7 +68,9 @@ public class Billettvindu extends JApplet {
 		top.add(arrvalg);
 		arrvalg.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		velgArrangement = new JComboBox();
+		//arrangementvalg = MÅ LAGE METODE FOR ÅÅ HENTE UT ARRANGEMENT 
+		velgArrangement = new JComboBox<String>(/*arrangementvalg*/);
+		velgArrangement.addActionListener(lytter);
 		arrvalg.add(velgArrangement);
 		
 		//ARRANGREMENTVELGER SLUTT
@@ -107,9 +123,11 @@ public class Billettvindu extends JApplet {
 		knapprad.setLayout(new GridLayout(1, 2, 0, 0));
 		
 		bestillKnapp = new JButton("Bestill");
+		bestillKnapp.addActionListener(lytter);
 		knapprad.add(bestillKnapp);
 		
 		avbestillKnapp = new JButton("Avbestill");
+		avbestillKnapp.addActionListener(lytter);
 		knapprad.add(avbestillKnapp);
 		
 		//KNAPPERAD SLUTT
@@ -128,18 +146,42 @@ public class Billettvindu extends JApplet {
 		tekstvindu.add(melding);
 		
 		//MIDT-PANEL SLUTT
+		
+		lytter = new Knappelytter();
+		
 	}
 	
 	private void bestill(){
-		melding.setText("starter bestilling");
+		
+		
+		Lokale l = k.finnType((String)velgLokale.getSelectedItem());
+		Arrangement a;//	LAG METODE FOR Å FINNE ARRANGEMENT
+		String antallStr = antall.getText(); 
+		String fnavnStr = fnavn.getText();
+		String enavnStr = enavn.getText();
+		String epostStr = epost.getText();
+		String telefonStr = telefon.getText();
+		String persOK = Valider.person(fnavnStr, enavnStr, epostStr, telefonStr);
+		if(!persOK.equals(""))
+			melding.setText(persOK);
+		else if(!Valider.antall(antallStr))
+			melding.setText("Antall billetter må være et tall mellom 1 og 99999999");
+		else{
+			Person k = new Person(fnavnStr,enavnStr,epostStr,telefonStr);
+			//a.bestillBillett(Integer.parseInt(antallStr), k);
+		}
 		
 	}
 	
-	public class lytter implements ActionListener{
+	public class Knappelytter implements ActionListener{
 		
 		public void actionPerformed( ActionEvent e ){
-			if(e.getSource() == bestillKnapp){
-				bestill();
+			if(e.getSource() == velgLokale){
+				JComboBox cb = (JComboBox)e.getSource();
+				
+			}
+			else if(e.getSource() == bestillKnapp){
+				melding.setText("starter bestilling");
 			}
 			else if( e.getSource() == avbestillKnapp){
 				melding.setText("starter avbestilling");
