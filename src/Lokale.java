@@ -8,12 +8,11 @@
 //	# Metoder for å manipulere arrangementet og bilettregisteret		//
 //////////////////////////////////////////////////////////////////////////
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
+import java.io.*;
 
 
-public class Lokale {
+public class Lokale implements Serializable{
 	private int plasser, refNr;
 	private static int nesteNr = 1;
 	private String navn, beskrivelse, type;
