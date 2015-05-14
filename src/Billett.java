@@ -7,8 +7,9 @@
 //	# Opplysniger om billettholder										//
 //	# Metoder for å manipulere billetter								//
 //////////////////////////////////////////////////////////////////////////
+import java.io.Serializable;
 
-public class Billett {
+public class Billett implements Serializable {
 	
 	private int bnr;
 	private static int nesteNr = 1;	//DETTE KAN BLI ET PROBLEM NÅR VI SKAL GJENNOPPRETTE FRA FIL	

@@ -32,6 +32,7 @@ public class Arrangementvindu extends JApplet {
 	private StretchIcon bildeIcon;
 	private String[] lokalvalg,kontaktvalg;
 	private BufferedImage bilde = null;
+	private BufferedImage placeholder_img;
 
 	private String lokalnavn;
 	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartTopPanel;
@@ -103,7 +104,6 @@ public class Arrangementvindu extends JApplet {
 			System.out.println("Aner ikke hvorfor du endte opp her");
 		}
 	}
-	
 	private void repainter() {	// Maler opp grunnelementer på GUI ved behov ( removeAll() )	
 		north.add(new JLabel(" Referansenummer:"));
 		north.add(refFelt);
@@ -116,8 +116,54 @@ public class Arrangementvindu extends JApplet {
 		north.add(new JLabel("Velg kontaktperson"));
 		north.add(kontaktvelger);
 	}
-	
-	
+	public void setPlaceHolderImg() {
+		try {
+			placeholder_img = ImageIO.read(new File("./images/placeholder_img.png"));
+			bildeIcon.setImage(placeholder_img);
+			bildeLabel.repaint();
+  	  } catch(Exception ex) {
+		  tekstområde.setText("Noe gikk galt.");
+	  }
+	}
+	public boolean slettFil(Arrangement a) {
+    	try{
+    		 
+    		File file = new File(a.get_bildeSti());
+ 
+    		if(file.delete()){
+    			System.out.println(file.getName() + " is deleted!");
+    			return true;
+    		}else{
+    			System.out.println("Delete operation is failed.");
+    			return false;
+    		}
+ 
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
+	}
+	public void clearFields() {
+		navnFelt.setText("");
+		beskFelt.setText("");
+		prisFelt.setText("");
+		refFelt.setText("");
+		altFelt1.setText("");
+		altFelt2.setText("");
+		bildeNavnFelt.setText("");
+		setPlaceHolderImg();
+	}
+	public void visBilde(Arrangement a) {
+		try {
+			File bildeFil = new File(a.get_bildeSti());
+			bilde = ImageIO.read(bildeFil);
+			bildeIcon.setImage(bilde);
+			bildeNavnFelt.setText(bildeFil.getName());
+			bildeLabel.repaint();
+  	  } catch(Exception ex) {
+		  tekstområde.setText("Noe gikk galt.");
+	  }
+	}
 	public Arrangementvindu(Kulturhus kH) {
 		
 			k = kH;
@@ -227,6 +273,7 @@ public class Arrangementvindu extends JApplet {
 			c.add(north, BorderLayout.PAGE_START);
 			c.add(center, BorderLayout.CENTER);
 			c.add(south, BorderLayout.PAGE_END);
+			setPlaceHolderImg();
 			
 			/////////// GUI LAYOUT SLUTT /////////////
 			//////////////////////////////////////////
@@ -300,7 +347,7 @@ public class Arrangementvindu extends JApplet {
 	    		  Lokale lokale = k.finnType(lokNavn);
 	    		  if (!lokNavn.equalsIgnoreCase("oppdater liste")){
 	    			  if (!bildeNavnFelt.equals("")) {
-	    				  String bildenavn = navn+"_"+"bilde.png";
+	    				  String bildenavn = "./images/"+navn+"-"+"bilde.png";
 	    				  try {
 	    					    File outputfile = new File(bildenavn);
 	    					    ImageIO.write(bilde, "png", outputfile);
@@ -308,6 +355,8 @@ public class Arrangementvindu extends JApplet {
 	    			    		Arrangement arr = new Arrangement(navn,kontakt,bildenavn);
 	    			    		lokale.leggTilArrangement(arr);
 	    			    		tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    			    		clearFields();
+	    			    		setPlaceHolderImg();
 	    			    		return;
 	    					} catch (IOException ex) {
 	    					    tekstområde.setText("Vi kunne ikke bruke dette bilde, noe gikk galt");
@@ -316,6 +365,7 @@ public class Arrangementvindu extends JApplet {
 			    	Kontaktperson kontakt = k.finnKontaktpersonViaNavn(kontaktNavn);
 			    	Arrangement arr = new Arrangement(navn,kontakt);
 			    	lokale.leggTilArrangement(arr);
+			    	clearFields();
 	    		  } else {
 	    			  tekstområde.setText("Velg hvilket lokale det skal holdes på!");
 	    			  return;
@@ -352,6 +402,9 @@ public class Arrangementvindu extends JApplet {
 					}
 					Arrangement arrFunnet = lokFunnet.finnArrangement(refNr);
 					if (lokFunnet.slettArrangement(refNr)) {
+						slettFil(arrFunnet);
+						clearFields();
+						setPlaceHolderImg();
 						tekstområde.setText("Arrangement med navn "
 								+ arrFunnet.get_Navn() + " og referanse "
 								+ arrFunnet.get_aId()
@@ -377,6 +430,8 @@ public class Arrangementvindu extends JApplet {
 					if (lokFunnet != null) {
 						Arrangement arrFunnet = lokFunnet.finnArrangement(refNr);
 						tekstområde.setText(arrFunnet.toString());
+		    			if (arrFunnet.get_bildeSti() != null)
+		    				visBilde(arrFunnet);
 					}
 	    	  } catch(Exception ex) {
 	    		  tekstområde.setText("Fant ikke Arrangement med dette referansenummer.");

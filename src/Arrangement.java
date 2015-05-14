@@ -22,7 +22,7 @@ import javax.swing.*;
 
 import javax.imageio.*;
 
-public class Arrangement {
+public class Arrangement implements Serializable {
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	
@@ -160,6 +160,9 @@ public class Arrangement {
 	
 	public String get_Navn() {
 		return navn;
+	}
+	public String get_bildeSti() {
+		return bildeSti;
 	}	
 	
 	public int get_aId() {
