@@ -121,6 +121,7 @@ public class Lokale implements Serializable{
 	
 	//lister ut alle arrangementene tilknyttet lokalet
 	public String listArrangementer(){
+		System.out.println("Lister ut arrangement");
 		if(reg.isEmpty())
 			return "Ingen arrangementer lagret";
 		

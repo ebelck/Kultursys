@@ -24,7 +24,7 @@ public class Brukervindu extends JPanel{
 		//////////	TESTKODE START  //////////
 		//////////////////////////////////////
 		
-		Kulturhus k = test(); //test() er definert nederst
+		Kulturhus k = new Kulturhus("Test","testing");//test(); //test() er definert nederst
 		
 		//////////////////////////////////////
 		//////////	TESTKODE START  //////////

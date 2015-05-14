@@ -125,46 +125,18 @@ public class Kulturhus implements Serializable {
 	}
 	
 	public String listArrangement(String n){
-		for(Lokale l: lreg)
-			if(l.get_Navn().equals(n))
-				return l.listArrangementer();
+		try{
+			for(Lokale l: lreg){
+				if(l.get_Navn().equals(n)){
+					return l.listArrangementer();
+				}
+			}
+		}catch(Exception e){
+			return "Feil: " + e.getMessage();
+		}
 		
 		return "Fant ikke lokale";
 	}
-	
-	/*public String listArrangementDato(){
-		String melding = "";
-		LinkedList<Arrangement >liste = new LinkedList<Arrangement>();
-		Iterator<Arrangement> knut = liste.iterator();
-		for(Lokale l : lreg)
-			liste.addAll(l.get_reg());
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-		Date idag = new Date();
-
-		Arrangement a;
-		while(knut.hasNext()){
-			a = knut.next();
-			try{
-				if(idag.after(sdf.parse(a.get_Dato())));
-				liste.remove(a);
-			}catch(Exception e){
-				return "Ooops: " + e;
-			}	
-<<<<<<< HEAD
-=======
-		}
-		while(knut.hasNext()){
-			a= knut.next();
-			
->>>>>>> branch 'master' of https://github.com/ebelck/ProgUtvikling.git
-		}
-		while(knut.hasNext()){
-			a= knut.next();
-			
-		}
-	}*/
-	
 
 	public String[] lokalListe() {
 		ArrayList<String> a = new ArrayList<>();
@@ -400,6 +372,26 @@ public class Kulturhus implements Serializable {
 	
 	public String toString() {
 		return get_Navn() + "- " + get_Beskrivelse();
+	}
+	
+	public String totatlString(){
+		String melding = toString() + "\r\n";
+		if(!lreg.isEmpty())
+			for(Lokale l: lreg){
+				melding += l;
+				if(!l.get_reg().isEmpty()){
+					for(Arrangement a: l.get_reg()){
+						melding += a;
+//						if(a.reg != null)
+//							melding += a.reg + "\r\n";
+							
+					}
+				}
+			}
+				
+		
+		
+		return melding;
 	}
 	
 	//////////////////////////////////
