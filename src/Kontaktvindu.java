@@ -11,47 +11,82 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 
 public class Kontaktvindu extends JApplet {
 	private static final long serialVersionUID = 1L;
-	private JLabel placeholder;
 	private JTextField fornavnFelt, etternavnFelt, epostFelt,tlfFelt,bildeNavnFelt;
 	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp, bildeKnapp;
 	private JTextArea tekstområde;
 	private JScrollPane utskriftområde;
-	private BorderLayout layout,leftBorder,leftBottomBorder;
+	private BorderLayout layout,leftBottomBorder;
 	private Container c;
 	private Personregister reg;
-	private GridLayout leftGridTop,leftGridBottom,rightGrid,bottomGrid,leftGrid;
+	private GridLayout rightGrid,bottomGrid,leftGrid;
 	public Bildehandler bildehandlerK;
 	private JCheckBox checkbox;
-	private EmptyBorder border;
 	private StretchIcon bildeIconK;
-	private String[] kontaktvalg;
 	private BufferedImage bilde = null;
-	private Boolean kunMedArr;
+	private BufferedImage placeholder_img;
+	private boolean kunMedArr;
+	private EmptyBorder border;
 
-	private JComponent leftTop, leftBottom, right, bottom,leftSplit;
+	private JComponent leftBottom, right, bottom,leftSplit;
 	private JLabel bildeLabelK;
 	
+	public void visBilde(Kontaktperson k) {
+		try {
+			File bildeFil = new File(k.get_bildeSti());
+			bilde = ImageIO.read(bildeFil);
+			bildeIconK.setImage(bilde);
+			bildeNavnFelt.setText(bildeFil.getName());
+			bildeLabelK.repaint();
+  	  } catch(Exception ex) {
+		  tekstområde.setText("Noe gikk galt.");
+	  }
+	}
+	public void setPlaceHolderImg() {
+		try {
+			placeholder_img = ImageIO.read(new File("./images/placeholder_img.png"));
+			bildeIconK.setImage(placeholder_img);
+			bildeLabelK.repaint();
+  	  } catch(Exception ex) {
+		  tekstområde.setText("Noe gikk galt.");
+	  }
+	}
+	public boolean slettFil(Kontaktperson k) {
+    	try{
+    		 
+    		File file = new File(k.get_bildeSti());
+ 
+    		if(file.delete()){
+    			System.out.println(file.getName() + " is deleted!");
+    			return true;
+    		}else{
+    			System.out.println("Delete operation is failed.");
+    			return false;
+    		}
+ 
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
+	}
+	public void clearFields() {
+		fornavnFelt.setText("");
+		etternavnFelt.setText("");
+		epostFelt.setText("");
+		tlfFelt.setText("");
+		bildeNavnFelt.setText("");
+		setPlaceHolderImg();
+	}
 	
-	/*private void repainter() {	// Maler opp grunnelementer på GUI ved behov ( removeAll() )	
-		north.add(new JLabel(" Referansenummer:"));
-		north.add(refFelt);
-		north.add(new JLabel(" Navn på arrangement:"));
-		north.add(navnFelt);
-		north.add(new JLabel(" Arrangementsbeskrivelse:"));
-		north.add(beskFelt);
-		north.add(new JLabel(" Velg type lokale:"));
-		north.add(lokalvelger);
-		north.add(new JLabel("Velg kontaktperson"));
-		north.add(kontaktvelger);
-	}*/
-	
-	
-	public Kontaktvindu() {
+	public Kontaktvindu(Personregister pr) {
+		
+			reg = pr;
 
 			fornavnFelt = new JTextField( 18 );
 			etternavnFelt = new JTextField( 18 );
@@ -63,8 +98,6 @@ public class Kontaktvindu extends JApplet {
 			bildeNavnFelt = new JTextField( 18 );
       		bildeIconK = new StretchIcon("");
       		bildeLabelK = new JLabel(bildeIconK);
-			placeholder = new JLabel(" ");
-			border = new EmptyBorder(5,5,5,5);
 			
 			bildeNavnFelt.setEditable(false);
 			bildeNavnFelt.setForeground(Color.BLACK);
@@ -75,6 +108,7 @@ public class Kontaktvindu extends JApplet {
 			regKnapp = new JButton( " Registrer kontaktperson" );
 			listeKnapp = new JButton( " List kontaktpersoner" );
 			bildeKnapp = new JButton(" Last inn bilde");
+			bildeNavnFelt.setText("");
 			
 			//////////////////////////////////////////
 			/////////// GUI LAYOUT START /////////////
@@ -83,10 +117,9 @@ public class Kontaktvindu extends JApplet {
 			layout = new BorderLayout(5, 5);
 			leftGrid = new GridLayout(2,1);
 			leftBottomBorder = new BorderLayout(5,5);
-			leftGridTop = new GridLayout(2, 1);
-			leftGridBottom = new GridLayout(2, 1);
-			rightGrid = new GridLayout(5, 2);
+			rightGrid = new GridLayout(5, 3);
 			bottomGrid = new GridLayout(1,4);
+			border = new EmptyBorder(5,5,5,5);
 			// DECLARATIONS END
 			
 			// LEFT PANEL START
@@ -98,10 +131,9 @@ public class Kontaktvindu extends JApplet {
 			JPanel ekstra = new JPanel();
 			ekstra.setLayout(new GridLayout(2,1));
 			
-
-			
 			ekstra.add(bildeKnapp);
 			ekstra.add(bildeNavnFelt);
+			bildeLabelK.setBorder(border);
 			
 			leftBottom.add(ekstra,BorderLayout.PAGE_START);
 			leftBottom.add(checkbox,BorderLayout.CENTER);
@@ -113,13 +145,13 @@ public class Kontaktvindu extends JApplet {
 			// RIGHT PANEL START
 			right = new JPanel();
 			right.setLayout(rightGrid);
-			right.add(new JLabel(" Fornavn:"));
+			right.add(new JLabel(" Fornavn "));
 			right.add(fornavnFelt);
-			right.add(new JLabel(" Etternavn:"));
+			right.add(new JLabel(" Etternavn: "));
 			right.add(etternavnFelt);
-			right.add(new JLabel(" Telefon:"));
+			right.add(new JLabel(" Telefon:   "));
 			right.add(tlfFelt);
-			right.add(new JLabel(" Epost:"));
+			right.add(new JLabel(" Epost:     "));
 			right.add(epostFelt);
 			// RIGHT PANEL END
 			
@@ -147,6 +179,7 @@ public class Kontaktvindu extends JApplet {
 			c.add(right, BorderLayout.PAGE_START);
 			c.add(utskriftområde, BorderLayout.CENTER);
 			c.add(bottom,BorderLayout.PAGE_END);
+			setPlaceHolderImg();
 			
 			/////////// GUI LAYOUT SLUTT /////////////
 			//////////////////////////////////////////
@@ -202,42 +235,56 @@ public class Kontaktvindu extends JApplet {
 	    		  String etternavn = etternavnFelt.getText();
 	    		  String tlf = tlfFelt.getText();
 	    		  String epost = epostFelt.getText();
+	    		  Kontaktperson unik = reg.finnKontaktpersonViaTlf(tlf);
+	    		  Kontaktperson unik2 = reg.finnKontaktpersonViaEpost(epost);
+	    		  if (unik != null || unik2 != null) {
+	    			  tekstområde.setText("Det finnes allerede en kontaktperson med denne informasjonen");
+	    			  return;
+	    		  }
 
 	    		  if (fornavn.equals("") || etternavn.equals("") || tlf.equals("") || epost.equals("")) {
 	    			  tekstområde.setText("Du må fylle ut alle feltene for å registrere en kontaktperson ( bilde kan være tomt ).");
 	    			  return;
 	    		  }
-	    			  if (!bildeNavnFelt.equals("")) {
-	    				  String bildenavn = fornavn+"_"+tlf+"_"+"bilde.png";
-	    				  try {
-	    					    File outputfile = new File(bildenavn);
-	    					    ImageIO.write(bilde, "png", outputfile);
-	    				    	Kontaktperson kontakt = new Kontaktperson(fornavn,etternavn,epost,tlf,bildenavn);
-	    				    	reg.leggTilKontaktperson(kontakt);
-	    			    		return;
-	    					} catch (IOException ex) {
-	    					    tekstområde.setText("Vi kunne ikke bruke dette bilde, noe gikk galt");
-	    					}
+	    		  if (bildeNavnFelt.getText().equals("")) {
+		    		  Kontaktperson kontakt = new Kontaktperson(fornavn,etternavn,epost,tlf);
+		    		  System.out.println(kontakt.toString());
+		    		  if (reg.leggTilKontaktperson(kontakt)) {
+		    			  tekstområde.setText(kontakt.get_Navn() + " ble lagt til i registeret.");
+		    		  }
+		    		  clearFields();
+		    		  return;
+	    		  } else {
+	    			  try {
+		    			  String bildenavn = "./images/"+fornavn+"-"+tlf+"-"+"bilde.png";
+	    				  File outputfile = new File(bildenavn);
+	    				  ImageIO.write(bilde, "png", outputfile);
+	    				  Kontaktperson kontakt = new Kontaktperson(fornavn,etternavn,epost,tlf,bildenavn);
+			    		  if (reg.leggTilKontaktperson(kontakt)) {
+			    			  tekstområde.setText(kontakt.get_Navn() + " ble lagt til i registeret.");
+			    		  }
+			    		  clearFields();
+	    				  return;
+	    			  } catch (IOException ex) {
+	    				  tekstområde.setText("Vi kunne ikke bruke dette bilde, noe gikk galt");
 	    			  }
-			    Kontaktperson kontakt = new Kontaktperson(fornavn,etternavn,epost,tlf);
-			    reg.leggTilKontaktperson(kontakt);  		  
+	    		  }
 	    	  } catch (Exception ex) {
 	    		  tekstområde.setText("Det oppsto en feil, vennligst prøv på nytt" + e.getClass());
 	    	  }
 	      }
-
 	      else if ( e.getSource() == slettKnapp ) {
 	    	  if (tlfFelt.getText().equals("") && epostFelt.getText().equals("")) {
 	    		  tekstområde.setText("Du må bruke telefonnummer eller epost for å slette.");  
 	    	  } else {
 	    		  if (!tlfFelt.getText().equals("")) {
-	  				try {
-						String refNr = tlfFelt.getText();
-						Kontaktperson kontaktFunnet = reg.finnKontaktpersonViaTlf(refNr);
-						if (kontaktFunnet != null) {
-							Object[] options = {"Ja",
+	    			  try {
+	    				  String refNr = tlfFelt.getText();
+	    				  Kontaktperson kontaktFunnet = reg.finnKontaktpersonViaTlf(refNr);
+	    				  if (kontaktFunnet != null) {
+	    					  Object[] options = {"Ja",
 							                    "Avbryt",};
-							int n = JOptionPane.showOptionDialog(null,
+	    					  int n = JOptionPane.showOptionDialog(null,
 							    "Er du sikker på at du vil slette denne kontaktpersonen?",
 							    "Advarsel",
 							    JOptionPane.OK_CANCEL_OPTION,
@@ -245,13 +292,15 @@ public class Kontaktvindu extends JApplet {
 							    null,
 							    options,
 							    options[0]);
-							if (n == 1) {
-								tekstområde.setText("Kontaktpersonen ble ikke slettet");
-								return;
-							}
-						}
+	    					  if (n == 1) {
+	    						  tekstområde.setText("Kontaktpersonen ble ikke slettet");
+	    						  return;
+	    					  }
+	    				  }
 						if (reg.slettKontaktpersonViaTelefon(refNr)) {
-							tekstområde.setText("Arrangement med navn "
+							slettFil(kontaktFunnet);
+							clearFields();
+							tekstområde.setText("Kontaktperson med navn "
 									+ kontaktFunnet.get_Navn() + " og telefonnummer / referanse "
 									+ kontaktFunnet.get_Telefon()
 									+ " er slettet fra kulturhuset.");
@@ -285,7 +334,9 @@ public class Kontaktvindu extends JApplet {
 								}
 							}
 							if (reg.slettKontaktpersonViaTelefon(refNr)) {
-								tekstområde.setText("Arrangement med navn "
+								slettFil(kontaktFunnet);
+								clearFields();
+								tekstområde.setText("Kontaktperson med navn "
 										+ kontaktFunnet.get_Navn() + " og epost / referanse "
 										+ kontaktFunnet.get_Epost()
 										+ " er slettet fra kulturhuset.");
@@ -308,9 +359,15 @@ public class Kontaktvindu extends JApplet {
 	    		  tekstområde.setText("Du må bruke telefonnummer eller epost for å finne en kontaktperson.");  
 	    	  } else {
 	    		  if (!tlfFelt.getText().equals("")) {
-	    			  tekstområde.setText(reg.finnKontaktpersonViaTlf(tlfFelt.getText()).toString());
+	    			  Kontaktperson kontaktFunnet = reg.finnKontaktpersonViaTlf(tlfFelt.getText());
+	    			  tekstområde.setText(kontaktFunnet.toString());
+	    			  visBilde(kontaktFunnet);
+	    			  return;
 	    		  } else if (!epostFelt.getText().equals("")) {
-	    			  tekstområde.setText(reg.finnKontaktpersonViaEpost(epostFelt.getText()).toString());
+	    			  Kontaktperson kontaktFunnet = reg.finnKontaktpersonViaEpost(epostFelt.getText());
+	    			  tekstområde.setText(kontaktFunnet.toString());
+	    			  visBilde(kontaktFunnet);
+	    			  return;
 	    		  }
 	    	  }
 	      }

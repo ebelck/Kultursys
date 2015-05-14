@@ -160,6 +160,9 @@ public class Personregister {
 	//////////////////////////////////
 	
 	public String toString() {
+		if (reg.isEmpty()) {
+			return "Ingen kontaktpersoner lagret i systemet";
+		}
 		String melding = "Kontaktpersoner: \r\n";
 		for (Kontaktperson k : reg) {
 		melding += k.toString() + "\r\n\t<<<<<#>>>>>\r\n";

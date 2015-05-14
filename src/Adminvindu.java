@@ -34,9 +34,10 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
 	l.leggTilArrangement(kinoA);
 	k.leggTilKontaktperson(kontakt);
 	
+	Personregister pr = new Personregister();
     Lokalvindu lk = new Lokalvindu(k);
     Arrangementvindu av = new Arrangementvindu(k);
-    Kontaktvindu kv = new Kontaktvindu();
+    Kontaktvindu kv = new Kontaktvindu(pr);
      
 
 	/////////////////////////ALT OVER KUN FOR TESTING /////////////////////////	

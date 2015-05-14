@@ -34,6 +34,12 @@ public class Kontaktperson extends Person {
 	public int get_pId(){
 		return pId;
 	}
+	public String get_bildeSti(){
+		return bildesti;
+	}
+	public void set_bildeSti(String s){
+		bildesti=s;
+	}
 	
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
