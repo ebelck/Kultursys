@@ -11,7 +11,6 @@ public class Person implements Serializable {
 	
 	private String fornavn;
 	private String etternavn;
-	private String fulltnavn;
 	private String epost;
 	private String tlf;
 	
@@ -22,7 +21,6 @@ public class Person implements Serializable {
 	public Person (String f, String e, String m, String t) {
 		fornavn = f;
 		etternavn = e;
-		fulltnavn = f + " " + e;
 		epost = m;
 		tlf = t;
 	}
@@ -40,7 +38,7 @@ public class Person implements Serializable {
 	}
 	
 	public String get_Navn(){
-		return fulltnavn;
+		return fornavn + " " + etternavn;
 	}
 	
 	public String get_Epost(){

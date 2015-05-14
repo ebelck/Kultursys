@@ -131,6 +131,7 @@ public class Kontaktvindu extends JApplet {
 			// LEFT PANEL START
 			leftSplit = new JPanel();
 			leftSplit.setLayout(leftGrid);
+			leftSplit.setBorder(border);
 			leftBottom = new JPanel();
 			leftBottom.setLayout(leftBottomBorder);
 
@@ -151,6 +152,7 @@ public class Kontaktvindu extends JApplet {
 			// RIGHT PANEL START
 			right = new JPanel();
 			right.setLayout(rightGrid);
+			right.setBorder(border);
 			right.add(new JLabel(" Fornavn "));
 			right.add(fornavnFelt);
 			right.add(new JLabel(" Etternavn: "));

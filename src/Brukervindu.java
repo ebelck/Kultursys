@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Date;
 
 public class Brukervindu extends JPanel{
 
@@ -105,35 +106,37 @@ public class Brukervindu extends JPanel{
 		k.leggTilKontaktperson(new Kontaktperson("Kirsten","Giftekniv","kirsten@giftekniv.no", "90099009"));
 		
 		String beskrivelse;
+		Date dato = new Date();
+		
 		
 		//Oppretter og legger til Arrangement
 		beskrivelse = "Batman (også kjent som Tim Burton's Batman) er en amerikansk actionthriller og film noir fra 1989 regissert av Tim Burton.";
-		k.finnLokale(1).leggTilArrangement(new Arrangement("Film: Batman (1989)", k.finnKontaktpersonViaTlf("12345678"), "12-05-2015 18:00", beskrivelse, 100, 200));
+		k.finnLokale(1).leggTilArrangement(new Arrangement("Film: Batman (1989)", k.finnKontaktpersonViaTlf("12345678"), dato, beskrivelse, 100, 200));
 		
-		k.finnLokale(1).leggTilArrangement(new Arrangement("Film: Batman (1989)", k.finnKontaktpersonViaTlf("12345678"), "12-05-2015 20:30", beskrivelse, 100, 200));
-		k.finnLokale(1).leggTilArrangement(new Arrangement("Film: Batman (1989)", k.finnKontaktpersonViaTlf("12345678"), "12-05-2015 23:00", beskrivelse, 100, 200));
+		k.finnLokale(1).leggTilArrangement(new Arrangement("Film: Batman (1989)", k.finnKontaktpersonViaTlf("12345678"), dato, beskrivelse, 100, 200));
+		k.finnLokale(1).leggTilArrangement(new Arrangement("Film: Batman (1989)", k.finnKontaktpersonViaTlf("12345678"), dato, beskrivelse, 100, 200));
 		
 		beskrivelse = "Tatt av vinden (originaltittel Gone with the Wind) er en amerikansk film fra 1939";
-		k.finnLokale(2).leggTilArrangement(new Arrangement("Film: Tatt av Vinden (1939)", k.finnKontaktpersonViaTlf("12345678"), "12-05-2015 18:00", beskrivelse, 100, 100));
-		k.finnLokale(2).leggTilArrangement(new Arrangement("Film: Tatt av Vinden (1939)", k.finnKontaktpersonViaTlf("12345678"), "12-05-2015 20:30", beskrivelse, 100, 100));
-		k.finnLokale(2).leggTilArrangement(new Arrangement("Film: Tatt av Vinden (1939)", k.finnKontaktpersonViaTlf("12345678"), "12-05-2015 23:00", beskrivelse, 100, 100));
+		k.finnLokale(2).leggTilArrangement(new Arrangement("Film: Tatt av Vinden (1939)", k.finnKontaktpersonViaTlf("12345678"), dato, beskrivelse, 100, 100));
+		k.finnLokale(2).leggTilArrangement(new Arrangement("Film: Tatt av Vinden (1939)", k.finnKontaktpersonViaTlf("12345678"), dato, beskrivelse, 100, 100));
+		k.finnLokale(2).leggTilArrangement(new Arrangement("Film: Tatt av Vinden (1939)", k.finnKontaktpersonViaTlf("12345678"), dato, beskrivelse, 100, 100));
 		
 		beskrivelse = "Toy Story er en amerikansk dataanimert (CGI) film produsert av Pixar Animation Studios og gitt ut av Walt Disney Pictures og Buena Vista Distribution i USA den 22. november 1995 og i Europa den 22. mars 1996.";
-		k.finnLokale(3).leggTilArrangement(new Arrangement("Film: Toy Story (1996)", k.finnKontaktpersonViaTlf("12345678"), "12-05-2015 16:00", beskrivelse, 100, 100));
-		k.finnLokale(3).leggTilArrangement(new Arrangement("Film: Toy Story (1996)", k.finnKontaktpersonViaTlf("12345678"), "12-05-2015 18:30", beskrivelse, 100, 100));
-		k.finnLokale(3).leggTilArrangement(new Arrangement("Film: Toy Story (1996)", k.finnKontaktpersonViaTlf("12345678"), "12-05-2015 21:00", beskrivelse, 100, 100));
+		k.finnLokale(3).leggTilArrangement(new Arrangement("Film: Toy Story (1996)", k.finnKontaktpersonViaTlf("12345678"), dato, beskrivelse, 100, 100));
+		k.finnLokale(3).leggTilArrangement(new Arrangement("Film: Toy Story (1996)", k.finnKontaktpersonViaTlf("12345678"), dato, beskrivelse, 100, 100));
+		k.finnLokale(3).leggTilArrangement(new Arrangement("Film: Toy Story (1996)", k.finnKontaktpersonViaTlf("12345678"), dato, beskrivelse, 100, 100));
 		
 		beskrivelse = "Behandlinjg av Kulturhusets budsjett og presentasjon av det nye IT-systemet";
-		k.finnLokale(4).leggTilArrangement(new Arrangement("Kommunestyremøte nr. 15/08", k.finnKontaktpersonViaTlf("22334455"), "14-05-2015 17:00", beskrivelse));
+		k.finnLokale(4).leggTilArrangement(new Arrangement("Kommunestyremøte nr. 15/08", k.finnKontaktpersonViaTlf("22334455"), dato, beskrivelse));
 		
 		beskrivelse = "Styremøte i velforeningen Heisann";
-		k.finnLokale(5).leggTilArrangement(new Arrangement("Styremøte i velforeningen Heisann", k.finnKontaktpersonViaTlf("22334455"), "20-05-2015 17:00", beskrivelse));
+		k.finnLokale(5).leggTilArrangement(new Arrangement("Styremøte i velforeningen Heisann", k.finnKontaktpersonViaTlf("22334455"), dato, beskrivelse));
 		
 		beskrivelse = "Mannskoret Fjørnissene synger kjente og kjære nasjonalromantiske sanger";
-		k.finnLokale(6).leggTilArrangement(new Arrangement("17. Mai-konsert", k.finnKontaktpersonViaTlf("90099009"), "17-05-2015 19:00", beskrivelse, 200, 300));
+		k.finnLokale(6).leggTilArrangement(new Arrangement("17. Mai-konsert", k.finnKontaktpersonViaTlf("90099009"), dato, beskrivelse, 200, 300));
 		
 		beskrivelse = "Trude Bollerud leser fra den nye boken sin \"Vår i Bortibygda\"";
-		k.finnLokale(7).leggTilArrangement(new Arrangement("Månedes forfatter", k.finnKontaktpersonViaTlf("90099009"), "25-05-2015 15:00", beskrivelse));
+		k.finnLokale(7).leggTilArrangement(new Arrangement("Månedes forfatter", k.finnKontaktpersonViaTlf("90099009"), dato, beskrivelse));
 		
 		//Bestiller billett
 		k.bestillBillett(1, 15, new Person("Jan","Olsen","mail1@norge.no","20010001"));
