@@ -1,18 +1,10 @@
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.io.*;
+import java.util.*;
 
-public class Kulturhus {
+public class Kulturhus implements Serializable {
 	Lokale l;
 	private String beskrivelse, navn;
-	private ArrayList<Lokale> lreg = new ArrayList<>();
+	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
 	private Personregister preg = new Personregister();
 	
@@ -364,23 +356,27 @@ public class Kulturhus {
 	//	LOKALER TIL FILER			//
 	//////////////////////////////////
 
-	public String lagreLokaler(){
+	public String lagreLokaler() {
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/lokreg.dta" ) )){
-			System.out.println("Inne i LagreLokaler()\r\n");
-			utfil.writeObject( lreg );
-		}catch(Exception e){
-			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
-		}
 
+				utfil.writeObject( lreg );
+				utfil.close();
+				
+		}catch(IOException e){
+			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause() ;
+		} 
+		
+		System.out.println("Suksett\r\n");
 		return "Suksess!";
 	}
 
-	public Lokale lagReg(){
-		Lokale reg = null;
+	public ArrayList<Lokale> lagLokaler(){
+		List<Lokale> reg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){
 			System.out.println("Inne i lagReg()\r\n");	
-			reg = (Lokale) innfil.readObject();
-		}catch(FileNotFoundException eofe){
+			reg = (ArrayList<Lokale>) innfil.readObject();
+			innfil.close();
+		}catch(FileNotFoundException fnfe){
 			reg = null;
 		}catch(EOFException eofe){
 	
@@ -388,12 +384,15 @@ public class Kulturhus {
 			
 		}
 		catch(Exception e){
-			System.out.println("Feil i lagReg(): " + e.getClass());
+			System.out.println("Feil i lagReg(): " + e.getClass() + "\r\n" +  e.getCause());
 		}
-		//if(reg == null)
-			//reg = new Lokale();
+		if(reg == null)
+			reg = new ArrayList<Lokale>();
 		
-		return reg;
+		
+		System.out.println(reg);
+		return lreg = (ArrayList<Lokale>) reg;
+		
 	}
 	
 	
