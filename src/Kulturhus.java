@@ -127,7 +127,7 @@ public class Kulturhus implements Serializable {
 		return "Fant ikke lokale";
 	}
 	
-	public String listArrangementDato(){
+	/*public String listArrangementDato(){
 		String melding = "";
 		LinkedList<Arrangement >liste = new LinkedList<Arrangement>();
 		Iterator<Arrangement> knut = liste.iterator();
@@ -151,7 +151,7 @@ public class Kulturhus implements Serializable {
 			a= knut.next();
 			
 		}
-	}
+	}*/
 	
 
 	public String[] lokalListe() {
