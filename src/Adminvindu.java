@@ -36,7 +36,7 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
 	
 	Personregister pr = new Personregister();
     Lokalvindu lk = new Lokalvindu(k);
-    Arrangementvindu av = new Arrangementvindu(k);
+    Arrangementvindu av = new Arrangementvindu(k, pr);
     Kontaktvindu kv = new Kontaktvindu(pr);
      
 

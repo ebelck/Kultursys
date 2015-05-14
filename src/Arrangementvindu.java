@@ -2,6 +2,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.swing.border.EmptyBorder;
@@ -33,16 +34,26 @@ public class Arrangementvindu extends JApplet {
 	private String[] lokalvalg,kontaktvalg;
 	private BufferedImage bilde = null;
 	private BufferedImage placeholder_img;
-
-	private String lokalnavn;
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+	private String lokalnavn, kontaktnavn;
 	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartTopPanel;
 	private JLabel bildeLabel;
 	private Kalenderpanel kalenderpanel;
+	private Date dato;
+	public Personregister preg;
 	
-	private String[] ekstraInput() { // Sørger for å legge til nye unike oppføringer av lokaler.
+	private String[] ekstraInputL() { // Sørger for å legge til nye unike oppføringer av lokaler.
 		HashSet<String> a = new HashSet<>(Arrays.asList(k.lokalListe()));
 		HashSet<String> b = new HashSet<>(Arrays.asList(lokalvalg));
 		lokalvalg = k.lokalListe();
+		a.removeAll(b);
+		String[] ab = a.toArray(new String[a.size()]);
+		return ab;
+	}
+	private String[] ekstraInputK() { // Sørger for å legge til nye unike oppføringer av lokaler.
+		HashSet<String> a = new HashSet<>(Arrays.asList(preg.listKontaktpersoner()));
+		HashSet<String> b = new HashSet<>(Arrays.asList(kontaktvalg));
+		kontaktvalg = preg.listKontaktpersoner();
 		a.removeAll(b);
 		String[] ab = a.toArray(new String[a.size()]);
 		return ab;
@@ -52,14 +63,14 @@ public class Arrangementvindu extends JApplet {
 		
 		Lokale lok = k.finnType(l);
 		
-		if (l.equalsIgnoreCase("oppdater liste")) {
-			north.setLayout(new GridLayout(7, 1)); // 5 rows 2 columns; no gaps);
+		if (l.equalsIgnoreCase("oppdater lokal-liste")) {
+			north.setLayout(new GridLayout(7, 1)); // 7 rows 2 columns; no gaps);
 			
-			for (String s : ekstraInput()) {
+			for (String s : ekstraInputL()) {
 				lokalvelger.addItem(s);
 			}
 			lokalvelger.revalidate();
-			System.out.println(ekstraInput());
+			System.out.println(ekstraInputL());
 			north.add(new JLabel(""));
 			north.add(new JLabel("Lokal-liste er oppdatert!"));
 		}
@@ -103,6 +114,20 @@ public class Arrangementvindu extends JApplet {
 		else {
 			System.out.println("Aner ikke hvorfor du endte opp her");
 		}
+	}
+	private void addSpecificK(String k) {
+		
+		if (k.equalsIgnoreCase("oppdater kontaktliste")) {
+			north.setLayout(new GridLayout(7, 1)); // 7 rows 2 columns; no gaps);
+			
+			for (String s : ekstraInputK()) {
+				lokalvelger.addItem(s);
+			}
+			lokalvelger.revalidate();
+			north.add(new JLabel(""));
+			north.add(new JLabel("Liste over kontaktpersoner er oppdatert!"));
+		}
+		
 	}
 	private void repainter() {	// Maler opp grunnelementer på GUI ved behov ( removeAll() )	
 		north.add(new JLabel(" Referansenummer:"));
@@ -164,12 +189,12 @@ public class Arrangementvindu extends JApplet {
 		  tekstområde.setText("Noe gikk galt.");
 	  }
 	}
-	public Arrangementvindu(Kulturhus kH) {
+	public Arrangementvindu(Kulturhus kH, Personregister pr) {
 		
 			k = kH;
+			preg = pr;
 			lokalvalg = k.lokalListe();
-			kontaktvalg = k.listKontaktpersoner();
-			System.out.println("Lokalvalg blir opprettet. Den inneholder " + lokalvalg.length);
+			kontaktvalg = preg.listKontaktpersoner();
 			kalenderpanel = new Kalenderpanel();
 			
 			lokalvelger = new JComboBox<String>(lokalvalg);
@@ -287,6 +312,7 @@ public class Arrangementvindu extends JApplet {
 			slettKnapp.addActionListener( lytter );
 			regKnapp.addActionListener( lytter );
 			lokalvelger.addActionListener( lytter );
+			kontaktvelger.addActionListener( lytter );
 			listeKnapp.addActionListener(lytter);
 			bildeKnapp.addActionListener(lytter);			
 			
@@ -341,8 +367,8 @@ public class Arrangementvindu extends JApplet {
 	    			  tekstområde.setText("Du må fylle ut navn og beskrivelse.");
 	    			  return;
 	    		  }
+	    		  dato = kalenderpanel.hentDato();
 	    		  String lokNavn = (String) lokalvelger.getSelectedItem();
-	    		  System.out.println(lokNavn);
 	    		  String kontaktNavn = (String) kontaktvelger.getSelectedItem();
 	    		  Lokale lokale = k.finnType(lokNavn);
 	    		  if (!lokNavn.equalsIgnoreCase("oppdater liste")){
@@ -352,7 +378,7 @@ public class Arrangementvindu extends JApplet {
 	    					    File outputfile = new File(bildenavn);
 	    					    ImageIO.write(bilde, "png", outputfile);
 	    			    		Kontaktperson kontakt = k.finnKontaktpersonViaNavn(kontaktNavn);
-	    			    		Arrangement arr = new Arrangement(navn,kontakt,bildenavn);
+	    			    		Arrangement arr = new Arrangement(navn,kontakt,dato,besk,bildenavn);
 	    			    		lokale.leggTilArrangement(arr);
 	    			    		tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
 	    			    		clearFields();
@@ -451,7 +477,9 @@ public class Arrangementvindu extends JApplet {
 	      
 		    int n = lokalvelger.getSelectedIndex();
 		    lokalnavn = lokalvelger.getItemAt(n);
-		    System.out.println(lokalnavn);
+		    int n1 = kontaktvelger.getSelectedIndex();
+		    kontaktnavn = kontaktvelger.getItemAt(n1);
+
 		    
 		    north.removeAll();
 		    north.revalidate();
@@ -459,6 +487,7 @@ public class Arrangementvindu extends JApplet {
 		    repainter();
 			c.add(north, BorderLayout.PAGE_START);
 			addSpecificC(lokalnavn);
+			addSpecificK(kontaktnavn);
 			c.add(center, BorderLayout.CENTER);
 			c.add(south, BorderLayout.PAGE_END);
 		    c.revalidate();
