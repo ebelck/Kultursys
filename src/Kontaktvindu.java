@@ -361,6 +361,7 @@ public class Kontaktvindu extends JApplet {
 	    		  if (!tlfFelt.getText().equals("")) {
 	    			  Kontaktperson kontaktFunnet = reg.finnKontaktpersonViaTlf(tlfFelt.getText());
 	    			  tekstområde.setText(kontaktFunnet.toString());
+	    			  if (kontaktFunnet.get_bildeSti() != null)
 	    			  visBilde(kontaktFunnet);
 	    			  return;
 	    		  } else if (!epostFelt.getText().equals("")) {
