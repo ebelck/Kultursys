@@ -39,37 +39,24 @@ public class Arrangement implements Serializable {
 	
 	//////////////////////
 	//	KONSTRUKTØRER	//
-	//////////////////////	
+	//////////////////////
+	// UTEN BILDER
 	
-	//Minimumskrav
-	public Arrangement (String n, Kontaktperson k) {
-		aId = nesteId++;
-		navn = n;
-		kontakt = k;
-	}
-	
-	//Minimumskarv + dato
-	public Arrangement (String n, Kontaktperson k, String d) {
+	//Minimumskarv + dato - dato sendes med uansett.
+	public Arrangement (String n, Kontaktperson k, Date d) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
-		}
-		
+
+		dato = d;
 		aId = nesteId++;
 		navn = n;
 		kontakt = k;
 	}
 	
 	//Minimumskarv + dato + beskrivelse	
-	public Arrangement (String n, Kontaktperson k, String d, String b) {
+	public Arrangement (String n, Kontaktperson k, Date d, String b) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
-		}
+		
+		dato = d;
 		aId = nesteId++;
 		navn = n;
 		kontakt = k;
@@ -77,54 +64,93 @@ public class Arrangement implements Serializable {
 	}
 	
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
-	public Arrangement (String n, Kontaktperson k, String d, String b, int p, int a) {
+	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
-		}
-		aId = nesteId++;
-		navn = n;
-		kontakt = k;
-		beskrivelse = b;
-		billettsalg = true;
-		pris = p;
-		reg = new Billettregister(a);
-	}
-	
-	//Minimumskarv + dato + beskrivelse + bilde
-	public Arrangement (String n, Kontaktperson k, Date d, String b, String f) {
-		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		aId = nesteId++;
-		navn = n;
-		kontakt = k;
-		beskrivelse = b;
-		bildeSti = f;
 		dato = d;
-	}
-	
-	//Minimumskarv + dato + beskrivelse + bilde  + pris og antall billetter
-	public Arrangement (String n, Kontaktperson k, String d, String b, String f, int p, int a) {
-		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		try {
-			dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
-		}
 		aId = nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
-		bildeSti = f;
 		billettsalg = true;
 		pris = p;
 		reg = new Billettregister(a);
+	}
+	//Minimumskarv + dato + pris og antall billetter	
+	public Arrangement (String n, Kontaktperson k, Date d, int p, int a) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		dato = d;
+		aId = nesteId++;
+		navn = n;
+		kontakt = k;
+		billettsalg = true;
+		pris = p;
+		reg = new Billettregister(a);
+	}
+	
+	//////////////////////
+	//	KONSTRUKTØRER	//
+	//////////////////////
+	// MED BILDER
+	
+	//Minimumskrav + dato - dato sendes med uansett. + bilde
+	public Arrangement (String n,String bilde, Kontaktperson k, Date d) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+
+		dato = d;
+		aId = nesteId++;
+		navn = n;
+		kontakt = k;
+		bildeSti = bilde;
+	}
+	
+	//Minimumskarv + dato + beskrivelse	+ bilde
+	public Arrangement (String n, Kontaktperson k, Date d, String b,String bilde) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		
+		dato = d;
+		aId = nesteId++;
+		navn = n;
+		kontakt = k;
+		beskrivelse = b;
+		bildeSti = bilde;
+	}
+	
+	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
+	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a,String bilde) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		dato = d;
+		aId = nesteId++;
+		navn = n;
+		kontakt = k;
+		beskrivelse = b;
+		billettsalg = true;
+		pris = p;
+		reg = new Billettregister(a);
+		bildeSti = bilde;
+	}
+	//Minimumskarv + dato + pris og antall billetter
+	
+	public Arrangement (String n, Kontaktperson k, Date d, int p, int a,String bilde) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		dato = d;
+		aId = nesteId++;
+		navn = n;
+		kontakt = k;
+		billettsalg = true;
+		pris = p;
+		reg = new Billettregister(a);
+		bildeSti=bilde;
 	}
 
 	//////////////////////////
 	//	KONSTRUKTØRER SLUTT	//
 	//////////////////////////
+	
+	public void bliBetalbar(int p,int a) {
+		billettsalg = true;
+		pris = p;
+		reg = new Billettregister(a);
+	}
 	
 	//////////////////////
 	//	GET/SET-METODER	//
@@ -152,6 +178,7 @@ public class Arrangement implements Serializable {
 	public void set_Beskrivelse(String b) {
 		beskrivelse = b;
 	}
+
 	
 	public void set_Dato(String d) {
 	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
@@ -257,6 +284,8 @@ public class Arrangement implements Serializable {
 		melding += "Arrangement:\t" + navn + "\r\n";
 		melding += (beskrivelse != null) ? "Beskrivelse:\t" + beskrivelse + "\r\n" : "Ingen beskrivelse" + "\r\n";
 		melding += (bildeSti != null) ? "Bilde:\t" + bildeSti + "\r\n" : "Mangler bilde" + "\r\n";
+		melding += (info1 != null) ? info1 + "\r\n" : "" + "\r\n";
+		melding += (info2 != null) ? info2 + "\r\n" : "" + "\r\n";
 		melding += (dato != null) ? "Dato:\t" + sdf.format(dato) + "\r\n" : "Dato ikke satt" + "\r\n";
 		melding += (!billettsalg) ? "Pris:\tGratis\r\n" : "Pris:\tkr " + pris +".00\r\n";
 		melding += (billettsalg) ? "Ledige bill.:\t" + (reg.get_antallBilletter() - reg.antallSolgteBilletter()) + "/" + reg.get_antallBilletter() + "\r\n": "";

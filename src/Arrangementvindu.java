@@ -17,8 +17,7 @@ import java.io.IOException;
 
 public class Arrangementvindu extends JApplet {
 	private static final long serialVersionUID = 1L;
-	private JLabel placeholder;
-	private JTextField navnFelt, beskFelt, prisFelt, refFelt,altFelt1,altFelt2,bildeNavnFelt;
+	private JTextField navnFelt, beskFelt, prisFelt, refFelt,altFelt1,altFelt2,bildeNavnFelt,antallFelt;
 	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp,bildeKnapp,oppdaterKnapp;
 	private JTextArea tekstområde;
 	private JScrollPane utskriftområde;
@@ -34,46 +33,50 @@ public class Arrangementvindu extends JApplet {
 	private String[] lokalvalg,kontaktvalg;
 	private BufferedImage bilde = null;
 	private BufferedImage placeholder_img;
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	private String lokalnavn, kontaktnavn;
 	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartTopPanel;
-	private JLabel bildeLabel;
+	private JLabel bildeLabel,placeholder1,placeholder2;
 	private Kalenderpanel kalenderpanel;
 	private Date dato;
 	public Personregister preg;
 	private File bildeFil;
+	private boolean betalbar = false;
 	
-	private String[] ekstraInputL() { // Sørger for å legge til nye unike oppføringer av lokaler.
-		HashSet<String> a = new HashSet<>(Arrays.asList(k.lokalListe()));
-		HashSet<String> b = new HashSet<>(Arrays.asList(lokalvalg));
-		lokalvalg = k.lokalListe();
-		a.removeAll(b);
-		String[] ab = a.toArray(new String[a.size()]);
-		return ab;
-	}
-	private String[] ekstraInputK() { // Sørger for å legge til nye unike oppføringer av lokaler.
-		HashSet<String> a = new HashSet<>(Arrays.asList(preg.listKontaktpersoner()));
-		HashSet<String> b = new HashSet<>(Arrays.asList(kontaktvalg));
-		kontaktvalg = preg.listKontaktpersoner();
-		a.removeAll(b);
-		String[] ab = a.toArray(new String[a.size()]);
-		return ab;
-	}
-	
-	private void addSpecificC(String l) { // Maler opp spesifikke felt med beskrivende tekst, avhengig av type lokale man velger.
-		
-		Lokale lok = k.finnType(l);
-		
-		if (l.equalsIgnoreCase("oppdater lokal-liste")) {
-			
-			for (String s : ekstraInputL()) {
-				lokalvelger.addItem(s);
+	private void addSpecificC(String l) {
+		contextPainter(lokalnavn);
+		if (l.equalsIgnoreCase("oppdater liste")) {
+			String[] lokalArray = k.lokalListe();
+			if (lokalArray.length > 0) {
+				lokalvelger.removeAllItems();
+				for (int i = 0; i < lokalArray.length; i++) {
+					lokalvelger.addItem(lokalArray[i]);
+				}
 			}
 			lokalvelger.revalidate();
-			System.out.println(ekstraInputL());
-			tekstområde.setText("Liste over arrangementer er oppdatert!");
+			tekstområde.append("\r\n********************************************\r\n"
+					+  "Liste over lokaler er oppdatert\r\n");
 		}
-		else if (lok instanceof Cafe) {
+	}
+	private void addSpecificK(String k) {
+		contextPainter(lokalnavn);
+		if (k.equalsIgnoreCase("oppdater liste")) {
+		String[] kontaktArray = preg.listKontaktpersoner();
+		if (kontaktArray.length > 0) {
+			kontaktvelger.removeAllItems();
+			for (int i = 0; i < kontaktArray.length; i++) {
+				System.out.println(kontaktArray[i]);
+				kontaktvelger.addItem(kontaktArray[i]);
+				}
+			}
+			kontaktvelger.revalidate();
+			tekstområde.append("\r\n********************************************\r\n"
+							+  "Liste over kontaktpersoner er oppdatert\r\n");
+		}
+	}
+			
+	private void contextPainter(String l) {
+		Lokale lok = k.finnType(l);
+		if (lok instanceof Cafe) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Hvor mange gjester er det plass til: "));
 			north.add(altFelt1);
@@ -113,17 +116,6 @@ public class Arrangementvindu extends JApplet {
 		else {
 			System.out.println("Aner ikke hvorfor du endte opp her");
 		}
-	}
-	private void addSpecificK(String k) {
-		
-		if (k.equalsIgnoreCase("oppdater kontaktliste")) {
-			for (String s : ekstraInputK()) {
-				kontaktvelger.addItem(s);
-			}
-			kontaktvelger.revalidate();
-			tekstområde.setText("Liste over kontaktpersoner er oppdatert!");
-		}
-		
 	}
 	private void repainter() {	// Maler opp grunnelementer på GUI ved behov ( removeAll() )	
 		north.add(new JLabel(" Referansenummer:"));
@@ -203,12 +195,17 @@ public class Arrangementvindu extends JApplet {
 			navnFelt = new JTextField( 18 );
 			beskFelt = new JTextField( 18 );
 			checkbox = new JCheckBox("Er arrangementet betalbart?");
-			prisFelt = new JTextField( 18 ); 
+			checkbox.setHorizontalAlignment(JTextField.CENTER);
+			prisFelt = new JTextField("Pris");
+			prisFelt.setHorizontalAlignment(JTextField.CENTER);
+			antallFelt = new JTextField("Antall");
+			antallFelt.setHorizontalAlignment(JTextField.CENTER);
 			refFelt = new JTextField( 18 );
 			altFelt1 = new JTextField( 18 );
 			altFelt2 = new JTextField( 18 );
 			bildeNavnFelt = new JTextField( 18 );
-			placeholder = new JLabel(" ");
+			placeholder1 = new JLabel(" ");
+			placeholder2 = new JLabel(" ");
 			border = new EmptyBorder(5,5,5,5);
 			
 			bildeNavnFelt.setEditable(false);
@@ -220,7 +217,6 @@ public class Arrangementvindu extends JApplet {
 			regKnapp = new JButton( "Registrer arrangement" );
 			listeKnapp = new JButton( "List arrangement" );
 			bildeKnapp = new JButton("Last inn bilde");
-			bildeNavnFelt.setText("");
 			oppdaterKnapp = new JButton("Oppdater Arrangement");
 			
 			//////////////////////////////////////////
@@ -233,7 +229,7 @@ public class Arrangementvindu extends JApplet {
 			
 			bottomGrid = new GridLayout(1, 5);
 			topGrid = new GridLayout(5, 2);
-			centerBot = new GridLayout(1,1);
+			centerBot = new GridLayout(1,3);
 			// DECLARATIONS END
 			
 			// TOP GRID START
@@ -283,7 +279,9 @@ public class Arrangementvindu extends JApplet {
 			center.add(utskriftområde, BorderLayout.CENTER);
 			center.add(centerLineEnd, BorderLayout.PAGE_END);
 			center.add(centerPageStart,BorderLayout.LINE_START);
-			centerLineEnd.add(checkbox,placeholder);
+			centerLineEnd.add(checkbox);
+			centerLineEnd.add(placeholder1);
+			centerLineEnd.add(placeholder2);
 			// CENTER GRID END
 			
 			//BOTTOM GRID START
@@ -333,9 +331,12 @@ public class Arrangementvindu extends JApplet {
       {
     	  if ( checkbox.isSelected() ) {
     		  try {
-    	 		centerLineEnd.remove(placeholder);
+    			betalbar = true;
+    	 		centerLineEnd.remove(placeholder1);
+    	 		centerLineEnd.remove(placeholder2);
     	 		centerLineEnd.revalidate();
     	 		centerLineEnd.repaint();
+    	 		centerLineEnd.add(antallFelt);
     	 		centerLineEnd.add(prisFelt);
     	 		centerLineEnd.revalidate();
     	 		centerLineEnd.repaint();
@@ -344,10 +345,13 @@ public class Arrangementvindu extends JApplet {
     		  }
     	 } else {
     		 try {
+    			betalbar = false;
      			centerLineEnd.remove(prisFelt);
+     			centerLineEnd.remove(antallFelt);
      			centerLineEnd.revalidate();
      			centerLineEnd.repaint();
-     			centerLineEnd.add(placeholder);
+     			centerLineEnd.add(placeholder1);
+     			centerLineEnd.add(placeholder2);
      			centerLineEnd.revalidate();
      			centerLineEnd.repaint();
      		  } catch(Exception ex) {
@@ -367,35 +371,94 @@ public class Arrangementvindu extends JApplet {
 	    	  try {
 	    		  String navn = navnFelt.getText();
 	    		  String besk = beskFelt.getText();
-	    		  if (navn.equals("") || besk.equals("")) {
-	    			  tekstområde.setText("Du må fylle ut navn og beskrivelse.");
+	    		  if (navn.equals("")) {
+	    			  tekstområde.setText("Du må gi arrangementet et navn.");
 	    			  return;
 	    		  }
 	    		  dato = kalenderpanel.hentDato();
 	    		  String lokNavn = (String) lokalvelger.getSelectedItem();
 	    		  String kontaktNavn = (String) kontaktvelger.getSelectedItem();
 	    		  Lokale lokale = k.finnType(lokNavn);
+	    		  
 	    		  if (!lokNavn.equalsIgnoreCase("oppdater liste")){
-	    			  if (!bildeNavnFelt.equals("")) {
+	    			  System.out.println("* Starter på alle if-setningene for å legge til Arrangement.\r\n");
+	    			  if (bilde != null) {
+	    				  System.out.println("Bilde-objektet var ikke tomt, så vi er der nå.");
 	    				  String bildenavn = "./images/"+navn+"-"+"bilde.png";
 	    				  try {
 	    					    File outputfile = new File(bildenavn);
 	    					    ImageIO.write(bilde, "png", outputfile);
-	    			    		Kontaktperson kontakt = k.finnKontaktpersonViaNavn(kontaktNavn);
-	    			    		Arrangement arr = new Arrangement(navn,kontakt,dato,besk,bildenavn);
-	    			    		lokale.leggTilArrangement(arr);
-	    			    		tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
-	    			    		clearFields();
-	    			    		setPlaceHolderImg();
+	    			    		Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
+	    		    			  if (besk.equals("") && betalbar==false) {
+	    		    				  	Arrangement arr = new Arrangement(navn,bildenavn,kontakt,dato);
+	    		    				  	lokale.leggTilArrangement(arr);
+	    		    				  	tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    		    				  	clearFields();
+	    		    			  }
+	    		    			  if (!besk.equals("") && betalbar==false) {
+	    		    				  	Arrangement arr = new Arrangement(navn,kontakt,dato,besk,bildenavn);
+	    		    				  	lokale.leggTilArrangement(arr);
+	    		    				  	tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    		    				  	clearFields();
+	    		    			  }
+	    		    			  if (besk.equals("") && betalbar==true) {
+	    		    				  	int pris = Integer.parseInt(prisFelt.getText());
+	    		    				  	int antall = Integer.parseInt(antallFelt.getText());
+	    		    				  	Arrangement arr = new Arrangement(navn,kontakt,dato,pris,antall,bildenavn);
+	    		    				  	lokale.leggTilArrangement(arr);
+	    		    				  	tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    		    				  	clearFields();
+	    		    			  }
+	    		    			  if (!besk.equals("") && betalbar==true) {
+	    		    				  	int pris = Integer.parseInt(prisFelt.getText());
+	    		    				  	int antall = Integer.parseInt(antallFelt.getText());
+	    		    				  	Arrangement arr = new Arrangement(navn,kontakt,dato,besk,pris,antall,bildenavn);
+	    		    				  	lokale.leggTilArrangement(arr);
+	    		    				  	tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    		    				  	clearFields();
+	    		    			  }
 	    			    		return;
 	    					} catch (IOException ex) {
 	    					    tekstområde.setText("Vi kunne ikke bruke dette bilde, noe gikk galt");
 	    					}
 	    			  }
-			    	Kontaktperson kontakt = k.finnKontaktpersonViaNavn(kontaktNavn);
-			    	Arrangement arr = new Arrangement(navn,kontakt);
-			    	lokale.leggTilArrangement(arr);
-			    	clearFields();
+	    			  System.out.println("Utenfor bilde-if'en.");
+	    			  if (besk.equals("") && betalbar==false) {
+	    				  System.out.println("besk, betalbar false");
+	    				  	Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
+	    				  	Arrangement arr = new Arrangement(navn,kontakt,dato);
+	    				  	lokale.leggTilArrangement(arr);
+	    				  	tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    				  	clearFields();
+	    			  }
+	    			  if (!besk.equals("") && betalbar==false) {
+	    				  System.out.println("ingen besk, betalbar false");
+	    				  	Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
+	    				  	Arrangement arr = new Arrangement(navn,kontakt,dato,besk);
+	    				  	lokale.leggTilArrangement(arr);
+	    				  	tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    				  	clearFields();
+	    			  }
+	    			  if (besk.equals("") && betalbar==true) {
+	    				  System.out.println("besk, betalbar true");
+	    				  	int pris = Integer.parseInt(prisFelt.getText());
+	    				  	int antall = Integer.parseInt(antallFelt.getText());
+	    				  	Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
+	    				  	Arrangement arr = new Arrangement(navn,kontakt,dato,pris,antall);
+	    				  	lokale.leggTilArrangement(arr);
+	    				  	tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    				  	clearFields();
+	    			  }
+	    			  if (!besk.equals("") && betalbar==true) {
+	    				  System.out.println("ingen besk, betalbar true");
+	    				  	int pris = Integer.parseInt(prisFelt.getText());
+	    				  	int antall = Integer.parseInt(antallFelt.getText());
+	    				  	Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
+	    				  	Arrangement arr = new Arrangement(navn,kontakt,dato,besk,pris,antall);
+	    				  	lokale.leggTilArrangement(arr);
+	    				  	tekstområde.setText("Arrangementet ble opprettet!\r\nLykke til med " + arr.get_Navn());
+	    				  	clearFields();
+	    			  }
 	    		  } else {
 	    			  tekstområde.setText("Velg hvilket lokale det skal holdes på!");
 	    			  return;
@@ -481,15 +544,26 @@ public class Arrangementvindu extends JApplet {
 	    	  }
 	      }
 	      else if ( e.getSource() == oppdaterKnapp ) {
+	    	  if (refFelt.getText().equals("")) {
+	    		  tekstområde.setText("Du må bruke referansenummer for å oppdatere ett arrangement");
+	    		  return;
+	    	  }
+	    	  String kontaktNavn = (String) kontaktvelger.getSelectedItem();
 	    	  String navn = navnFelt.getText();
 	    	  String besk = beskFelt.getText();
 	    	  String alt = altFelt1.getText();
 	    	  String alt2 = altFelt2.getText();
-	    	  String pris = prisFelt.getText();
 	    	  String bildeB = bildeNavnFelt.getText();
 	    	  int refNr = Integer.parseInt(refFelt.getText());
 	    	  Lokale lokFunnet = k.arrangementViaK(refNr);
+			  Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
 	    	  Arrangement arrFunnet = lokFunnet.finnArrangement(refNr);
+	    	  if (!kontakt.equals(arrFunnet.get_Kontaktperson()))
+	    		  arrFunnet.set_Kontaktperson(kontakt);
+	    	  if (!arrFunnet.get_Billettsalg() && betalbar==true)
+	    		  arrFunnet.bliBetalbar(Integer.parseInt(prisFelt.getText()), Integer.parseInt(antallFelt.getText()));
+	    	  if (arrFunnet.get_Billettsalg() && !prisFelt.getText().equals(""))
+	    		  arrFunnet.set_Pris(Integer.parseInt(prisFelt.getText()));
 	    	  if (!navn.equals(""))
 	    		  arrFunnet.set_Navn(navn);
 	    	  if (!besk.equals(""))
@@ -498,8 +572,6 @@ public class Arrangementvindu extends JApplet {
 	    		  arrFunnet.set_Info(alt);
 	    	  if (!alt2.equals(""))
 	    		  arrFunnet.set_Info2(alt2);
-	    	  if (!pris.equals(""))
-	    		  arrFunnet.set_Pris(Integer.parseInt(pris));
 	    	  if (!bildeB.equals("")) {
 					if (arrFunnet != null) {
 						Object[] options = {"Ja",
@@ -546,12 +618,10 @@ public class Arrangementvindu extends JApplet {
 		    north.repaint();
 		    repainter();
 			c.add(north, BorderLayout.PAGE_START);
-			
 			if (e.getSource() == lokalvelger)
 				addSpecificC(lokalnavn);
-			else if (e.getSource() == kontaktvelger)
-				addSpecificK(kontaktnavn);
-			
+			if (e.getSource() == kontaktvelger)
+				addSpecificK(kontaktnavn);	
 			c.add(center, BorderLayout.CENTER);
 			c.add(south, BorderLayout.PAGE_END);
 		    c.repaint();

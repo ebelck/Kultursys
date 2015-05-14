@@ -140,7 +140,7 @@ public class Kulturhus implements Serializable {
 
 	public String[] lokalListe() {
 		ArrayList<String> a = new ArrayList<>();
-		a.add("Oppdater Lokal-liste");
+		a.add("Oppdater liste");
 
 		for (Lokale s : lreg) {
 			a.add(s.get_Navn());

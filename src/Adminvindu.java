@@ -2,6 +2,7 @@
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Date;
 
  public class Adminvindu extends JPanel {
  private static final long serialVersionUID = 1L;
@@ -14,7 +15,7 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
 
      JTabbedPane tabbedPane = new JTabbedPane();
      Kulturhus k = new Kulturhus("Testhuset","Dette kulturhuset er laget som en test");
-
+     Date dato = new Date();
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////ALT UNDER KUN FOR TESTING////////////////////////
@@ -24,7 +25,7 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
 	Lokale l3 = new Cafe("Testkonferansesal2","Dette er en test2",50);
 	Kontaktperson kontakt = new Kontaktperson("Partyfiksern Geir","Olson","hallis@hollis.no","99999999");
 	//Arrangement a = new Arrangement("Testarrangement",kontakt,"17-05-2015 20:30");
-	Arrangement kinoA = new Arrangement("Kinofilm",kontakt,"17-05-2015 20:30","Batman", 200, 50); 		//endre rekkefølge på parametere
+	Arrangement kinoA = new Arrangement("Kinofilm",kontakt,dato,"Batman", 200, 50); 		//endre rekkefølge på parametere
 	Person kunde = new Person("fornavn","etternavn","epost","tlf");
 	kinoA.bestillBillett(3, kunde);
 	k.leggTilLokale(l);
