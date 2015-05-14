@@ -94,18 +94,14 @@ public class Arrangement implements Serializable {
 	}
 	
 	//Minimumskarv + dato + beskrivelse + bilde
-	public Arrangement (String n, Kontaktperson k, String d, String b, String f) {
+	public Arrangement (String n, Kontaktperson k, Date d, String b, String f) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		try {
-			dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
-		}
 		aId = nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
 		bildeSti = f;
+		dato = d;
 	}
 	
 	//Minimumskarv + dato + beskrivelse + bilde  + pris og antall billetter
