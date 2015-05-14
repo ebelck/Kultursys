@@ -19,7 +19,7 @@ import java.nio.file.Path;
 public class Kontaktvindu extends JApplet {
 	private static final long serialVersionUID = 1L;
 	private JTextField fornavnFelt, etternavnFelt, epostFelt,tlfFelt,bildeNavnFelt;
-	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp, bildeKnapp;
+	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp, bildeKnapp,oppdaterKnapp;
 	private JTextArea tekstområde;
 	private JScrollPane utskriftområde;
 	private BorderLayout layout,leftBottomBorder;
@@ -33,6 +33,7 @@ public class Kontaktvindu extends JApplet {
 	private BufferedImage placeholder_img;
 	private boolean kunMedArr;
 	private EmptyBorder border;
+	private File bildeFil;
 
 	private JComponent leftBottom, right, bottom,leftSplit;
 	private JLabel bildeLabelK;
@@ -60,6 +61,10 @@ public class Kontaktvindu extends JApplet {
 	public boolean slettFil(Kontaktperson k) {
     	try{
     		 
+    		String bildeSti = k.get_bildeSti();
+    		if (bildeSti==null) {
+    			return false;
+    		}
     		File file = new File(k.get_bildeSti());
  
     		if(file.delete()){
@@ -109,6 +114,7 @@ public class Kontaktvindu extends JApplet {
 			listeKnapp = new JButton( " List kontaktpersoner" );
 			bildeKnapp = new JButton(" Last inn bilde");
 			bildeNavnFelt.setText("");
+			oppdaterKnapp = new JButton("Oppdater kontaktperson");
 			
 			//////////////////////////////////////////
 			/////////// GUI LAYOUT START /////////////
@@ -118,7 +124,7 @@ public class Kontaktvindu extends JApplet {
 			leftGrid = new GridLayout(2,1);
 			leftBottomBorder = new BorderLayout(5,5);
 			rightGrid = new GridLayout(5, 3);
-			bottomGrid = new GridLayout(1,4);
+			bottomGrid = new GridLayout(1,5);
 			border = new EmptyBorder(5,5,5,5);
 			// DECLARATIONS END
 			
@@ -162,6 +168,7 @@ public class Kontaktvindu extends JApplet {
 			bottom.add(slettKnapp);
 			bottom.add(regKnapp);
 			bottom.add(listeKnapp);
+			bottom.add(oppdaterKnapp);
 			// BOTTOM PANEL END
 			
 			// CENTER TEXT PANEL START
@@ -193,7 +200,8 @@ public class Kontaktvindu extends JApplet {
 			slettKnapp.addActionListener( lytter );
 			regKnapp.addActionListener( lytter );
 			listeKnapp.addActionListener(lytter);
-			bildeKnapp.addActionListener(lytter);			
+			bildeKnapp.addActionListener(lytter);
+			oppdaterKnapp.addActionListener(lytter);
 			
 			checkbox.addItemListener(tLytter);
 			
@@ -237,7 +245,7 @@ public class Kontaktvindu extends JApplet {
 	    		  String epost = epostFelt.getText();
 	    		  Kontaktperson unik = reg.finnKontaktpersonViaTlf(tlf);
 	    		  Kontaktperson unik2 = reg.finnKontaktpersonViaEpost(epost);
-	    		  if (unik != null || unik2 != null) {
+	    		  if (!unik.get_Telefon().equals("") || !unik2.get_Telefon().equals("")) {
 	    			  tekstområde.setText("Det finnes allerede en kontaktperson med denne informasjonen");
 	    			  return;
 	    		  }
@@ -367,6 +375,7 @@ public class Kontaktvindu extends JApplet {
 	    		  } else if (!epostFelt.getText().equals("")) {
 	    			  Kontaktperson kontaktFunnet = reg.finnKontaktpersonViaEpost(epostFelt.getText());
 	    			  tekstområde.setText(kontaktFunnet.toString());
+	    			  if (kontaktFunnet.get_bildeSti() != null)
 	    			  visBilde(kontaktFunnet);
 	    			  return;
 	    		  }
@@ -375,7 +384,7 @@ public class Kontaktvindu extends JApplet {
 	      else if ( e.getSource() == bildeKnapp ) {
 	    	  try {
 	      		bildehandlerK = new Bildehandler();
-	      		File bildeFil = bildehandlerK.hentFil();
+	      		bildeFil = bildehandlerK.hentFil();
 	      		bilde = ImageIO.read(bildeFil);
 	      		bildeIconK.setImage(bilde);
 	      		bildeNavnFelt.setText(bildeFil.getName());
@@ -383,6 +392,113 @@ public class Kontaktvindu extends JApplet {
 	      		
 	    	  } catch(Exception ex) {
 	    		  tekstområde.setText("Noe gikk galt.");
+	    	  }
+	      }
+	      else if ( e.getSource() == oppdaterKnapp ) {
+	    	  String fornavn = fornavnFelt.getText();
+	    	  String etternavn = etternavnFelt.getText();
+	    	  String tlf = tlfFelt.getText();
+	    	  String epost = epostFelt.getText();
+	    	  String bildeB = bildeNavnFelt.getText();
+	    	  Kontaktperson kontaktFunnet;
+	    	  
+	    	  if (tlf.equals("") && epost.equals("")) {
+	    		  tekstområde.setText("Du må bruke telefonnummer eller epost for å oppdatere en kontaktperson.");  
+	    	  } else {
+	    		  if (!tlf.equals("") && !epost.equals("")) {
+	    			  kontaktFunnet = reg.finnKontaktpersonViaTlf(tlf);
+	    			  if (kontaktFunnet!=null)
+	    				  kontaktFunnet.set_Epost(epost);
+	    			  kontaktFunnet = reg.finnKontaktpersonViaEpost(epost);
+	    			  if (kontaktFunnet!=null)
+	    				  kontaktFunnet.set_Telefon(tlf);
+	    		  }
+	    		  if (!tlfFelt.getText().equals("")) {
+	    			  kontaktFunnet = reg.finnKontaktpersonViaTlf(tlfFelt.getText());
+	    			  
+	    	    	  if (!fornavn.equals(""))
+	    	    		  kontaktFunnet.set_Fornavn(fornavn);
+	    	    	  if (!etternavn.equals(""))
+	    	    		  kontaktFunnet.set_Etternavn(etternavn);
+	    	    	  if (!epost.equals(""))
+	    	    		  kontaktFunnet.set_Epost(epost);
+	    	    	  if (!bildeB.equals("")) {
+							if (kontaktFunnet != null) {
+								Object[] options = {"Ja",
+								                    "Nei",};
+								int n = JOptionPane.showOptionDialog(null,
+								    "Vil du erstatte bildet med et nytt?",
+								    "Hei bruker.",
+								    JOptionPane.OK_CANCEL_OPTION,
+								    JOptionPane.INFORMATION_MESSAGE,
+								    null,
+								    options,
+								    options[0]);
+								if (n == 1) {
+									tekstområde.setText("* Bildet ble ikke erstattet *\r\n");
+									tekstområde.append(kontaktFunnet.toString());
+					    	    	clearFields();
+									return;
+								}
+								slettFil(kontaktFunnet);
+								String bildenavn = "./images/"+kontaktFunnet.get_Fornavn()+"-"+kontaktFunnet.get_Telefon()+"-"+"bilde.png";
+			    				File outputfile = new File(bildenavn);
+			    	    		kontaktFunnet.set_bildeSti(bildenavn);
+			    				try {
+									ImageIO.write(bilde, "png", outputfile);
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								};
+							}
+	    	    	  }
+
+	    	    	  tekstområde.setText(kontaktFunnet.toString());
+	    	    	  clearFields();
+	    	    	  setPlaceHolderImg();
+	 
+	    		  } else if (!epostFelt.getText().equals("")) {
+	    			  kontaktFunnet = reg.finnKontaktpersonViaEpost(epostFelt.getText());
+	    			  
+	    	    	  if (!fornavn.equals(""))
+	    	    		  kontaktFunnet.set_Fornavn(fornavn);
+	    	    	  if (!etternavn.equals(""))
+	    	    		  kontaktFunnet.set_Etternavn(etternavn);
+	    	    	  if (!tlf.equals(""))
+	    	    		  kontaktFunnet.set_Telefon(tlf);
+	    	    	  if (!bildeB.equals("")) {
+							if (kontaktFunnet != null) {
+								Object[] options = {"Ja",
+								                    "Nei",};
+								int n = JOptionPane.showOptionDialog(null,
+								    "Vil du erstatte bildet med et nytt?",
+								    "Hei bruker.",
+								    JOptionPane.OK_CANCEL_OPTION,
+								    JOptionPane.INFORMATION_MESSAGE,
+								    null,
+								    options,
+								    options[0]);
+								if (n == 1) {
+									tekstområde.setText("* Bildet ble ikke erstattet *\r\n");
+									tekstområde.append(kontaktFunnet.toString());
+					    	    	clearFields();
+									return;
+								}
+								slettFil(kontaktFunnet);
+								String bildenavn = "./images/"+fornavn+"-"+tlf+"-"+"bilde.png";
+			    				File outputfile = new File(bildenavn);
+			    	    		kontaktFunnet.set_bildeSti(bildenavn);
+			    				try {
+									ImageIO.write(bilde, "png", outputfile);
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								};
+							}
+	    	    	  }
+
+	    	    	  tekstområde.setText(kontaktFunnet.toString());
+	    	    	  clearFields();
+	    	    	  setPlaceHolderImg();
+	    		  }
 	    	  }
 	      }
 	    }

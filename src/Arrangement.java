@@ -30,7 +30,7 @@ public class Arrangement implements Serializable {
 	private static int nesteId = 1;
 	private String navn, beskrivelse;
 	private BufferedImage bilde = null;			//hva brukes denne til?
-	private String bildeSti;
+	private String bildeSti,info1,info2;
 	private Date dato;
 	private boolean billettsalg = false;
 	private int pris = 0;
@@ -94,18 +94,14 @@ public class Arrangement implements Serializable {
 	}
 	
 	//Minimumskarv + dato + beskrivelse + bilde
-	public Arrangement (String n, Kontaktperson k, String d, String b, String f) {
+	public Arrangement (String n, Kontaktperson k, Date d, String b, String f) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		try {
-			dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig."); //dette må løses på en annen måte. Error_message?
-		}
 		aId = nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
 		bildeSti = f;
+		dato = d;
 	}
 	
 	//Minimumskarv + dato + beskrivelse + bilde  + pris og antall billetter
@@ -137,7 +133,18 @@ public class Arrangement implements Serializable {
 	public void set_Navn(String n) {
 		navn = n;
 	}
-	
+	public void set_Info(String n) {
+		info1 = n;
+	}
+	public void set_Info2(String n) {
+		info2 = n;
+	}
+	public void set_Pris(int n) {
+		pris = n;
+	}
+	public void set_Bildesti(String n) {
+		bildeSti = n;
+	}
 	public void set_Kontaktperson(Kontaktperson k) {
 		kontakt = k;
 	}

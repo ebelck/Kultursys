@@ -1,9 +1,14 @@
 import java.awt.GridLayout;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import org.jdesktop.swingx.JXDatePicker;
+
+import java.text.ParseException;
 
 public class Kalenderpanel extends JPanel {
 	JTextField tid = new JTextField("00:00");
@@ -18,8 +23,22 @@ public class Kalenderpanel extends JPanel {
 		 kalender.setFormats(sdf);
 	}
 	public JPanel makePanels() {
+		tid.setHorizontalAlignment(JTextField.CENTER);
 		panelHead.add(tid);
 		panelHead.add(kalender);
 		return panelHead;
+	}
+	public Date hentDato() {
+		Date dato = kalender.getDate();
+		String s = sdf.format(dato);
+		s += " " + tid.getText();
+		try {
+			sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+			dato = sdf.parse(s);
+			return dato;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return dato;
+		}
 	}
 }

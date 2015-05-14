@@ -8,9 +8,8 @@ public class Kulturhus implements Serializable {
 	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
 	private Personregister preg = new Personregister();
-	private Billettregister billreg;
-	private Personregister persreg;
-	private Lokale l;
+	private Billettregister billreg = new Billettregister();
+	private Lokale l = new Lokale();
 	
 	//////////////////////
 	//	KONSTRUKTØRER	//
@@ -50,15 +49,21 @@ public class Kulturhus implements Serializable {
 	//  ARRANGEMENTER OG LOKALER TIL FIL	   //
 	/////////////////////////////////////////////
 	
-	public void lagre() {
+	public void lagreLok() {
 		lagreLokaler();
-		preg.lagrePersonregister();
-		l.lagreArrangementer();
-		billreg.lagreBillettregister();
-		persreg.lagrePersonregister();
+		
 	}
-
+	public void lagrePerson(){
+		preg.lagrePersonregister();
+	}
 	
+	public void lagreArr() {
+		l.lagreArrangementer();
+	}
+		
+	public void lagreBilletter() {
+		billreg.lagreBillettregister();
+	}
 	
 	//////////////////////////////////
 	//	LOKALEMANIPULERINGS-METODER	//
@@ -146,6 +151,13 @@ public class Kulturhus implements Serializable {
 			}catch(Exception e){
 				return "Ooops: " + e;
 			}	
+<<<<<<< HEAD
+=======
+		}
+		while(knut.hasNext()){
+			a= knut.next();
+			
+>>>>>>> branch 'master' of https://github.com/ebelck/ProgUtvikling.git
 		}
 		while(knut.hasNext()){
 			a= knut.next();
@@ -156,7 +168,7 @@ public class Kulturhus implements Serializable {
 
 	public String[] lokalListe() {
 		ArrayList<String> a = new ArrayList<>();
-		a.add("Oppdater liste");
+		a.add("Oppdater Lokal-liste");
 
 		for (Lokale s : lreg) {
 			a.add(s.get_Navn());
@@ -397,7 +409,6 @@ public class Kulturhus implements Serializable {
 
 	public String lagreLokaler() {
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/lokreg.dta" ) )){
-
 				utfil.writeObject( lreg );
 				utfil.close();
 				
@@ -405,7 +416,6 @@ public class Kulturhus implements Serializable {
 			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause() ;
 		} 
 		
-		System.out.println("Suksett\r\n");
 		return "Suksess!";
 	}
 
