@@ -181,6 +181,9 @@ public class Billettvindu extends JApplet {
 			lokvalg.add(velgLokale);
 			velgLokale.setSelectedIndex(lokNr);
 		top.add(arrvalg);
+			arrvalg.remove(velgArrangement);
+			arrangementvalg = k.arrangementCombo(lokNr); 
+			velgArrangement = new JComboBox<String>(arrangementvalg);
 			arrvalg.add(velgArrangement);
 		top.add(billvalg);
 			billvalg.add(tomrom);
@@ -207,41 +210,44 @@ public class Billettvindu extends JApplet {
 	private void bestill(){
 		System.out.println("Starter bstilling()");
 		//henter lokale fra combobox
-		
-		//LEGG INN SJEKK PÅ AT LOKALE ER VALGT
-		Lokale l = k.finnType((String)velgLokale.getSelectedItem());
-		
-		//henter arrangement fra combobox
-		
-		//LEGG INN SJEKK PÅ AT LOKALE ER VALGT
-		Arrangement a;//	LAG METODE FOR Å FINNE ARRANGEMENT
-		
-		//henter personinfo fra textfelt
-		String antallStr = antall.getText(); 
-		String fnavnStr = fnavn.getText();
-		String enavnStr = enavn.getText();
-		String epostStr = epost.getText();
-		String telefonStr = telefon.getText();
-		if(antallStr.equals("") || fnavnStr.equals("") || enavnStr.equals("") || epostStr.equals("") || telefonStr.equals("")){
-			melding.setText("Vennligst fyll ut alle feltene.");
-			System.out.println("Tomme felter");
-			return;
-		}
-		//validerer innputdata
-		String persOK = Valider.person(fnavnStr, enavnStr, epostStr, telefonStr);
-		
-		//Sjekker at validering gikk bra
-		if(!persOK.equals("")){
-			melding.setText(persOK);
-			return;
-		}else if(!Valider.antall(antallStr)){
-			melding.setText("Antall billetter må være et tall mellom 1 og 99999999");
-			return;
+		if(velgLokale.getSelectedItem().equals("Velg lokale")){
+			System.out.println("Ingen lokale valgt");
+			melding.setText("Du må velge lokale");
+		}else if(velgArrangement.getSelectedItem().equals("Ingen arrangement i dette lokalet")){
+			System.out.println("Ingen arrangement valgt");
+			melding.setText("Du må velge arangement");
 		}else{
-			//oppretter person og bestiller billett
-			Person k = new Person(fnavnStr,enavnStr,epostStr,telefonStr);
-			System.out.println("Lagrer bestilling");
-			//a.bestillBillett(Integer.parseInt(antallStr), k);
+			Lokale l = k.finnType((String)velgLokale.getSelectedItem());
+			Arrangement a;// = l.finnArrangement(n);	//Her blir det kluss
+			
+			//henter personinfo fra textfelt
+			String antallStr = antall.getText(); 
+			String fnavnStr = fnavn.getText();
+			String enavnStr = enavn.getText();
+			String epostStr = epost.getText();
+			String telefonStr = telefon.getText();
+			
+			if(antallStr.equals("") || fnavnStr.equals("") || enavnStr.equals("") || epostStr.equals("") || telefonStr.equals("")){
+				melding.setText("Vennligst fyll ut alle feltene.");
+				System.out.println("Tomme felter");
+				return;
+			}
+			//validerer innputdata
+			String persOK = Valider.person(fnavnStr, enavnStr, epostStr, telefonStr);
+			
+			//Sjekker at validering gikk bra
+			if(!persOK.equals("")){
+				melding.setText(persOK);
+				return;
+			}else if(!Valider.antall(antallStr)){
+				melding.setText("Antall billetter må være et tall mellom 1 og 99999999");
+				return;
+			}else{
+				//oppretter person og bestiller billett
+				Person k = new Person(fnavnStr,enavnStr,epostStr,telefonStr);
+				System.out.println("Lagrer bestilling");
+				//a.bestillBillett(Integer.parseInt(antallStr), k);
+			}
 		}
 	}
 	
