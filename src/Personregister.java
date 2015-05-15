@@ -31,7 +31,7 @@ public class Personregister implements Serializable {
 			
 		}
 		catch(Exception e){
-			System.out.println("Feil i lagReg(): " + e.getClass());
+			System.out.println("Feil i lagReg() i Personregister-klassen konstruktør: " + e.getClass());
 		}
 		if(kreg == null)
 			kreg = new ArrayList<Kontaktperson>();
