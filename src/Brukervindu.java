@@ -12,20 +12,20 @@ import java.util.Date;
 public class Brukervindu extends JPanel{
 
 	private static final long serialVersionUID = 1L; //hva skal jeg sette her?
-	
+
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
 	
-	public Brukervindu(/*Kulturhus k*/){	// Kulturhuset må opprettes og sendes med fra main
+	public Brukervindu(){	// Kulturhuset må opprettes og sendes med fra main
 		//konstruktør fra JPanel
 		super(new GridLayout(1,1));
+		Kulturhus k = new Kulturhus("Test","Testesen");
 		
 		//////////////////////////////////////
 		//////////	TESTKODE START  //////////
 		//////////////////////////////////////
 		
-		Kulturhus k = test(); //test() er definert nederst
 		
 		//////////////////////////////////////
 		//////////	TESTKODE START  //////////
@@ -147,5 +147,4 @@ public class Brukervindu extends JPanel{
 		
 		return k;
 	}
-	
 }

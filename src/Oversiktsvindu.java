@@ -38,23 +38,13 @@ public class Oversiktsvindu extends JApplet {
 	private JComponent north,south,center,centerLineEnd,centerPageStart,centerPageStartTopPanel;
 	private JLabel bildeLabel, bildeContainer;
 	
-	//Metode for å lage dropdown-meny
-	private String[] ekstraInput(){
-		HashSet<String> a = new HashSet<>(Arrays.asList(k.lokalListe()));
-		HashSet<String> b = new HashSet<>(Arrays.asList(lokalvalg));
-		lokalvalg = k.lokalListe();
-		a.removeAll(b);
-		String[] ab = a.toArray(new String[a.size()]);
-		return ab;
-	}
-
-	
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
 	
-	public Oversiktsvindu(Kulturhus k){
+	public Oversiktsvindu(Kulturhus hus){
 		
+		k = hus;
 		lokalvalg = k.lokalListe();
 		lokalvelger = new JComboBox<String>(lokalvalg);
 		
@@ -138,12 +128,17 @@ public class Oversiktsvindu extends JApplet {
 		setVisible(true);
 	}
 	
-	private class Knappelytter implements ActionListener{
+	
+	
+	public class Knappelytter implements ActionListener{
 		public void actionPerformed( ActionEvent e){
 			//søker opp Arrangement
 			if(e.getSource() == søkKnp){
-				String lokale = (String)lokalvelger.getSelectedItem();
-				resultat.setText(k.listArrangement(lokale));
+				String lokalenavn = (String)lokalvelger.getSelectedItem();
+				String a = k.listArrangement(lokalenavn);
+				resultat.setText(a);
+				//resultat.setText(lokalenavn);
+				//System.out.println(k.totatlString());
 				return;
 			}
 			else if( e.getSource() == tilbake){
