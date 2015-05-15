@@ -208,13 +208,13 @@ public class Billettvindu extends JApplet {
 	
 	//Henter infomasjon fra input og validerer den før bestilling legges inn.
 	private void bestill(){
-		System.out.println("Starter bstilling()");
+		//System.out.println("Starter bstilling()");
 		//henter lokale fra combobox
 		if(velgLokale.getSelectedItem().equals("Velg lokale")){
-			System.out.println("Ingen lokale valgt");
+			//System.out.println("Ingen lokale valgt");
 			melding.setText("Du må velge lokale");
 		}else if(velgArrangement.getSelectedItem().equals("Ingen arrangement i dette lokalet")){
-			System.out.println("Ingen arrangement valgt");
+			//System.out.println("Ingen arrangement valgt");
 			melding.setText("Du må velge arangement");
 		}else{
 			Lokale l = k.finnType((String)velgLokale.getSelectedItem());
@@ -229,7 +229,7 @@ public class Billettvindu extends JApplet {
 			
 			if(antallStr.equals("") || fnavnStr.equals("") || enavnStr.equals("") || epostStr.equals("") || telefonStr.equals("")){
 				melding.setText("Vennligst fyll ut alle feltene.");
-				System.out.println("Tomme felter");
+				//System.out.println("Tomme felter");
 				return;
 			}
 			//validerer innputdata
@@ -245,7 +245,7 @@ public class Billettvindu extends JApplet {
 			}else{
 				//oppretter person og bestiller billett
 				Person k = new Person(fnavnStr,enavnStr,epostStr,telefonStr);
-				System.out.println("Lagrer bestilling");
+				//System.out.println("Lagrer bestilling");
 				//a.bestillBillett(Integer.parseInt(antallStr), k);
 			}
 		}
@@ -253,7 +253,7 @@ public class Billettvindu extends JApplet {
 	
 	//Hneter informasjon fra input og valderer før bestilling fjernes
 	private void avbestill(){
-		System.out.println("Starter avbestilling");
+		//System.out.println("Starter avbestilling");
 		//henter lokale fra combobox
 		Lokale l = k.finnType((String)velgLokale.getSelectedItem());
 		
@@ -266,7 +266,7 @@ public class Billettvindu extends JApplet {
 		
 		if(antallStr.equals("") || telefonStr.equals("")){
 			melding.setText("Vennligst oppgi antall billetter og telefonnr");
-			System.out.println("Tomme felter");
+			//System.out.println("Tomme felter");
 		}
 
 		//Validerer input
@@ -275,7 +275,7 @@ public class Billettvindu extends JApplet {
 		}else if(!Valider.telefon(telefonStr)){
 			melding.setText("Oppgi et gyldig telefonnr\r\n");
 		}else{
-			System.out.println("Avbestiller billett");
+			//System.out.println("Avbestiller billett");
 			//LEGGE INN EN "Er du sikker?"-PROMT
 			//a.avbestillBillett(Integer.parseInt(antallStr), telefonStr);
 			//FIKSE FEEDBACK TIL BRUKER:
@@ -285,17 +285,17 @@ public class Billettvindu extends JApplet {
 	
 	//Viser alle billetter tilknyttet et telefonnr
 	private void søk(){
-		System.out.println("Starter søk");
+		//System.out.println("Starter søk");
 		
 		String telefonStr = telefon.getText();
 		
 		if(telefonStr.equals("")){
-			System.out.println("Tomme felter");
+			//System.out.println("Tomme felter");
 			melding.setText("Vennligst fyll ut telefonnr");
 		}else if(!Valider.telefon(telefonStr)){
 			melding.setText("Oppgi et gyldig telefonnr\r\n");
 		}else{
-			System.out.println("Søker opp Billetter");
+			//System.out.println("Søker opp Billetter");
 			//LAGE METODE FOR Å LISTE UT BILLETTER
 			//melding.setText(k.finnBiletter(telefonStr));
 		}
@@ -311,8 +311,8 @@ public class Billettvindu extends JApplet {
 		public void actionPerformed( ActionEvent e ){
 			if(e.getSource() == velgLokale){
 				int lokNr = velgLokale.getSelectedIndex();
-				System.out.println("Lokale valgt: " + lokNr + ": " + velgLokale.getSelectedItem());
-				System.out.println(k.finnLokale(lokNr).toString());
+				//System.out.println("Lokale valgt: " + lokNr + ": " + velgLokale.getSelectedItem());
+				//System.out.println(k.finnLokale(lokNr).toString());
 				top.removeAll();
 				top.revalidate();
 				top.repaint();

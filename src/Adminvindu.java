@@ -63,7 +63,9 @@ public Adminvindu( Kulturhus hus,Personregister reg)
      * Create the GUI and show it.
      */
    public void createUser() {
+	   
 	   brukerV.createAndShowGUI();
+	   
    }
     public void createAdmin()
     {

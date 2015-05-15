@@ -222,22 +222,17 @@ public class Kulturhus implements Serializable {
 	}
 	
 	public String[] arrangementCombo(int lokNr) {
-		System.out.println("arrangementCOmbo() ble kalt");
 		ArrayList<String> liste = new ArrayList<>();
 		
 		if(lokNr == 0){
-			System.out.println("lokNr == 0");
+			//System.out.println("lokNr == 0");
 			liste.add("Velg et lokale først");
 
 		}else if(finnLokale(lokNr).get_reg().isEmpty()){
-			System.out.println("Arrangementregisteret er tomt");
 			liste.add("Ingen arrangement i dette lokalet");
 		}else{
 			Lokale l = this.finnLokale(lokNr); 
-			
-			System.out.println("Søker gjennom arrangement i " + l.get_Navn());
-			
-			for (Arrangement a : l.get_reg()) {
+			for (Arrangement a : l.get_reg()) {											//HUSK SJEKK OM BETALING
 				//if(a.get_Billettsalg()){
 					int arrNr = a.get_aId();
 					String navn = a.get_Navn() + ": " + a.get_Dato();
@@ -247,12 +242,7 @@ public class Kulturhus implements Serializable {
 			}
 			liste.add(0, "Velg arrangement");
 		}
-		String t = "Listen ser slik ut:\r\n"; 
-		for(String s: liste){ t+= s + "\r\n";}
-		System.out.println(t);
-		String[] s = ((ArrayList<String>)liste).toArray(new String[liste.size()]);
-		
-		return s;
+		return ((ArrayList<String>)liste).toArray(new String[liste.size()]);
 	}
 	
 	//////////////////////////////////////////
@@ -362,7 +352,7 @@ public class Kulturhus implements Serializable {
 		}catch(IOException e){
 			return "Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
 		} 
-		System.out.println("Suksess i lagring til lokreg.dta!");
+		//System.out.println("Suksess i lagring til lokreg.dta!");
 		return "Suksess";
 	}
 }//KLASSE KULTURHUS SLUTT
