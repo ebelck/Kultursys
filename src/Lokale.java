@@ -16,7 +16,7 @@ public class Lokale implements Serializable{
 
 	private static final long serialVersionUID = 1382938975339463705L;
 	private int plasser, refNr;
-	private static int nesteNr = 1;
+	private static int nesteNr = 0;
 	private String navn, beskrivelse, type;
 	private ArrayList<Arrangement> reg = new ArrayList<>();
 	private Iterator<Arrangement> iterator;

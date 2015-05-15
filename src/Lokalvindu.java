@@ -270,14 +270,21 @@ public class Lokalvindu extends JApplet {
 	      }
 	      else if ( e.getSource() == listeKnapp )
 	    	  	tekstområde.setText(k.listLokaler());
+	      
 	      else if ( e.getSource() == finnKnapp ) {
 	    	  try {
-	      		Lokale lokalFunnet = k.finnLokale(Integer.parseInt(refFelt.getText()));
-	      		System.out.println(refFelt.getText());
-	      		System.out.println(lokalFunnet.get_Navn());
-	      		System.out.println("Fant vi noe?");
-	      		tekstområde.setText(lokalFunnet.toString());
+	    		int n = Integer.parseInt(refFelt.getText());
+	      		Lokale lokalFunnet = k.finnLokale(n);
+	      		String s = lokalFunnet.toString();
+	      		
+	      		if (!k.finnesLokale(n)) {
+	      			System.out.println("Skrev fra if'en");
+	      			tekstområde.setText("Fant ikke lokale med dette referansenummer.");
+	      			return;
+	      		}
+	      			tekstområde.setText(s);
 	    	  } catch(Exception ex) {
+	    		  System.out.println("Skrev fra exception");
 	    		  tekstområde.setText("Fant ikke lokale med dette referansenummer.");
 	    	  }
 	      } else if ( e.getSource() == oppdaterKnapp ) {

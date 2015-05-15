@@ -97,6 +97,13 @@ public class Kulturhus implements Serializable {
 			return false;
 		}
 	}
+	public boolean finnesLokale(int n) {
+		for(Lokale f : lreg) {
+			if(f.get_RefNr()==n)
+				return true;
+		}
+		return false;
+	}
 	
 	public Lokale finnLokale(int n){
 		Lokale funnet = null;
