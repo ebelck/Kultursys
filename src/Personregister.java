@@ -9,8 +9,8 @@ import java.io.*;
 import java.util.*;
 
 
-public class Personregister extends ArrayList implements Serializable {
-	
+public class Personregister extends ArrayList<Kontaktperson> implements Serializable {
+	private static final long serialVersionUID = 7204488033269860044L;
 	private ArrayList<Kontaktperson> reg = new ArrayList<Kontaktperson>();
 	private Iterator<Kontaktperson> iterator;
 	
@@ -19,6 +19,24 @@ public class Personregister extends ArrayList implements Serializable {
 	//////////////////
 	
 	public Personregister(){
+		ArrayList<Kontaktperson> kreg = null;
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/kontreg.dta" ) )){
+				kreg = (ArrayList<Kontaktperson>) innfil.readObject();
+				innfil.close();
+		}catch(FileNotFoundException eofe){
+			kreg = null;
+		}catch(EOFException eofe){
+	
+		}catch(InvalidClassException ice){
+			
+		}
+		catch(Exception e){
+			System.out.println("Feil i lagReg(): " + e.getClass());
+		}
+		if(kreg == null)
+			kreg = new ArrayList<Kontaktperson>();
+		
+		reg = kreg;
 	}
 	
 	//////////////////////
@@ -195,7 +213,6 @@ public class Personregister extends ArrayList implements Serializable {
 		
 	public String lagrePersonregister(){
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/kontreg.dta" ) )){
-			System.out.println(reg);
 			utfil.writeObject( reg );
 			utfil.close();
 		}catch(Exception e){
@@ -206,7 +223,7 @@ public class Personregister extends ArrayList implements Serializable {
 		return "Suksess!";
 	}
 
-	public ArrayList<Kontaktperson> lagPersonregister(){
+/*	public ArrayList<Kontaktperson> lagPersonregister(){
 		ArrayList<Kontaktperson> kreg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/kontreg.dta" ) )){
 				kreg = (ArrayList<Kontaktperson>) innfil.readObject();
@@ -225,7 +242,7 @@ public class Personregister extends ArrayList implements Serializable {
 			kreg = new ArrayList<Kontaktperson>();
 		
 		return reg = (ArrayList<Kontaktperson>) kreg;
-	}
+	}*/
 	
 }// KLASSE BILLETTREGISTER SLUTT
 

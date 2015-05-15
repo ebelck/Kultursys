@@ -11,13 +11,14 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 
 
-public class Kontaktvindu extends JApplet {
-	private static final long serialVersionUID = 1L;
+public class Kontaktvindu extends JApplet implements Serializable {
+	private static final long serialVersionUID = 5852295657639809254L;
 	private JTextField fornavnFelt, etternavnFelt, epostFelt,tlfFelt,bildeNavnFelt;
 	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp, bildeKnapp,oppdaterKnapp;
 	private JTextArea tekstområde;
