@@ -1,14 +1,15 @@
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.util.*;
 import java.awt.event.*;
+import java.io.Serializable;
 
 
 
-public class Billettvindu extends JApplet {
-	
-	private static final long serialVersionUID = 1L;
-	
+public class Billettvindu extends JApplet implements Serializable {
+	private static final long serialVersionUID = -5477737420470188001L;
 	private JLabel tomrom = new JLabel(" ");
 	private JPanel top, lokvalg, arrvalg, billvalg, kundeinfo1, kundeinfo2, knapprad, tekstvindu;
 	private JComboBox<String> velgLokale, velgArrangement;

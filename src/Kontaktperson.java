@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public class Kontaktperson extends Person implements Serializable {
-	
+	private static final long serialVersionUID = 2195541615163342230L;
 	private int pId;
 	private static int nesteId = 1;
 	private String bildesti;

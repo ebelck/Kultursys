@@ -27,7 +27,6 @@ public Adminvindu( Kulturhus hus,Personregister reg)
 	lokalV = new Lokalvindu(k);
 	arrangementV = new Arrangementvindu(k,pr);
 	kontaktV = new Kontaktvindu(pr);
-	brukerV = new Brukervindu(k);
 	
 
     tabbedPane.addTab("Administrer lokaler", null, lokalV, "Her kan du fikse alt som har med lokaler å gjøre");
@@ -63,6 +62,7 @@ public Adminvindu( Kulturhus hus,Personregister reg)
      * Create the GUI and show it.
      */
    public void createUser() {
+	   brukerV = new Brukervindu(k);
 	   brukerV.createAndShowGUI();
    }
     public void createAdmin()

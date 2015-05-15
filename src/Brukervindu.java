@@ -4,14 +4,16 @@
 //	billetter															//
 //////////////////////////////////////////////////////////////////////////
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Brukervindu extends JPanel{
-
-	private static final long serialVersionUID = 1L; //hva skal jeg sette her?
-	
+public class Brukervindu extends JPanel implements Serializable{
+	private static final long serialVersionUID = 6885055091284757299L;
 	Kulturhus k;
 	
 	//////////////////
@@ -68,6 +70,14 @@ public class Brukervindu extends JPanel{
       
       //henter innholdet til brukervindu
       brukervindu.getContentPane().add(new Brukervindu(k), BorderLayout.CENTER);
+      
+      brukervindu.addWindowListener(new WindowAdapter()
+      {
+          public void windowClosing(WindowEvent e)
+          {
+        	  k.lagreLokaler();
+          }
+      });
       
  
       //Display the window.

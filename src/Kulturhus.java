@@ -30,7 +30,7 @@ public class Kulturhus implements Serializable {
 			
 		}
 		catch(Exception e){
-			System.out.println("Feil i lagReg(): " + e.getClass() + "\r\n" +  e.getCause());
+			System.out.println("Feil i lagReg() i Kulturhus-klassens konstruktør: " + e.getClass() + "\r\n" +  e.getCause());
 		}
 		if(reg == null)
 			reg = new ArrayList<Lokale>();

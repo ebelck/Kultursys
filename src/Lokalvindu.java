@@ -2,12 +2,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
-public class Lokalvindu extends JApplet {
+public class Lokalvindu extends JApplet implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private JTextField navnFelt, beskFelt, refFelt, altFelt1, altFelt2;
 	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp,oppdaterKnapp;

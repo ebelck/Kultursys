@@ -1,12 +1,13 @@
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.awt.event.*;
+import java.io.Serializable;
 
 
-public class Oversiktsvindu extends JApplet {
-	
-	private static final long serialVersionUID = 1L;
-	
+public class Oversiktsvindu extends JApplet implements Serializable {
+	private static final long serialVersionUID = -7739980805136500639L;
 	private JPanel top, tekstvindu;
 	private JComboBox<String> velgLokale;
 	private String[] lokalvalg;
