@@ -8,12 +8,12 @@ public class Oversiktsvindu extends JApplet {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel top, tekstvindu;
-	private JComboBox<String> valgLokale;
+	private JComboBox<String> velgLokale;
 	private String[] lokalvalg;
 	private JLabel velgL;
-	private JButton søkKnp, tilbakeKnp;
 	private JTextArea melding;
 	private JScrollPane meldingsområde;
+	private String standardmelding = "Velkommen til Publikumsportalen!\r\n\r\n Her kan du se hva som foregår på Kulturhuset og bestille billetter.";
 	
 	private Kulturhus k;
 	private ActionListener lytter;
@@ -38,28 +38,19 @@ public class Oversiktsvindu extends JApplet {
 
 		top = new JPanel();
 		getContentPane().add(top, BorderLayout.NORTH);
-		top.setLayout(new GridLayout(1,4));
+		top.setLayout(new GridLayout(2,1));
 		
 			/////	VALGMENY START	/////
 		
-			velgL = new JLabel("Velg lokale:");
+			velgL = new JLabel("Velg lokale i menyen for å vise arrangement:");
 			top.add(velgL);
 			
 			lokalvalg = k.lokalListe();
-			valgLokale = new JComboBox<String>(lokalvalg);
-			valgLokale.setToolTipText("Liste over lokalene i kulturhuset");
-			valgLokale.addActionListener(lytter);
-			top.add(valgLokale);
+			velgLokale = new JComboBox<String>(lokalvalg);
+			velgLokale.setToolTipText("Liste over lokalene i kulturhuset");
+			velgLokale.addActionListener(lytter);
+			top.add(velgLokale);
 			
-			søkKnp = new JButton("Søk");
-			søkKnp.setToolTipText("Søker opp alle arrangemnt tilknyttet lokalet");
-			søkKnp.addActionListener(lytter);
-			top.add(søkKnp);
-			
-			tilbakeKnp = new JButton("Tilbake");
-			tilbakeKnp.setToolTipText("Tar deg tilbake til første visning");
-			tilbakeKnp.addActionListener(lytter);
-			top.add(tilbakeKnp);
 		
 			/////	VALGMENY SLUTT	/////
 			
@@ -75,7 +66,7 @@ public class Oversiktsvindu extends JApplet {
 			
 			/////	MELDINGSVINDU START	/////
 			
-				melding = new JTextArea();
+				melding = new JTextArea(standardmelding);
 				meldingsområde = new JScrollPane(melding);
 				melding.setEditable(false);
 				melding.setMargin(new Insets(10,10,10,10));
@@ -91,19 +82,14 @@ public class Oversiktsvindu extends JApplet {
 	
 	
 	public class Knappelytter implements ActionListener{
+		
 		public void actionPerformed( ActionEvent e){
 			//søker opp Arrangement
-			if(e.getSource() == søkKnp){
-				String lokalenavn = (String)valgLokale.getSelectedItem();
+			if(e.getSource() == velgLokale/*søkKnp*/){
+				String lokalenavn = (String)velgLokale.getSelectedItem();
 				String a = k.listArrangement(lokalenavn);
 				melding.setText(a);
-				//resultat.setText(lokalenavn);
-				//System.out.println(k.totatlString());
 				return;
-			}
-			else if( e.getSource() == tilbakeKnp){
-				
-				melding.setText("Går tilbake til defaultvisning");
 			}
 			else{
 				melding.setText("Banan!");

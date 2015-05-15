@@ -199,6 +199,62 @@ public class Kulturhus implements Serializable {
 		}
 		return funnet;
 	}
+	public Lokale[] lokaleCombo2() {
+		return lreg.toArray(new Lokale[lreg.size()]);
+	}
+	
+	public String[] lokaleCombo() {
+		ArrayList<String> liste = new ArrayList<>();
+		if(lreg.isEmpty()){
+			liste.add("Ingen lokaler i listen");
+		}else{
+			for (Lokale s : lreg) {
+				int lokNr = s.get_RefNr();
+				String navn = s.get_Navn();
+				liste.add(lokNr, navn);
+				//a.add(s.get_Navn());
+			}
+			liste.add(0, "Velg lokale");
+		}
+		String[] s = ((ArrayList<String>)liste).toArray(new String[liste.size()]);
+		
+		return s;
+	}
+	
+	public String[] arrangementCombo(int lokNr) {
+		System.out.println("arrangementCOmbo() ble kalt");
+		ArrayList<String> liste = new ArrayList<>();
+		
+		if(lokNr == 0){
+			System.out.println("lokNr == 0");
+			liste.add("Velg et lokale først");
+
+		}else if(finnLokale(lokNr).get_reg().isEmpty()){
+			System.out.println("Arrangementregisteret er tomt");
+			liste.add("Ingen arrangement i dette lokalet");
+		}else{
+			Lokale l = this.finnLokale(lokNr); 
+			
+			System.out.println("Søker gjennom arrangement i " + l.get_Navn());
+			
+			for (Arrangement a : l.get_reg()) {
+				//if(a.get_Billettsalg()){
+					int arrNr = a.get_aId();
+					String navn = a.get_Navn() + ": " + a.get_Dato();
+					liste.add(arrNr, navn);
+					//a.add(s.get_Navn());
+				//}
+			}
+			liste.add(0, "Velg arrangement");
+		}
+		String t = "Listen ser slik ut:\r\n"; 
+		for(String s: liste){ t+= s + "\r\n";}
+		System.out.println(t);
+		String[] s = ((ArrayList<String>)liste).toArray(new String[liste.size()]);
+		
+		return s;
+	}
+	
 	//////////////////////////////////////////
 	//	LOKALEMANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////////////

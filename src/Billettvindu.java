@@ -1,21 +1,17 @@
 import java.awt.*;
 import javax.swing.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.imageio.ImageIO;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+
 
 
 public class Billettvindu extends JApplet {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private JLabel tomrom = new JLabel(" ");
 	private JPanel top, lokvalg, arrvalg, billvalg, kundeinfo1, kundeinfo2, knapprad, tekstvindu;
-	private JComboBox velgLokale, velgArrangement;
+	private JComboBox<String> velgLokale, velgArrangement;
 	private String[] lokalvalg, arrangementvalg;
 	private JLabel antallL, fnavnL,enavnL,epostL,telefonL;
 	private JTextField antall, fnavn, enavn, epost, telefon;
@@ -25,16 +21,10 @@ public class Billettvindu extends JApplet {
 
 	private Kulturhus k;
 	private ActionListener lytter;
-	
-	
-	private String[] ekstraInput(){
-		HashSet<String> a = new HashSet<>(Arrays.asList(k.lokalListe()));
-		HashSet<String> b = new HashSet<>(Arrays.asList(lokalvalg));
-		lokalvalg = k.lokalListe();
-		a.removeAll(b);
-		String[] ab = a.toArray(new String[a.size()]);
-		return ab;
-	}
+
+	//////////////////
+	//	KONSTRUKTØR	//
+	//////////////////
 	
 	public Billettvindu(Kulturhus hus) {
 		
@@ -54,103 +44,104 @@ public class Billettvindu extends JApplet {
 		getContentPane().add(top, BorderLayout.NORTH);
 		top.setLayout(new GridLayout(6,1));
 		
-			/////	LOAKLEVELGER START	/////
+			/////	LOKALEVELGER START	/////
 		
-		lokvalg = new JPanel();
-		top.add(lokvalg);
-		lokvalg.setLayout(new GridLayout(1,1));
-		
-		lokalvalg = k.lokalListe();
-		velgLokale = new JComboBox<String>(lokalvalg);
-		velgLokale.addActionListener(lytter);
-		lokvalg.add(velgLokale);
-		
-			/////	LOAKLEVELGER SLUTT	/////
+			lokvalg = new JPanel();
+			top.add(lokvalg);
+			lokvalg.setLayout(new GridLayout(1,1));
+			
+			//lokalvalg = k.lokalListe();
+			lokalvalg = k.lokaleCombo();
+			velgLokale = new JComboBox<String>(lokalvalg);
+			velgLokale.addActionListener(lytter);
+			lokvalg.add(velgLokale);
+					
+			/////	LOKALEVELGER SLUTT	/////
 		
 		
 			/////	ARRANGEMENTVELGER START	/////
 		
-		arrvalg = new JPanel();
-		top.add(arrvalg);
-		arrvalg.setLayout(new GridLayout(1,1));
-		
-		//arrangementvalg = MÅ LAGE METODE FOR ÅÅ HENTE UT ARRANGEMENT 
-		velgArrangement = new JComboBox<String>(/*arrangementvalg*/);
-		velgArrangement.addActionListener(lytter);
-		arrvalg.add(velgArrangement);
-		
+			arrvalg = new JPanel();
+			top.add(arrvalg);
+			arrvalg.setLayout(new GridLayout(1,1));
+			
+			arrangementvalg = k.arrangementCombo(velgLokale.getSelectedIndex()); 
+			velgArrangement = new JComboBox<String>(arrangementvalg);
+			velgArrangement.addActionListener(lytter);
+			arrvalg.add(velgArrangement);
+			
 			/////	ARRANGEMENTVELGER SLUTT	/////
 		
 		
 			/////	BILLETVALG START	/////
 			
-		billvalg = new JPanel();
-		top.add(billvalg);
-		billvalg.setLayout(new GridLayout(1,4));
-		
-		antallL = new JLabel("Antall billetter");
-		antall = new JTextField();
-		
-		billvalg.add(tomrom);
-		billvalg.add(tomrom);
-		billvalg.add(antallL);
-		billvalg.add(antall);
-		
+			billvalg = new JPanel();
+			top.add(billvalg);
+			billvalg.setLayout(new GridLayout(1,4));
+			
+			antallL = new JLabel("Antall billetter");
+			antall = new JTextField();
+			
+			billvalg.add(tomrom);
+			billvalg.add(tomrom);
+			billvalg.add(antallL);
+			billvalg.add(antall);
+			
 			/////	BILLETVALG START	/////
 			
 		
 			/////	KUNDEINFO START	/////
 		
-		kundeinfo1 = new JPanel();
-		top.add(kundeinfo1);
-		kundeinfo1.setLayout(new GridLayout(1,4));
-		
-		kundeinfo2 = new JPanel();
-		top.add(kundeinfo2);
-		kundeinfo2.setLayout(new GridLayout(1,4));
-		
-		fnavnL = new JLabel("Fornavn:");
-		kundeinfo1.add(fnavnL);
-		fnavn = new JTextField();
-		kundeinfo1.add(fnavn);
-		
-		enavnL = new JLabel("Etternavn:");
-		kundeinfo1.add(enavnL);
-		enavn = new JTextField();
-		kundeinfo1.add(enavn);
-		
-		epostL = new JLabel("Epost:");
-		kundeinfo2.add(epostL);
-		epost = new JTextField();
-		kundeinfo2.add(epost);
-		
-		telefonL = new JLabel("Telefon:");
-		kundeinfo2.add(telefonL);
-		telefon = new JTextField();
-		kundeinfo2.add(telefon);
-		
+			kundeinfo1 = new JPanel();
+			top.add(kundeinfo1);
+			kundeinfo1.setLayout(new GridLayout(1,4));
+			
+			kundeinfo2 = new JPanel();
+			top.add(kundeinfo2);
+			kundeinfo2.setLayout(new GridLayout(1,4));
+			
+			fnavnL = new JLabel("Fornavn:");
+			kundeinfo1.add(fnavnL);
+			fnavn = new JTextField();
+			kundeinfo1.add(fnavn);
+			
+			enavnL = new JLabel("Etternavn:");
+			kundeinfo1.add(enavnL);
+			enavn = new JTextField();
+			kundeinfo1.add(enavn);
+			
+			epostL = new JLabel("Epost:");
+			kundeinfo2.add(epostL);
+			epost = new JTextField();
+			kundeinfo2.add(epost);
+			
+			telefonL = new JLabel("Telefon:");
+			kundeinfo2.add(telefonL);
+			telefon = new JTextField();
+			kundeinfo2.add(telefon);
+			
 			/////	KUNDEINFO START	/////
 		
 		
 			/////	KNAPPERAD START	/////
 		
-		knapprad = new JPanel();
-		top.add(knapprad);
-		knapprad.setLayout(new GridLayout(1,3));
-		
-		bestillKnapp = new JButton("Bestill");
-		bestillKnapp.addActionListener(lytter);
-		knapprad.add(bestillKnapp);
-		
-		
-		avbestillKnapp = new JButton("Avbestill");
-		avbestillKnapp.addActionListener(lytter);
-		knapprad.add(avbestillKnapp);
-		
-		søkKnapp = new JButton("Søk på billetter");
-		søkKnapp.addActionListener(lytter);
-		knapprad.add(søkKnapp);
-		
+			knapprad = new JPanel();
+			top.add(knapprad);
+			knapprad.setLayout(new GridLayout(1,3));
+			
+			bestillKnapp = new JButton("Bestill");
+			bestillKnapp.addActionListener(lytter);
+			knapprad.add(bestillKnapp);
+			
+			
+			avbestillKnapp = new JButton("Avbestill");
+			avbestillKnapp.addActionListener(lytter);
+			knapprad.add(avbestillKnapp);
+			
+			søkKnapp = new JButton("Søk på billetter");
+			søkKnapp.addActionListener(lytter);
+			knapprad.add(søkKnapp);
+			
 		
 		
 			/////	KNAPPERAD START	/////
@@ -165,15 +156,51 @@ public class Billettvindu extends JApplet {
 		getContentPane().add(tekstvindu, BorderLayout.CENTER);
 		tekstvindu.setLayout(new GridLayout(1,1));
 		
-		melding = new JTextArea();
-		meldingsområde = new JScrollPane(melding);
-		melding.setEditable(false);
-		melding.setMargin(new Insets(10,10,10,10));
-		melding.setText("");
-		tekstvindu.add(melding);
+			/////	MELDINGSVINDU START	/////
+		
+			melding = new JTextArea();
+			meldingsområde = new JScrollPane(melding);
+			melding.setEditable(false);
+			melding.setMargin(new Insets(10,10,10,10));
+			melding.setText("");
+			tekstvindu.add(melding);
+			
+			/////	MELDINGSVINDU SLUTT	/////
 		
 		/////		MIDT-PANEL SLUTT	/////
 		/////////////////////////////////////
+	}
+	
+	
+	//////////////////////
+	//	METODER START	//
+	//////////////////////
+	
+	public void repainter(int lokNr){
+		top.add(lokvalg);
+			lokvalg.add(velgLokale);
+			velgLokale.setSelectedIndex(lokNr);
+		top.add(arrvalg);
+			arrvalg.add(velgArrangement);
+		top.add(billvalg);
+			billvalg.add(tomrom);
+			billvalg.add(tomrom);
+			billvalg.add(antallL);
+			billvalg.add(antall);
+		top.add(kundeinfo1);
+			kundeinfo1.add(fnavnL);
+			kundeinfo1.add(fnavn);
+			kundeinfo1.add(enavnL);
+			kundeinfo1.add(enavn);
+		top.add(kundeinfo2);
+			kundeinfo2.add(epostL);
+			kundeinfo2.add(epost);
+			kundeinfo2.add(telefonL);
+			kundeinfo2.add(telefon);
+		top.add(knapprad);
+			knapprad.add(bestillKnapp);
+			knapprad.add(avbestillKnapp);
+			knapprad.add(søkKnapp);
 	}
 	
 	//Henter infomasjon fra input og validerer den før bestilling legges inn.
@@ -269,12 +296,22 @@ public class Billettvindu extends JApplet {
 		
 	}
 	
+	//////////////////////
+	//	METODER SLUTT	//
+	//////////////////////
+	
 	public class Knappelytter implements ActionListener{
 		
 		public void actionPerformed( ActionEvent e ){
 			if(e.getSource() == velgLokale){
-				JComboBox cb = (JComboBox)e.getSource();
-				
+				int lokNr = velgLokale.getSelectedIndex();
+				System.out.println("Lokale valgt: " + lokNr + ": " + velgLokale.getSelectedItem());
+				System.out.println(k.finnLokale(lokNr).toString());
+				top.removeAll();
+				top.revalidate();
+				top.repaint();
+				repainter(lokNr);
+				getContentPane().add(top,BorderLayout.NORTH);
 			}
 			else if(e.getSource() == bestillKnapp){
 				bestill();
@@ -287,4 +324,5 @@ public class Billettvindu extends JApplet {
 			}
 		}
 	}
+
 }
