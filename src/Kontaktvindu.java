@@ -257,7 +257,6 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	    		  }
 	    		  if (bildeNavnFelt.getText().equals("")) {
 		    		  Kontaktperson kontakt = new Kontaktperson(fornavn,etternavn,epost,tlf);
-		    		  System.out.println(kontakt.toString());
 		    		  if (reg.leggTilKontaktperson(kontakt)) {
 		    			  tekstområde.setText(kontakt.get_Navn() + " ble lagt til i registeret.");
 		    		  }

@@ -109,6 +109,8 @@ public class Kulturhus implements Serializable {
 		for (Lokale s : lreg) {
 			melding += s.toString();
 		}
+		if (melding.equals(""))
+			return "Ingen lokaler lagret";
 		return melding;
 	}
 	

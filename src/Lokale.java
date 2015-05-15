@@ -60,6 +60,13 @@ public class Lokale implements Serializable{
 	public ArrayList<Arrangement> get_reg(){
 		return reg;
 	}
+	public void set_Navn(String s) {
+		navn = s;
+	}
+	public void set_Besk(String s) {
+		beskrivelse = s;
+	}
+	
 	
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
