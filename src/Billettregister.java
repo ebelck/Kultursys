@@ -11,8 +11,9 @@
 import java.io.*;
 import java.util.*;
 
-public class Billettregister {
-	
+public class Billettregister implements Serializable {
+
+	private static final long serialVersionUID = 6559197877098881762L;
 	private ArrayList<Billett> reg = new ArrayList<Billett>();
 	private Iterator<Billett> iterator;
 	
@@ -22,10 +23,6 @@ public class Billettregister {
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
-	
-	public Billettregister(){
-		// Opprettes et tomt register hvis fil er tom
-	}
 	
 	public Billettregister(int n){
 		antallBilletter = n;
@@ -218,47 +215,4 @@ public class Billettregister {
 		}
 		return melding;
 	}
-	
-	//////////////////////////////////////////
-	//	SKRIVING OG LESING --> BILLREG.DTA	//
-	//////////////////////////////////////////
-	
-	public String lagreBillettregister(){
-		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/billreg.dta" ) )){
-			System.out.println(reg);
-			utfil.writeObject( reg );
-			utfil.close();
-		}catch(Exception e){
-			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
-		}
-		
-		System.out.println("Suksess i lagreBilletter");
-		return "Suksess!";
-	}
-
-	public ArrayList<Billett> lagBillettregister(){
-		ArrayList<Billett> breg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/billreg.dta" ) )){
-				breg = (ArrayList<Billett>) innfil.readObject();
-				innfil.close();
-		}catch(FileNotFoundException eofe){
-			breg = null;
-		}catch(EOFException eofe){
-	
-		}catch(InvalidClassException ice){
-			
-		}
-		catch(Exception e){
-			System.out.println("Feil i lagReg(): " + e.getClass());
-		}
-		if(breg == null)
-			breg = new ArrayList<Billett>();
-		
-		return reg = (ArrayList<Billett>) breg;
-	}
-	
-	///////////////////////////////////////////////
-	//	SKRIVING OG LESING --> BILLREG.DTA SLUTT //
-	///////////////////////////////////////////////
-	
 }// KLASSE BILLETTREGISTER SLUTT

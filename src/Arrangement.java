@@ -23,7 +23,9 @@ import javax.swing.*;
 import javax.imageio.*;
 
 public class Arrangement implements Serializable {
-	
+
+	private static final long serialVersionUID = -8249020595875511272L;
+
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	
 	private  int aId = 0;
@@ -284,8 +286,8 @@ public class Arrangement implements Serializable {
 		melding += "Arrangement:\t" + navn + "\r\n";
 		melding += (beskrivelse != null) ? "Beskrivelse:\t" + beskrivelse + "\r\n" : "Ingen beskrivelse" + "\r\n";
 		melding += (bildeSti != null) ? "Bilde:\t" + bildeSti + "\r\n" : "Mangler bilde" + "\r\n";
-		melding += (info1 != null) ? info1 + "\r\n" : "" + "\r\n";
-		melding += (info2 != null) ? info2 + "\r\n" : "" + "\r\n";
+		melding += (info1 != null) ? info1 + "\r\n" : "";
+		melding += (info2 != null) ? info2 + "\r\n" : "";
 		melding += (dato != null) ? "Dato:\t" + sdf.format(dato) + "\r\n" : "Dato ikke satt" + "\r\n";
 		melding += (!billettsalg) ? "Pris:\tGratis\r\n" : "Pris:\tkr " + pris +".00\r\n";
 		melding += (billettsalg) ? "Ledige bill.:\t" + (reg.get_antallBilletter() - reg.antallSolgteBilletter()) + "/" + reg.get_antallBilletter() + "\r\n": "";

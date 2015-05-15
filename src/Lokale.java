@@ -13,7 +13,8 @@ import java.io.*;
 
 
 public class Lokale implements Serializable{
-	Kulturhus k;
+
+	private static final long serialVersionUID = 1382938975339463705L;
 	private int plasser, refNr;
 	private static int nesteNr = 1;
 	private String navn, beskrivelse, type;
@@ -130,6 +131,21 @@ public class Lokale implements Serializable{
 		return melding;
 	}
 	
+	public ArrayList<Arrangement> hentArrObjekter(){
+		ArrayList<Arrangement> arrReg = new ArrayList<Arrangement>();
+		System.out.println("Lister ut arrangement");
+		if(reg.isEmpty()) {
+			System.out.println("reg er null");
+			return null;
+		}
+		
+		for (Arrangement s : reg) {
+			System.out.println("inne i hentARrObjekter sin for");
+			if(s != null)
+				arrReg.add(s);
+		}
+		return arrReg;
+	}
 	//VAT IZ DIZ?
 	public HashSet<Arrangement> kontaktOpplysning(Kontaktperson k) {
 		HashSet<Arrangement> arrHash = new HashSet<>();
@@ -169,43 +185,4 @@ public class Lokale implements Serializable{
 		meld += "Beskrivelse:\t" + get_Beskrivelse() + "\r\n";
 		return meld;
 	}
-	
-	//////////////////////////////////////////
-	//	SKRIVING OG LESING --> ARRAREG.DTA	//
-	//////////////////////////////////////////
-	
-	public String lagreArrangementer(){
-		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/arrareg.dta" ) )){
-			System.out.print(k.listArrangementerILokaler());
-			utfil.writeObject( reg );
-			utfil.close();
-		}catch(Exception e){
-			return "Feil i lagreArrangementer(): " + e.getClass() + "\r\n" + e.getCause();
-		}
-		
-		System.out.println("Suksess i lagreArrangementer");
-		return "Suksess i å lagre arrangementer!";
-	}
-
-	public ArrayList<Arrangement> lagArrangementer(){
-		ArrayList<Arrangement> areg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/arrareg.dta" ) )){
-				areg = (ArrayList<Arrangement>) innfil.readObject();
-				innfil.close();
-		}catch(FileNotFoundException eofe){
-			areg = null;
-		}catch(EOFException eofe){
-	
-		}catch(InvalidClassException ice){
-			
-		}
-		catch(Exception e){
-			System.out.println("Feil i lagReg(): " + e.getClass());
-		}
-		if(areg == null)
-			areg = new ArrayList<Arrangement>();
-		
-		return reg = (ArrayList<Arrangement>) areg;
-	}
-	
 }//KLASSE LOKALE SLUTT
