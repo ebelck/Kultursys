@@ -10,7 +10,8 @@ import java.util.*;
 
 
 public class Personregister extends ArrayList implements Serializable {
-	
+
+	private static final long serialVersionUID = -6570917033529449333L;
 	private ArrayList<Kontaktperson> reg = new ArrayList<Kontaktperson>();
 	private Iterator<Kontaktperson> iterator;
 	
@@ -195,7 +196,7 @@ public class Personregister extends ArrayList implements Serializable {
 		
 	public String lagrePersonregister(){
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/kontreg.dta" ) )){
-			System.out.println(reg);
+			System.out.println( reg );
 			utfil.writeObject( reg );
 			utfil.close();
 		}catch(Exception e){

@@ -11,8 +11,9 @@
 import java.io.*;
 import java.util.*;
 
-public class Billettregister {
-	
+public class Billettregister implements Serializable {
+
+	private static final long serialVersionUID = 6559197877098881762L;
 	private ArrayList<Billett> reg = new ArrayList<Billett>();
 	private Iterator<Billett> iterator;
 	

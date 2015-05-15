@@ -23,7 +23,9 @@ import javax.swing.*;
 import javax.imageio.*;
 
 public class Arrangement implements Serializable {
-	
+
+	private static final long serialVersionUID = -8249020595875511272L;
+
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	
 	private  int aId = 0;

@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Kulturhus implements Serializable {
 
+	private static final long serialVersionUID = 7057756717951866203L;
 	private String beskrivelse, navn;
 	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
@@ -58,13 +59,13 @@ public class Kulturhus implements Serializable {
 	}
 	
 	public String lagreArr() {
-		return l.lagreArrangementer();
+		return lagreArrangementer();
 	}
 		
 	public String lagreBilletter() {
 		return billreg.lagreBillettregister();
 	}
-	
+
 	//////////////////////////////////
 	//	LOKALEMANIPULERINGS-METODER	//
 	//////////////////////////////////
@@ -281,18 +282,19 @@ public class Kulturhus implements Serializable {
 
 	public String lagreLokaler() {
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/lokreg.dta" ) )){
-				utfil.writeObject( lreg );
-				utfil.close();
+			System.out.println("LagreLokaler()\r\n" + lreg);	
+			utfil.writeObject( (ArrayList<Lokale>) lreg );
+			utfil.close();
 				
 		}catch(IOException e){
-			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
+			return "Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
 		} 
 		
 		return "Suksess i lagring til lokreg.dta!";
 	}
 
 	public ArrayList<Lokale> lagLokaler(){
-		List<Lokale> reg = null;
+		ArrayList<Lokale> reg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){	
 			reg = (ArrayList<Lokale>) innfil.readObject();
 			innfil.close();
@@ -312,5 +314,45 @@ public class Kulturhus implements Serializable {
 		return lreg = (ArrayList<Lokale>) reg;
 	}
 	
+	// Lagre arrangementer til fil
+	public String lagreArrangementer(){
+		ArrayList<Arrangement> arrReg = new ArrayList<Arrangement>();
+		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/arrareg.dta" ) )){
+			System.out.println("inne i lagreArrangementer");
+			for(Lokale l : lreg){
+				System.out.println("Inne i lokaler sin forløkke");
+				arrReg.addAll(l.hentArrObjekter());
+			}
+			System.out.println(arrReg);
+			utfil.writeObject(arrReg);
+			utfil.close();
+		}catch(Exception e){
+			return "Feil i lagreArrangementer(): " + e.getClass() + "\r\n" + e.getCause();
+		}
+		
+		System.out.println("Suksess i lagreArrangementer");
+		return "Suksess i å lagre arrangementer!";
+	}
+
+//	public ArrayList<Arrangement> lagArrangementer(){
+//		ArrayList<Arrangement> areg = null;
+//		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/arrareg.dta" ) )){
+//				areg = (ArrayList<Arrangement>) innfil.readObject();
+//				innfil.close();
+//		}catch(FileNotFoundException eofe){
+//			areg = null;
+//		}catch(EOFException eofe){
+//	
+//		}catch(InvalidClassException ice){
+//			
+//		}
+//		catch(Exception e){
+//			System.out.println("Feil i lagReg(): " + e.getClass());
+//		}
+//		if(areg == null)
+//			areg = new ArrayList<Arrangement>();
+//		
+//		return null;//reg = (ArrayList<Arrangement>) areg;
+//	}
 	
 }//KLASSE KULTURHUS SLUTT
