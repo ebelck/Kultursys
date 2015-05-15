@@ -4,7 +4,6 @@
 //	billetter															//
 //////////////////////////////////////////////////////////////////////////
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Date;
@@ -21,15 +20,6 @@ public class Brukervindu extends JPanel{
 		//konstruktør fra JPanel
 		super(new GridLayout(1,1));
 		Kulturhus k = new Kulturhus("Test","Testesen");
-		
-		//////////////////////////////////////
-		//////////	TESTKODE START  //////////
-		//////////////////////////////////////
-		
-		
-		//////////////////////////////////////
-		//////////	TESTKODE START  //////////
-		//////////////////////////////////////
 		
 		//Oppretter et vindu med faner
 		JTabbedPane faneVindu = new JTabbedPane();
