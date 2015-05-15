@@ -24,10 +24,6 @@ public class Billettregister implements Serializable {
 	//	KONSTRUKTØR	//
 	//////////////////
 	
-	public Billettregister(){
-		// Opprettes et tomt register hvis fil er tom
-	}
-	
 	public Billettregister(int n){
 		antallBilletter = n;
 		fyllRegister(n);
@@ -219,47 +215,4 @@ public class Billettregister implements Serializable {
 		}
 		return melding;
 	}
-	
-	//////////////////////////////////////////
-	//	SKRIVING OG LESING --> BILLREG.DTA	//
-	//////////////////////////////////////////
-	
-	public String lagreBillettregister(){
-		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/billreg.dta" ) )){
-			System.out.println(reg);
-			utfil.writeObject( reg );
-			utfil.close();
-		}catch(Exception e){
-			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
-		}
-		
-		System.out.println("Suksess i lagreBilletter");
-		return "Suksess!";
-	}
-
-	public ArrayList<Billett> lagBillettregister(){
-		ArrayList<Billett> breg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/billreg.dta" ) )){
-				breg = (ArrayList<Billett>) innfil.readObject();
-				innfil.close();
-		}catch(FileNotFoundException eofe){
-			breg = null;
-		}catch(EOFException eofe){
-	
-		}catch(InvalidClassException ice){
-			
-		}
-		catch(Exception e){
-			System.out.println("Feil i lagReg(): " + e.getClass());
-		}
-		if(breg == null)
-			breg = new ArrayList<Billett>();
-		
-		return reg = (ArrayList<Billett>) breg;
-	}
-	
-	///////////////////////////////////////////////
-	//	SKRIVING OG LESING --> BILLREG.DTA SLUTT //
-	///////////////////////////////////////////////
-	
 }// KLASSE BILLETTREGISTER SLUTT

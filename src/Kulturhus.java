@@ -9,7 +9,7 @@ public class Kulturhus implements Serializable {
 	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
 	private Personregister preg = new Personregister();
-	private Billettregister billreg = new Billettregister();
+//	private Billettregister billreg = new Billettregister();
 	private Lokale l = new Lokale();
 	
 	//////////////////////
@@ -18,7 +18,25 @@ public class Kulturhus implements Serializable {
 	
 	public Kulturhus (String n, String b) {
 		navn = n;
-		beskrivelse = b;	
+		beskrivelse = b;
+		ArrayList<Lokale> reg = null;
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){	
+			reg = (ArrayList<Lokale>) innfil.readObject();
+			innfil.close();
+		}catch(FileNotFoundException fnfe){
+			reg = null;
+		}catch(EOFException eofe){
+	
+		}catch(InvalidClassException ice){
+			
+		}
+		catch(Exception e){
+			System.out.println("Feil i lagReg(): " + e.getClass() + "\r\n" +  e.getCause());
+		}
+		if(reg == null)
+			reg = new ArrayList<Lokale>();
+		
+		lreg = reg;
 	}
 	
 	//////////////////////
@@ -58,13 +76,6 @@ public class Kulturhus implements Serializable {
 		return preg.lagrePersonregister();
 	}
 	
-	public String lagreArr() {
-		return lagreArrangementer();
-	}
-		
-	public String lagreBilletter() {
-		return billreg.lagreBillettregister();
-	}
 
 	//////////////////////////////////
 	//	LOKALEMANIPULERINGS-METODER	//
@@ -292,67 +303,4 @@ public class Kulturhus implements Serializable {
 		
 		return "Suksess i lagring til lokreg.dta!";
 	}
-
-	public ArrayList<Lokale> lagLokaler(){
-		ArrayList<Lokale> reg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){	
-			reg = (ArrayList<Lokale>) innfil.readObject();
-			innfil.close();
-		}catch(FileNotFoundException fnfe){
-			reg = null;
-		}catch(EOFException eofe){
-	
-		}catch(InvalidClassException ice){
-			
-		}
-		catch(Exception e){
-			System.out.println("Feil i lagReg(): " + e.getClass() + "\r\n" +  e.getCause());
-		}
-		if(reg == null)
-			reg = new ArrayList<Lokale>();
-		
-		return lreg = (ArrayList<Lokale>) reg;
-	}
-	
-	// Lagre arrangementer til fil
-	public String lagreArrangementer(){
-		ArrayList<Arrangement> arrReg = new ArrayList<Arrangement>();
-		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/arrareg.dta" ) )){
-			System.out.println("inne i lagreArrangementer");
-			for(Lokale l : lreg){
-				System.out.println("Inne i lokaler sin forløkke");
-				arrReg.addAll(l.hentArrObjekter());
-			}
-			System.out.println(arrReg);
-			utfil.writeObject(arrReg);
-			utfil.close();
-		}catch(Exception e){
-			return "Feil i lagreArrangementer(): " + e.getClass() + "\r\n" + e.getCause();
-		}
-		
-		System.out.println("Suksess i lagreArrangementer");
-		return "Suksess i å lagre arrangementer!";
-	}
-
-//	public ArrayList<Arrangement> lagArrangementer(){
-//		ArrayList<Arrangement> areg = null;
-//		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/arrareg.dta" ) )){
-//				areg = (ArrayList<Arrangement>) innfil.readObject();
-//				innfil.close();
-//		}catch(FileNotFoundException eofe){
-//			areg = null;
-//		}catch(EOFException eofe){
-//	
-//		}catch(InvalidClassException ice){
-//			
-//		}
-//		catch(Exception e){
-//			System.out.println("Feil i lagReg(): " + e.getClass());
-//		}
-//		if(areg == null)
-//			areg = new ArrayList<Arrangement>();
-//		
-//		return null;//reg = (ArrayList<Arrangement>) areg;
-//	}
-	
 }//KLASSE KULTURHUS SLUTT
