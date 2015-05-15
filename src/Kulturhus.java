@@ -3,8 +3,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Kulturhus implements Serializable {
+<<<<<<< HEAD
+	private static final long serialVersionUID = 4685273927229406532L;
+=======
 
 	private static final long serialVersionUID = 7057756717951866203L;
+>>>>>>> refs/heads/master
 	private String beskrivelse, navn;
 	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
@@ -121,6 +125,8 @@ public class Kulturhus implements Serializable {
 		for (Lokale s : lreg) {
 			melding += s.toString();
 		}
+		if (melding.equals(""))
+			return "Ingen lokaler lagret";
 		return melding;
 	}
 	

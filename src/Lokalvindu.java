@@ -1,13 +1,16 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
 public class Lokalvindu extends JApplet {
 	private static final long serialVersionUID = 1L;
 	private JTextField navnFelt, beskFelt, refFelt, altFelt1, altFelt2;
-	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp;
+	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp,oppdaterKnapp;
 	private JTextArea tekstområde;
 	private JScrollPane utskriftområde;
 	private BorderLayout layout;
@@ -19,6 +22,14 @@ public class Lokalvindu extends JApplet {
 	private String lokalnavn = "Valg";
 	private JComponent north,south;
 	
+	public void clearFields() {
+		navnFelt.setText("");
+		beskFelt.setText("");
+		refFelt.setText("");
+		refFelt.setText("");
+		altFelt1.setText("");
+		altFelt2.setText("");
+	}
 	private void addSpecificC(String l) {
 		if (l.equals("Kino")) {
 			north.setLayout(new GridLayout(6, 2)); // 5 rows 2 columns; no gaps);
@@ -88,12 +99,13 @@ public class Lokalvindu extends JApplet {
 			slettKnapp = new JButton( "Slett lokale" );
 			regKnapp = new JButton( "Registrer lokale" );
 			listeKnapp = new JButton( "List ut lokaler" );
+			oppdaterKnapp = new JButton("Oppdater lokale");
 			
 			//////////////////////////////////////////
 			/////////// GUI LAYOUT START /////////////
 			
 			layout = new BorderLayout(5, 5);
-			bottomGrid = new GridLayout(1, 4);
+			bottomGrid = new GridLayout(1, 5);
 			topGrid = new GridLayout(5, 2);
 
 
@@ -127,6 +139,7 @@ public class Lokalvindu extends JApplet {
 			south.add(slettKnapp);
 			south.add(regKnapp);
 			south.add(listeKnapp);
+			south.add(oppdaterKnapp);
 			// BOTTOM GRID END
 			
 			c = getContentPane();
@@ -147,6 +160,7 @@ public class Lokalvindu extends JApplet {
 			regKnapp.addActionListener( lytter );
 			lokalvelger.addActionListener( lytter );
 			listeKnapp.addActionListener(lytter);
+			oppdaterKnapp.addActionListener(lytter);
 			
 			setSize( 550, 500 );
 			setVisible( true );
@@ -171,6 +185,7 @@ public class Lokalvindu extends JApplet {
 	    			  Kino kino = new Kino(navn,besk,film);
 	    			  if (k.leggTilLokale(kino)) {
 	    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
+	    		    	  clearFields();
 	    			  }
 	    			}
 	    			else if (lokalnavn.equals("Cafe")) {
@@ -178,6 +193,7 @@ public class Lokalvindu extends JApplet {
 		    			  Cafe cafe = new Cafe(navn,besk,gjesteplass);
 		    			  if (k.leggTilLokale(cafe)) {
 		    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
+		    		    	  clearFields();
 		    			  }
 	    			}
 	    			else if (lokalnavn.equals("Konferanse")) {
@@ -185,18 +201,21 @@ public class Lokalvindu extends JApplet {
 		    			  Konferanse konf = new Konferanse(navn,besk,gjesteplass);
 		    			  if (k.leggTilLokale(konf)) {
 		    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
+		    		    	  clearFields();
 		    			  }
 	    			}
 	    			else if (lokalnavn.equals("Selskapslokale")) {
 		    				Selskapslokale selskapslokale = new Selskapslokale(navn,besk,altFelt1.getText());
 			    			  if (k.leggTilLokale(selskapslokale)) {
 			    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
+			    		    	  clearFields();
 			    			  }	
 			    			}
 	    			else if (lokalnavn.equals("Scene")) {
 		    			  Scene scene = new Scene(navn,besk,altFelt1.getText());
 		    			  if (k.leggTilLokale(scene)) {
 		    				  tekstområde.setText("Lokalet "+ navn + " ble lagt til i kulturhuset");
+		    		    	  clearFields();
 		    			  }
 	    			}
 	    			else if (lokalnavn.equals("Valg")) {
@@ -238,6 +257,7 @@ public class Lokalvindu extends JApplet {
 								+ lokalFunnet.get_Navn() + " og referanse "
 								+ lokalFunnet.get_RefNr()
 								+ " er slettet fra kulturhuset.");
+				    	  clearFields();
 					} else {
 						tekstområde
 								.setText("Vi kunne ikke finne et lokale med referanse "
@@ -260,6 +280,24 @@ public class Lokalvindu extends JApplet {
 	    	  } catch(Exception ex) {
 	    		  tekstområde.setText("Fant ikke lokale med dette referansenummer.");
 	    	  }
+	      } else if ( e.getSource() == oppdaterKnapp ) {
+	    	  if (refFelt.getText().equals("")) {
+	    		  tekstområde.setText("Du må bruke referansenummer for å oppdatere ett arrangement");
+	    		  return;
+	    	  }
+	    	  String navn = navnFelt.getText();
+	    	  String besk = beskFelt.getText();
+	    	  String alt = altFelt1.getText();
+	    	  String alt2 = altFelt2.getText();
+
+	    	  int refNr = Integer.parseInt(refFelt.getText());
+	    	  Lokale lokFunnet = k.arrangementViaK(refNr);
+	    	  if (!navn.equals(""))
+	    		  lokFunnet.set_Navn(navn);
+	    	  if (!besk.equals(""))
+	    		  lokFunnet.set_Besk(besk);
+	    	  tekstområde.setText(lokFunnet.toString());
+	    	  clearFields();
 	      }
 	      
 		    int n = lokalvelger.getSelectedIndex();

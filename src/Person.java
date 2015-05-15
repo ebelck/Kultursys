@@ -8,7 +8,7 @@
 import java.io.*;
 
 public class Person implements Serializable {
-	
+	private static final long serialVersionUID = -7313580225459341922L;
 	private String fornavn;
 	private String etternavn;
 	private String epost;

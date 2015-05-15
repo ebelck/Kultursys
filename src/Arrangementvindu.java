@@ -12,11 +12,12 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 
 
-public class Arrangementvindu extends JApplet {
-	private static final long serialVersionUID = 1L;
+public class Arrangementvindu extends JApplet implements Serializable {
+	private static final long serialVersionUID = 5598407733052246255L;
 	private JTextField navnFelt, beskFelt, prisFelt, refFelt,altFelt1,altFelt2,bildeNavnFelt,antallFelt;
 	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp,bildeKnapp,oppdaterKnapp;
 	private JTextArea tekstområde;
