@@ -71,6 +71,7 @@ public Adminvindu( Kulturhus hus,Personregister reg)
           public void windowClosing(WindowEvent e)
           {
         	  pr.lagrePersonregister();
+        	  k.lagreLokaler();
           }
       });
  

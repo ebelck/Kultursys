@@ -294,14 +294,12 @@ public class Kulturhus implements Serializable {
 
 	public String lagreLokaler() {
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/lokreg.dta" ) )){
-			System.out.println("LagreLokaler()\r\n" + lreg);	
 			utfil.writeObject( (ArrayList<Lokale>) lreg );
 			utfil.close();
-				
 		}catch(IOException e){
 			return "Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
 		} 
-		
-		return "Suksess i lagring til lokreg.dta!";
+		System.out.println("Suksess i lagring til lokreg.dta!");
+		return "Suksess";
 	}
 }//KLASSE KULTURHUS SLUTT

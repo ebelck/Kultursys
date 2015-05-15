@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.*;
 
 
-public class Personregister extends ArrayList<Kontaktperson> implements Serializable {
+public class Personregister implements Serializable {
 	private static final long serialVersionUID = 7204488033269860044L;
 	private ArrayList<Kontaktperson> reg = new ArrayList<Kontaktperson>();
 	private Iterator<Kontaktperson> iterator;
@@ -223,4 +223,3 @@ public class Personregister extends ArrayList<Kontaktperson> implements Serializ
 		return "Suksess!";
 	}
 }// KLASSE BILLETTREGISTER SLUTT
-
