@@ -23,6 +23,9 @@ public class Billettregister implements Serializable {
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
+	public Billettregister() {
+		// Opprettes for ikke-betalbare arrangement, for å hindre konflikt ved skriving til fil.
+	}
 	
 	public Billettregister(int n){
 		antallBilletter = n;

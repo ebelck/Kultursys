@@ -115,6 +115,7 @@ public class Arrangement implements Serializable {
 		kontakt = k;
 		beskrivelse = b;
 		bildeSti = bilde;
+		reg = new Billettregister();
 	}
 	
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
