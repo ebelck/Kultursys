@@ -1,21 +1,25 @@
  import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.Date;
 
  public class Adminvindu extends JPanel {
  private static final long serialVersionUID = 1L;
+ Kulturhus k;
+ Personregister pr;
+ Lokalvindu lk;
+ Arrangementvindu av;
+ Kontaktvindu kv;
  
 	
 public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra Main-metoden
    {
      super(new GridLayout(1, 1));
-     
 
-     JTabbedPane tabbedPane = new JTabbedPane();
-     Kulturhus k = new Kulturhus("Testhuset","Dette kulturhuset er laget som en test");
-     Date dato = new Date();
+    JTabbedPane tabbedPane = new JTabbedPane();
+    k = new Kulturhus("Testhuset","Dette kulturhuset er laget som en test");
+    Date dato = new Date();
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////ALT UNDER KUN FOR TESTING////////////////////////
@@ -33,12 +37,12 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
 	k.leggTilLokale(l2);
 	k.leggTilLokale(l3);
 	l.leggTilArrangement(kinoA);
-	k.leggTilKontaktperson(kontakt);
+	pr.leggTilKontaktperson(kontakt);
 	
-	Personregister pr = new Personregister();
-    Lokalvindu lk = new Lokalvindu(k);
-    Arrangementvindu av = new Arrangementvindu(k, pr);
-    Kontaktvindu kv = new Kontaktvindu(pr);
+	pr = new Personregister();
+    lk = new Lokalvindu(k);
+    av = new Arrangementvindu(k, pr);
+    kv = new Kontaktvindu(pr);
      
 
 	/////////////////////////ALT OVER KUN FOR TESTING /////////////////////////	
@@ -84,9 +88,17 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
     public void createAndShowGUI()
     {
       //Create and set up the window.
-      JFrame frame = new JFrame("TabbedPaneDemo");
+      JFrame frame = new JFrame("Kulturhuset " + k.get_Navn());
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.getContentPane().add(new Adminvindu(), BorderLayout.CENTER);
+      
+      frame.addWindowListener(new WindowAdapter()
+      {
+          public void windowClosing(WindowEvent e)
+          {
+        	  pr.lagrePersonregister();
+          }
+      });
  
       //Display the window.
       frame.pack();

@@ -239,128 +239,8 @@ public class Kulturhus implements Serializable {
 	//	PERSONLOKALEMANIPULERINGS-METODER	//
 	//////////////////////////////////////////
 	
-	//Legger til en Kontakperson i Kontakpersonregisteret
-	public boolean leggTilKontaktperson( Kontaktperson k){
-		return preg.leggTilKontaktperson(k);
-//		if(k == null)
-//			return false;
-//		kontaktInhouse.add(k);
-//		return true;
-	}
-
-	//Sletter en Kontaktperson fra registeret via Epost
-	public boolean slettKontaktpersonViaEpost(String e){
-		return preg.slettKontaktpersonViaEpost(e);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Epost().equals(e)) {
-//	            	kontaktInhouse.remove(funnet);
-//	            	return true;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return false;
-//		}
-//		return false;
-	}
 	
-	//Sletter en Kontaktperson fra registeret via Telefonnr
-	public boolean slettKontaktpersonViaTelefon(String t){
-		return preg.slettKontaktpersonViaTelefon(t);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Telefon().equals(t)) {
-//	            	kontaktInhouse.remove(funnet);
-//	            	return true;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return false;
-//		}
-//		return false;
-	}
-	
-	//finner en Kontaktperson fra registeret via Epost
-	public Kontaktperson finnKontaktpersonViaEpost(String e){	
-		return preg.finnKontaktpersonViaEpost(e);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Epost().equals(e)) {
-//	            	return funnet;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return funnet;
-//		}
-//		return funnet;
-	}
-	
-	//finner en Kontaktperson fra registeret via navn
-	public Kontaktperson finnKontaktpersonViaNavn(String fn){	//OBS! OBS! Må justeres til ny Personklasse
-		return preg.finnKontaktpersonViaNavn(fn);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Navn().equals(fn)) {
-//	            	return funnet;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return funnet;
-//		}
-//		return funnet;
-	}
-
-	//finner en Kontaktperson fra registeret via telefonnr
-	public Kontaktperson finnKontaktpersonViaTlf(String t){
-		return preg.finnKontaktpersonViaTlf(t);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Telefon().equals(t)) {
-//	            	return funnet;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return funnet;
-//		}
-//		return funnet;
-	}
-	
-	//lister ut alle kontaktpersoner
-	public String[] listKontaktpersoner(){
-		return preg.listKontaktpersoner();
-//		ArrayList<String> a = new ArrayList<>();
-//		a.add("Oppdater liste");
-//
-//		for (Kontaktperson s : kontaktInhouse) {
-//			a.add(s.get_Fornavn() + " " + a.add(s.get_Etternavn()));
-//		}
-//		
-//	    String[] s = ((ArrayList<String>)a).toArray(new String[a.size()]);
-//		
-//		return s;
-	}
-	
-	public String kontaktDetaljerTlf(String t) {
+/*	public String kontaktDetaljerTlf(String t) {
 		String melding = "";
 		Kontaktperson person = finnKontaktpersonViaTlf(t);
 		melding += person.toString();
@@ -391,7 +271,7 @@ public class Kulturhus implements Serializable {
 		}
 		return melding;
 	}
-
+*/
 	//////////////////////////////////////////////
 	//	PERSONLOKALEMANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////////////////

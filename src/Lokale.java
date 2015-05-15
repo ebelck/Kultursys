@@ -16,8 +16,6 @@ public class Lokale implements Serializable{
 	private int plasser, refNr;
 	private static int nesteNr = 1;
 	private String navn, beskrivelse, type;
-	
-	
 	private ArrayList<Arrangement> reg = new ArrayList<>();
 	private Iterator<Arrangement> iterator;
 	
@@ -34,7 +32,6 @@ public class Lokale implements Serializable{
 	}
 	
 	public Lokale(){
-		
 	}
 	//////////////////////
 	//	GET/SET-METODER	//

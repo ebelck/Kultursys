@@ -383,7 +383,6 @@ public class Arrangementvindu extends JApplet {
 	    		  if (!lokNavn.equalsIgnoreCase("oppdater liste")){
 	    			  System.out.println("* Starter på alle if-setningene for å legge til Arrangement.\r\n");
 	    			  if (bilde != null) {
-	    				  System.out.println("Bilde-objektet var ikke tomt, så vi er der nå.");
 	    				  String bildenavn = "./images/"+navn+"-"+"bilde.png";
 	    				  try {
 	    					    File outputfile = new File(bildenavn);
@@ -424,7 +423,6 @@ public class Arrangementvindu extends JApplet {
 	    			  }
 	    			  System.out.println("Utenfor bilde-if'en.");
 	    			  if (besk.equals("") && betalbar==false) {
-	    				  System.out.println("besk, betalbar false");
 	    				  	Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
 	    				  	Arrangement arr = new Arrangement(navn,kontakt,dato);
 	    				  	lokale.leggTilArrangement(arr);
@@ -432,7 +430,6 @@ public class Arrangementvindu extends JApplet {
 	    				  	clearFields();
 	    			  }
 	    			  if (!besk.equals("") && betalbar==false) {
-	    				  System.out.println("ingen besk, betalbar false");
 	    				  	Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
 	    				  	Arrangement arr = new Arrangement(navn,kontakt,dato,besk);
 	    				  	lokale.leggTilArrangement(arr);
@@ -440,7 +437,6 @@ public class Arrangementvindu extends JApplet {
 	    				  	clearFields();
 	    			  }
 	    			  if (besk.equals("") && betalbar==true) {
-	    				  System.out.println("besk, betalbar true");
 	    				  	int pris = Integer.parseInt(prisFelt.getText());
 	    				  	int antall = Integer.parseInt(antallFelt.getText());
 	    				  	Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
@@ -450,7 +446,6 @@ public class Arrangementvindu extends JApplet {
 	    				  	clearFields();
 	    			  }
 	    			  if (!besk.equals("") && betalbar==true) {
-	    				  System.out.println("ingen besk, betalbar true");
 	    				  	int pris = Integer.parseInt(prisFelt.getText());
 	    				  	int antall = Integer.parseInt(antallFelt.getText());
 	    				  	Kontaktperson kontakt = preg.finnKontaktpersonViaNavn(kontaktNavn);
