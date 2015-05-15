@@ -1,4 +1,5 @@
  import javax.swing.*;
+
 import java.io.Serializable;
 
  public class Gudeklassen extends JPanel implements Serializable {
@@ -14,12 +15,24 @@ import java.io.Serializable;
 		
  		Kulturhus k = new Kulturhus("Testehuset","This is fucked");
  		Personregister reg = new Personregister();
-		
 		Adminvindu admin = new Adminvindu(k,reg);
-		admin.createAndShowGUI();
 		
-		Brukervindu bruker = new Brukervindu(k);
-		bruker.createAndShowGUI();
+		Object[] options = {"Administrasjonen",
+                "Brukerportalen",};
+		int n = JOptionPane.showOptionDialog(null,
+		"Hvilket system ønsker du å åpne?",
+		"Velkommen til " + k.get_Navn(),
+		JOptionPane.OK_CANCEL_OPTION,
+		JOptionPane.PLAIN_MESSAGE,
+		null,
+		options,
+		options[0]);
+		if (n == 1) {
+			admin.createUser();
+		} else {
+			admin.createAdmin();
+		}
+
 
 	}
 

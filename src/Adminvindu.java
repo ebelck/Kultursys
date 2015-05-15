@@ -12,6 +12,8 @@ import java.util.Date;
  Lokalvindu lokalV;
  Arrangementvindu arrangementV;
  Kontaktvindu kontaktV;
+ Brukervindu brukerV;
+	
  
 	
 public Adminvindu( Kulturhus hus,Personregister reg)
@@ -25,6 +27,7 @@ public Adminvindu( Kulturhus hus,Personregister reg)
 	lokalV = new Lokalvindu(k);
 	arrangementV = new Arrangementvindu(k,pr);
 	kontaktV = new Kontaktvindu(pr);
+	brukerV = new Brukervindu(k);
 	
 
     tabbedPane.addTab("Administrer lokaler", null, lokalV, "Her kan du fikse alt som har med lokaler å gjøre");
@@ -59,11 +62,13 @@ public Adminvindu( Kulturhus hus,Personregister reg)
     /**
      * Create the GUI and show it.
      */
-    public void createAndShowGUI()
+   public void createUser() {
+	   brukerV.createAndShowGUI();
+   }
+    public void createAdmin()
     {
       //Create and set up the window.
       JFrame frame = new JFrame("Kulturhuset " + k.get_Navn());
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.getContentPane().add(new Adminvindu(k,pr), BorderLayout.CENTER);
       
       frame.addWindowListener(new WindowAdapter()
@@ -74,6 +79,7 @@ public Adminvindu( Kulturhus hus,Personregister reg)
         	  k.lagreLokaler();
           }
       });
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
       //Display the window.
       frame.pack();
