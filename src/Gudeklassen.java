@@ -17,6 +17,9 @@ import java.io.Serializable;
 		
 		Adminvindu admin = new Adminvindu(k,reg);
 		admin.createAndShowGUI();
+		
+		Brukervindu bruker = new Brukervindu(k);
+		bruker.createAndShowGUI();
 
 	}
 
