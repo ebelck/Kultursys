@@ -13,7 +13,7 @@ public class Oversiktsvindu extends JApplet {
 	private JLabel velgL;
 	private JTextArea melding;
 	private JScrollPane meldingsområde;
-	private String standardmelding = "Velkommen til Publikumsportalen!\r\n\r\n Her kan du se hva som foregår på Kulturhuset og bestille billetter.";
+	private String standardmelding = "Velkommen til Publikumsportalen!";
 	
 	private Kulturhus k;
 	private ActionListener lytter;
@@ -45,7 +45,7 @@ public class Oversiktsvindu extends JApplet {
 			velgL = new JLabel("Velg lokale i menyen for å vise arrangement:");
 			top.add(velgL);
 			
-			lokalvalg = k.lokalListe();
+			lokalvalg = k.lokaleCombo();
 			velgLokale = new JComboBox<String>(lokalvalg);
 			velgLokale.setToolTipText("Liste over lokalene i kulturhuset");
 			velgLokale.addActionListener(lytter);
@@ -85,7 +85,12 @@ public class Oversiktsvindu extends JApplet {
 		
 		public void actionPerformed( ActionEvent e){
 			//søker opp Arrangement
-			if(e.getSource() == velgLokale/*søkKnp*/){
+			if(e.getSource() == velgLokale){
+				if(velgLokale.getSelectedItem().equals("Velg lokale")){
+					melding.setText(standardmelding);
+					return;
+				}
+					
 				String lokalenavn = (String)velgLokale.getSelectedItem();
 				String a = k.listArrangement(lokalenavn);
 				melding.setText(a);

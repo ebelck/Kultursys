@@ -11,15 +11,17 @@ import java.util.Date;
 public class Brukervindu extends JPanel{
 
 	private static final long serialVersionUID = 1L; //hva skal jeg sette her?
-
+	
+	Kulturhus k;
+	
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
 	
-	public Brukervindu(){	// Kulturhuset må opprettes og sendes med fra main
+	public Brukervindu( Kulturhus inn ){	// Kulturhuset må opprettes og sendes med fra main
 		//konstruktør fra JPanel
 		super(new GridLayout(1,1));
-		Kulturhus k = new Kulturhus("Test","Testesen");
+		k = inn;
 		
 		//Oppretter et vindu med faner
 		JTabbedPane faneVindu = new JTabbedPane();
@@ -65,7 +67,7 @@ public class Brukervindu extends JPanel{
       brukervindu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       
       //henter innholdet til brukervindu
-      brukervindu.getContentPane().add(new Brukervindu(/*Kulturhus k*/), BorderLayout.CENTER);
+      brukervindu.getContentPane().add(new Brukervindu(k), BorderLayout.CENTER);
       
  
       //Display the window.
