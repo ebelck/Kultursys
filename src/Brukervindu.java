@@ -27,6 +27,7 @@ public class Brukervindu extends JPanel implements Serializable{
 		
 		//Oppretter et vindu med faner
 		JTabbedPane faneVindu = new JTabbedPane();
+		faneVindu.setPreferredSize(new Dimension(1000,1000));
 		
 		//Oppretter vinduer for Oversikt og Billettbestilling
 		Oversiktsvindu ov = new Oversiktsvindu(k);
