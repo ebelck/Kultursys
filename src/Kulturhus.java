@@ -233,12 +233,11 @@ public class Kulturhus implements Serializable {
 		}else{
 			Lokale l = this.finnLokale(lokNr); 
 			for (Arrangement a : l.get_reg()) {											//HUSK SJEKK OM BETALING
-				//if(a.get_Billettsalg()){
+				if(a.get_Billettsalg()){
 					int arrNr = a.get_aId();
 					String navn = a.get_Navn() + ": " + a.get_Dato();
 					liste.add(arrNr, navn);
-					//a.add(s.get_Navn());
-				//}
+				}
 			}
 			liste.add(0, "Velg arrangement");
 		}
