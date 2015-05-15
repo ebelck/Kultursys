@@ -13,6 +13,7 @@ import java.io.*;
 
 
 public class Lokale implements Serializable{
+	Kulturhus k;
 	private int plasser, refNr;
 	private static int nesteNr = 1;
 	private String navn, beskrivelse, type;
@@ -178,15 +179,15 @@ public class Lokale implements Serializable{
 	
 	public String lagreArrangementer(){
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/arrareg.dta" ) )){
-			System.out.print(reg);
+			System.out.print(k.listArrangementerILokaler());
 			utfil.writeObject( reg );
 			utfil.close();
 		}catch(Exception e){
-			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
+			return "Feil i lagreArrangementer(): " + e.getClass() + "\r\n" + e.getCause();
 		}
 		
 		System.out.println("Suksess i lagreArrangementer");
-		return "Suksess!";
+		return "Suksess i å lagre arrangementer!";
 	}
 
 	public ArrayList<Arrangement> lagArrangementer(){

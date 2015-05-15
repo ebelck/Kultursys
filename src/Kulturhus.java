@@ -49,20 +49,20 @@ public class Kulturhus implements Serializable {
 	//  ARRANGEMENTER OG LOKALER TIL FIL	   //
 	/////////////////////////////////////////////
 	
-	public void lagreLok() {
-		lagreLokaler();
+	public String lagreLok() {
+		return lagreLokaler();
 		
 	}
-	public void lagrePerson(){
-		preg.lagrePersonregister();
+	public String lagrePerson(){
+		return preg.lagrePersonregister();
 	}
 	
-	public void lagreArr() {
-		l.lagreArrangementer();
+	public String lagreArr() {
+		return l.lagreArrangementer();
 	}
 		
-	public void lagreBilletter() {
-		billreg.lagreBillettregister();
+	public String lagreBilletter() {
+		return billreg.lagreBillettregister();
 	}
 	
 	//////////////////////////////////
@@ -405,10 +405,10 @@ public class Kulturhus implements Serializable {
 				utfil.close();
 				
 		}catch(IOException e){
-			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause() ;
+			return "Feil i lagre(): " + e.getClass() + "\r\n" + e.getCause();
 		} 
 		
-		return "Suksess!";
+		return "Suksess i lagring til lokreg.dta!";
 	}
 
 	public ArrayList<Lokale> lagLokaler(){
