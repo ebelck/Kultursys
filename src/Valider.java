@@ -18,12 +18,16 @@ public final class Valider {
 	//sjekker at navn kun består av store og små bokstaver samt " '-" 
 	//Dette gir mulighet for navn som Per-Gunnar, Jan Einar og etternavn som D'Angelo
 	public static boolean navn(String s){
-		return s.matches("[A-Z]'?[- a-zA-Z]( [a-zA-Z])");
+		return s.matches("[a-zæøåA-ZÆØÅ]*[ -a-zæøåA-ZÆØÅ]*?");
+		//return s.matches("[A-Z]'?[- a-zA-Z]( [a-zA-Z])");
 	}
 	
 	//sjekker at epost er riktig formatert
 	public static boolean epost(String s){
-		return s.matches("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}");
+		//RegEx for epost er lånt fra Mkyong.com : http://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
+		return s.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+						+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		//return s.matches("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}");
 	}
 	
 	//sjekker at telefonnr er riktig formatert
@@ -41,7 +45,7 @@ public final class Valider {
 			retur += "Etternavn kan kun bestå av store og små bokstaver, mellomrom, ' eller -\r\n";
 		if(!epost(epost))
 			retur += "Oppgi en gyldig epost-adresse\r\n";
-		if(telefon(telefon))
+		if(!telefon(telefon))
 			retur += "Oppgi et gyldig telefonnr\r\n";
 		return retur;
 	}
