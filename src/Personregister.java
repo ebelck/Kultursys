@@ -19,25 +19,6 @@ public class Personregister extends ArrayList implements Serializable {
 	//////////////////
 	
 	public Personregister(){
-		ArrayList<Kontaktperson> kreg = null;
-		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/kontreg.dta" ) )){
-				kreg = (ArrayList<Kontaktperson>) innfil.readObject();
-				System.out.println(kreg);
-				innfil.close();
-		}catch(FileNotFoundException eofe){
-			kreg = null;
-		}catch(EOFException eofe){
-	
-		}catch(InvalidClassException ice){
-			
-		}
-		catch(Exception e){
-			System.out.println("Feil i lagReg(): " + e.getClass());
-		}
-		if(kreg == null)
-			kreg = new ArrayList<Kontaktperson>();
-		
-		reg = (ArrayList<Kontaktperson>) kreg;
 	}
 	
 	//////////////////////
@@ -225,7 +206,7 @@ public class Personregister extends ArrayList implements Serializable {
 		return "Suksess!";
 	}
 
-	/*public ArrayList<Kontaktperson> lagPersonregister(){
+	public ArrayList<Kontaktperson> lagPersonregister(){
 		ArrayList<Kontaktperson> kreg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/kontreg.dta" ) )){
 				kreg = (ArrayList<Kontaktperson>) innfil.readObject();
@@ -244,7 +225,7 @@ public class Personregister extends ArrayList implements Serializable {
 			kreg = new ArrayList<Kontaktperson>();
 		
 		return reg = (ArrayList<Kontaktperson>) kreg;
-	}*/
+	}
 	
 }// KLASSE BILLETTREGISTER SLUTT
 

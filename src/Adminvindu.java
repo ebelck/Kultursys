@@ -19,6 +19,10 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
 
     JTabbedPane tabbedPane = new JTabbedPane();
     k = new Kulturhus("Testhuset","Dette kulturhuset er laget som en test");
+	pr = new Personregister();
+    lk = new Lokalvindu(k);
+    av = new Arrangementvindu(k, pr);
+    kv = new Kontaktvindu(pr);
     Date dato = new Date();
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -37,12 +41,7 @@ public Adminvindu(/*Kulturhus k*/)	//foreslår av vi sender med Kulturhuset fra M
 	k.leggTilLokale(l2);
 	k.leggTilLokale(l3);
 	l.leggTilArrangement(kinoA);
-	pr.leggTilKontaktperson(kontakt);
-	
-	pr = new Personregister();
-    lk = new Lokalvindu(k);
-    av = new Arrangementvindu(k, pr);
-    kv = new Kontaktvindu(pr);
+    pr.leggTilKontaktperson(kontakt);
      
 
 	/////////////////////////ALT OVER KUN FOR TESTING /////////////////////////	
