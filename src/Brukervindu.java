@@ -15,6 +15,7 @@ import java.util.Date;
 public class Brukervindu extends JPanel implements Serializable{
 	private static final long serialVersionUID = 6885055091284757299L;
 	Kulturhus k;
+	Personregister pr;
 	
 	//////////////////
 	//	KONSTRUKTØR	//

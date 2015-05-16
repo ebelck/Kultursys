@@ -63,7 +63,6 @@ public Adminvindu( Kulturhus hus,Personregister reg)
      */
    public void createUser() {
 	   brukerV = new Brukervindu(k);
-	   brukerV.createAndShowGUI();
 	   brukerV.createAndShowGUI();   
    }
     public void createAdmin()
