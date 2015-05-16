@@ -18,8 +18,8 @@ import java.util.*;
 import java.text.*;
 import java.awt.image.*;
 import java.io.*;
-import javax.swing.*;
 
+import javax.swing.*;
 import javax.imageio.*;
 
 public class Arrangement implements Serializable {
@@ -27,7 +27,6 @@ public class Arrangement implements Serializable {
 	private static final long serialVersionUID = -8249020595875511272L;
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-	
 	private  int aId = 0;
 	private static int nesteId = 1;
 	private String navn, beskrivelse;
@@ -38,6 +37,7 @@ public class Arrangement implements Serializable {
 	private int pris = 0;
 	Kontaktperson kontakt;
 	Billettregister reg;
+
 	
 	//////////////////////
 	//	KONSTRUKTØRER	//
@@ -47,11 +47,12 @@ public class Arrangement implements Serializable {
 	//Minimumskarv + dato - dato sendes med uansett.
 	public Arrangement (String n, Kontaktperson k, Date d) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
+		reg = new Billettregister();
 	}
 	
 	//Minimumskarv + dato + beskrivelse	
@@ -59,17 +60,20 @@ public class Arrangement implements Serializable {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
+		reg = new Billettregister();
 	}
 	
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
 	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
@@ -81,7 +85,8 @@ public class Arrangement implements Serializable {
 	public Arrangement (String n, Kontaktperson k, Date d, int p, int a) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		billettsalg = true;
@@ -99,18 +104,20 @@ public class Arrangement implements Serializable {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		bildeSti = bilde;
+		reg = new Billettregister();
 	}
 	
 	//Minimumskarv + dato + beskrivelse	+ bilde
 	public Arrangement (String n, Kontaktperson k, Date d, String b,String bilde) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
@@ -122,7 +129,8 @@ public class Arrangement implements Serializable {
 	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a,String bilde) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
@@ -136,7 +144,8 @@ public class Arrangement implements Serializable {
 	public Arrangement (String n, Kontaktperson k, Date d, int p, int a,String bilde) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		billettsalg = true;
@@ -155,6 +164,7 @@ public class Arrangement implements Serializable {
 		reg = new Billettregister(a);
 	}
 	
+
 	//////////////////////
 	//	GET/SET-METODER	//
 	//////////////////////
@@ -277,6 +287,18 @@ public class Arrangement implements Serializable {
 	public String listBilletter(){
 		return "ARRANGEMENTNR:\t" + aId + "\r\nArrangement:\t" + navn + "\r\n" + reg.listSolgteBilletter();
 	}
+	
+	
+//	public String arrayListBilletter(){
+//		String m = "Billetter i arraylist\r\n";
+//		for(Billett b : bReg){
+//			if(b.get_Solgt()) {
+//			//System.out.println(b);
+//			m += b.toString();
+//			}
+//		}
+//		return m;
+//	}
 	
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//

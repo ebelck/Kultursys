@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 import javax.swing.*;
 
 
@@ -6,8 +8,10 @@ import javax.swing.*;
  * Subklasse av Lokale.java
  * 
  * */
-public class Konferanse extends Lokale {
+import java.io.*;
+public class Konferanse extends Lokale implements Serializable {
 	
+	private static final long serialVersionUID = 1418746538790867914L;
 	private int antStoler, antBord, antPersoner; 			// Antall stoler, bord og personer
 	private String typeRom;
 	private int pris;

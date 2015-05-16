@@ -1,12 +1,13 @@
-
-
 /* 
  * Valg 1
  * Subklasse av Lokale.java
  * 
  * */
-public class Kino extends Lokale {
 
+import java.io.*;
+public class Kino extends Lokale implements Serializable {
+
+	private static final long serialVersionUID = 7773380699922293409L;
 	private int antPlasser = 150;
 	private String info;
 	private String type;

@@ -19,7 +19,6 @@ public class Lokale implements Serializable{
 	private static int nesteNr = 0;
 	private String navn, beskrivelse, type;
 	private ArrayList<Arrangement> reg = new ArrayList<>();
-	private Iterator<Arrangement> iterator;
 	
 	//////////////////
 	//	KONSTRUKTØR	//
@@ -67,7 +66,6 @@ public class Lokale implements Serializable{
 	public void set_Besk(String s) {
 		beskrivelse = s;
 	}
-	
 	
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
@@ -138,21 +136,6 @@ public class Lokale implements Serializable{
 		return melding;
 	}
 	
-	public ArrayList<Arrangement> hentArrObjekter(){
-		ArrayList<Arrangement> arrReg = new ArrayList<Arrangement>();
-		System.out.println("Lister ut arrangement");
-		if(reg.isEmpty()) {
-			System.out.println("reg er null");
-			return null;
-		}
-		
-		for (Arrangement s : reg) {
-			System.out.println("inne i hentARrObjekter sin for");
-			if(s != null)
-				arrReg.add(s);
-		}
-		return arrReg;
-	}
 	//VAT IZ DIZ?
 	public HashSet<Arrangement> kontaktOpplysning(Kontaktperson k) {
 		HashSet<Arrangement> arrHash = new HashSet<>();

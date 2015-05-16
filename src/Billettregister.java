@@ -74,13 +74,10 @@ public class Billettregister implements Serializable {
 	//Finner antallet solgte billetter
 	public int antallSolgteBilletter() {
 		int antSolgt = 0;
-		iterator = reg.iterator();
-        
-		while (iterator.hasNext()) {
-			Billett b = iterator.next();
-        	if (b.get_Solgt())
-            	antSolgt++;
-        }
+		for(Billett b : reg){
+			if(b.get_Solgt())
+				antSolgt++;
+		}
 		return antSolgt;
 	}
 	
@@ -205,7 +202,6 @@ public class Billettregister implements Serializable {
 					retur += (b.get_Solgt()) ? b : "";
 		return retur;
 	}
-	
 	
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//

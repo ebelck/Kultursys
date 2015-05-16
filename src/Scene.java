@@ -1,11 +1,15 @@
+import java.io.Serializable;
+
 
 /* 
  * Valg 2 
  * Subklasse av Lokale.java
  * 
  * */
-public class Scene extends Lokale {
+import java.io.*;
+public class Scene extends Lokale implements Serializable {
 	
+	private static final long serialVersionUID = 1317770108028398252L;
 	private String info;
 	private final static int ANTPLASSER = 100;
 	

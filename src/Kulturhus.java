@@ -27,7 +27,9 @@ public class Kulturhus implements Serializable {
 		}catch(EOFException eofe){
 	
 		}catch(InvalidClassException ice){
-			
+			System.out.println(ice);
+		}catch(IOException ioe){
+			ioe.printStackTrace();
 		}
 		catch(Exception e){
 			System.out.println("Feil i lagReg() i Kulturhus-klassens konstruktør: " + e.getClass() + "\r\n" +  e.getCause());
@@ -345,13 +347,17 @@ public class Kulturhus implements Serializable {
 	//////////////////////////////////
 
 	public String lagreLokaler() {
+		String m = "";
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/lokreg.dta" ) )){
 			utfil.writeObject( (ArrayList<Lokale>) lreg );
 			utfil.close();
 		}catch(IOException e){
-			return "Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
+			 
+			m +="Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
+			System.out.println(e);
 		} 
 		//System.out.println("Suksess i lagring til lokreg.dta!");
-		return "Suksess";
+		m += "Suksess";
+		return m;
 	}
 }//KLASSE KULTURHUS SLUTT

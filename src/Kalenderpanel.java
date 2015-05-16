@@ -9,8 +9,11 @@ import javax.swing.JTextField;
 import org.jdesktop.swingx.JXDatePicker;
 
 import java.text.ParseException;
+import java.io.*;
 
-public class Kalenderpanel extends JPanel {
+public class Kalenderpanel extends JPanel implements Serializable {
+
+	private static final long serialVersionUID = 6232934909805443923L;
 	JTextField tid = new JTextField("00:00");
 	JPanel panelHead = new JPanel(new GridLayout(1,2));
 	JXDatePicker kalender;
