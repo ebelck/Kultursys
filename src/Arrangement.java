@@ -267,8 +267,8 @@ public class Arrangement implements Serializable {
 		return reg.avbestillBilletter(antall, tlf);
 	}
 	
-	public Billett finnBilletter(String tlf){
-		return reg.finnBillett(tlf);
+	public ArrayList<Billett> finnBilletter(String tlf){
+		return reg.finnBilletter(tlf);
 	}
 	
 	public Billett finnBillett(int nr){

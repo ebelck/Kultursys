@@ -209,17 +209,22 @@ public class Billettvindu extends JApplet implements Serializable {
 	
 	//Henter infomasjon fra input og validerer den før bestilling legges inn.
 	private void bestill(){
-		//System.out.println("Starter bstilling()");
-		//henter lokale fra combobox
-		if(velgLokale.getSelectedItem().equals("Velg lokale")){
-			//System.out.println("Ingen lokale valgt");
+		//Sjekker at lokale er valgt
+		if(velgLokale.getSelectedItem().equals("Velg lokale"))
 			melding.setText("Du må velge lokale");
-		}else if(velgArrangement.getSelectedItem().equals("Ingen arrangement i dette lokalet")){
-			//System.out.println("Ingen arrangement valgt");
+		
+		//sjekker at arrangement er valgt
+		else if(velgArrangement.getSelectedItem().equals("Ingen arrangement i dette lokalet"))
 			melding.setText("Du må velge arangement");
-		}else{
-			Lokale l = k.finnType((String)velgLokale.getSelectedItem());
-			Arrangement a;// = l.finnArrangement(n);	//Her blir det kluss
+		
+		else{
+			String valg = (String)velgLokale.getSelectedItem();
+			String[] deler = valg.split(" ");
+			Lokale l = k.finnLokale(Integer.parseInt(deler[0]));
+			
+			valg = (String)velgArrangement.getSelectedItem();
+			deler = valg.split(" ");
+			Arrangement a = l.finnArrangement(Integer.parseInt(deler[0]));
 			
 			//henter personinfo fra textfelt
 			String antallStr = antall.getText(); 
@@ -230,7 +235,6 @@ public class Billettvindu extends JApplet implements Serializable {
 			
 			if(antallStr.equals("") || fnavnStr.equals("") || enavnStr.equals("") || epostStr.equals("") || telefonStr.equals("")){
 				melding.setText("Vennligst fyll ut alle feltene.");
-				//System.out.println("Tomme felter");
 				return;
 			}
 			//validerer innputdata
@@ -246,59 +250,100 @@ public class Billettvindu extends JApplet implements Serializable {
 			}else{
 				//oppretter person og bestiller billett
 				Person k = new Person(fnavnStr,enavnStr,epostStr,telefonStr);
-				//System.out.println("Lagrer bestilling");
-				//a.bestillBillett(Integer.parseInt(antallStr), k);
+				if(a.bestillBillett(Integer.parseInt(antallStr), k))
+					melding.setText(a.listBilletter());
 			}
 		}
 	}
 	
 	//Hneter informasjon fra input og valderer før bestilling fjernes
 	private void avbestill(){
-		//System.out.println("Starter avbestilling");
-		//henter lokale fra combobox
-		Lokale l = k.finnType((String)velgLokale.getSelectedItem());
 		
-		//henter arrangement fra combobox
-		Arrangement a;//	LAG METODE FOR Å FINNE ARRANGEMENT
+		//Sjekker at lokale er valgt
+		if(velgLokale.getSelectedItem().equals("Velg lokale"))
+			melding.setText("Du må velge lokale");
 		
-		//henter personinfo fra textfelt
-		String antallStr = antall.getText(); 
-		String telefonStr = telefon.getText();
+		//sjekker at arrangement er valgt
+		else if(velgArrangement.getSelectedItem().equals("Ingen arrangement i dette lokalet"))
+			melding.setText("Du må velge arrangement");
 		
-		if(antallStr.equals("") || telefonStr.equals("")){
-			melding.setText("Vennligst oppgi antall billetter og telefonnr");
-			//System.out.println("Tomme felter");
-		}
-
-		//Validerer input
-		else if(!Valider.antall(antallStr)){
-			melding.setText("Antall billetter må være et tall mellom 1 og 99999999");
-		}else if(!Valider.telefon(telefonStr)){
-			melding.setText("Oppgi et gyldig telefonnr\r\n");
-		}else{
-			//System.out.println("Avbestiller billett");
-			//LEGGE INN EN "Er du sikker?"-PROMT
-			//a.avbestillBillett(Integer.parseInt(antallStr), telefonStr);
-			//FIKSE FEEDBACK TIL BRUKER:
-			// "Disse Billetter til Arragnement ble slettet"
+		else{
+			//henter lokale
+			String valg = (String)velgLokale.getSelectedItem();
+			String[] deler = valg.split(" ");
+			Lokale l = k.finnLokale(Integer.parseInt(deler[0]));
+			
+			//henter arrangement
+			valg = (String)velgArrangement.getSelectedItem();
+			deler = valg.split(" ");
+			Arrangement a = l.finnArrangement(Integer.parseInt(deler[0]));
+			
+			//henter personinfo fra textfelt
+			String antallStr = antall.getText(); 
+			String telefonStr = telefon.getText();
+			
+			//Sjekker at input ikke er tom
+			if(antallStr.equals("") || telefonStr.equals(""))
+				melding.setText("Vennligst oppgi antall billetter og telefonnr");
+		
+			//Validerer input
+			else if(!Valider.antall(antallStr))
+				melding.setText("Antall billetter må være et tall mellom 1 og 99999999");
+			
+			else if(!Valider.telefon(telefonStr))
+				melding.setText("Oppgi et gyldig telefonnr\r\n");
+			
+			else{
+				if(a.avbestillBillett(Integer.parseInt(antallStr), telefonStr))
+					melding.setText("Dine billetter ble avbestilt");
+				else
+					melding.setText("Kunne ikke avbestille billetter");
+			}
 		}
 	}
 	
 	//Viser alle billetter tilknyttet et telefonnr
 	private void søk(){
-		//System.out.println("Starter søk");
+		//Sjekker at lokale er valgt
+		if(velgLokale.getSelectedItem().equals("Velg lokale"))
+			melding.setText("Du må velge lokale");
 		
-		String telefonStr = telefon.getText();
+		//sjekker at arrangement er valgt
+		else if(velgArrangement.getSelectedItem().equals("Ingen arrangement i dette lokalet") || velgArrangement.getSelectedItem().equals("Velg arrangement"))
+			melding.setText("Du må velge arrangement");
 		
-		if(telefonStr.equals("")){
-			//System.out.println("Tomme felter");
-			melding.setText("Vennligst fyll ut telefonnr");
-		}else if(!Valider.telefon(telefonStr)){
-			melding.setText("Oppgi et gyldig telefonnr\r\n");
-		}else{
-			//System.out.println("Søker opp Billetter");
-			//LAGE METODE FOR Å LISTE UT BILLETTER
-			//melding.setText(k.finnBiletter(telefonStr));
+		else{
+			//henter lokale
+			String valg = (String)velgLokale.getSelectedItem();
+			String[] deler = valg.split(" ");
+			Lokale l = k.finnLokale(Integer.parseInt(deler[0]));
+			
+			//henter arrangement
+			valg = (String)velgArrangement.getSelectedItem();
+			deler = valg.split(" ");
+			Arrangement a = l.finnArrangement(Integer.parseInt(deler[0]));
+			
+			//henter personinfo fra textfelt
+			String telefonStr = telefon.getText();
+			
+			//Sjekker at input ikke er tom
+			if(telefonStr.equals(""))
+				melding.setText("Vennligst oppgi telefonnr");
+		
+			//Validerer input
+			else if(!Valider.telefon(telefonStr))
+				melding.setText("Oppgi et gyldig telefonnr\r\n");
+			
+			else{
+				String svar = "";
+				ArrayList<Billett> billetter = a.finnBilletter(telefonStr);
+				if(!billetter.isEmpty()){
+					for(Billett b: billetter)
+						svar += b.toString() + "\r\n\r\n";
+					melding.setText(svar);
+				}else
+					melding.setText("Ditt søk på billetter til " + a.get_Navn() + " ga ingen treff.");
+			}
 		}
 		
 	}
@@ -312,8 +357,6 @@ public class Billettvindu extends JApplet implements Serializable {
 		public void actionPerformed( ActionEvent e ){
 			if(e.getSource() == velgLokale){
 				int lokNr = velgLokale.getSelectedIndex();
-				//System.out.println("Lokale valgt: " + lokNr + ": " + velgLokale.getSelectedItem());
-				//System.out.println(k.finnLokale(lokNr).toString());
 				top.removeAll();
 				top.revalidate();
 				top.repaint();

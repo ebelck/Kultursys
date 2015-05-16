@@ -212,8 +212,8 @@ public class Kulturhus implements Serializable {
 		}else{
 			for (Lokale s : lreg) {
 				int lokNr = s.get_RefNr();
-				String navn = s.get_Navn();
-				liste.add(lokNr, navn);
+				String navn = lokNr +" "+ s.get_Navn();
+				liste.add(navn);
 				//a.add(s.get_Navn());
 			}
 			liste.add(0, "Velg lokale");
@@ -238,7 +238,7 @@ public class Kulturhus implements Serializable {
 				if(a.get_Billettsalg()){
 					int arrNr = a.get_aId();
 					String navn = a.get_Navn() + ": " + a.get_Dato();
-					liste.add(arrNr, navn);
+					liste.add( arrNr + " " + navn);
 				}
 			}
 			liste.add(0, "Velg arrangement");
