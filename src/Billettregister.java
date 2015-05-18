@@ -198,6 +198,18 @@ public class Billettregister implements Serializable {
 		return retur;
 	}
 	
+	public int finn_høyeste_bNr(){
+		if(reg.isEmpty())
+			return 0;
+		else{
+			int max = reg.get(0).get_Billettnummer();
+			for(Billett b: reg)
+				if(b.get_Billettnummer() > max)
+					max = b.get_Billettnummer();
+			return max;
+		}
+	}
+	
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////

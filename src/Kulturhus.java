@@ -8,7 +8,6 @@ public class Kulturhus implements Serializable {
 	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
 	private Personregister preg = new Personregister();
-//	private Billettregister billreg = new Billettregister();
 	private Lokale l = new Lokale();
 	
 	//////////////////////
@@ -213,7 +212,7 @@ public class Kulturhus implements Serializable {
 			for (Lokale s : lreg) {
 				int lokNr = s.get_RefNr();
 				String navn = lokNr +" "+ s.get_Navn();
-				liste.add(navn);
+				liste.add( navn);
 				//a.add(s.get_Navn());
 			}
 			liste.add(0, "Velg lokale");
@@ -244,6 +243,51 @@ public class Kulturhus implements Serializable {
 			liste.add(0, "Velg arrangement");
 		}
 		return ((ArrayList<String>)liste).toArray(new String[liste.size()]);
+	}
+	
+	public void settRiktigBillNr(){
+		if(lreg.isEmpty())
+			return;
+		ArrayList<Integer> liste = new ArrayList<Integer>();
+		for(Lokale l: lreg)
+			liste.addAll(l.finnStørsteBillettNr());
+		int max = 0;
+		for(Integer i: liste)
+			if(i.intValue() > max)
+				max = i.intValue();
+		Billett.set_nesteNr(max+1);
+	}
+	
+	public void settRiktigArrNr(){
+		if(lreg.isEmpty())
+			return;
+		ArrayList<Integer> liste = new ArrayList<Integer>();
+		for(Lokale l: lreg)
+			liste.add(l.finnStørsteArrNr());
+		int max = 0;
+		for(Integer i: liste)
+			if(i.intValue() > max)
+				max = i.intValue();
+		Arrangement.set_nesteId(max+1);
+	}
+	
+	public void settRiktigLokNr(){
+		if(lreg.isEmpty())
+			return;
+		ArrayList<Integer> liste = new ArrayList<Integer>();
+		for(Lokale l: lreg)
+			liste.add(l.get_RefNr());
+		int max = 0;
+		for(Integer i: liste)
+			if(i.intValue() > max)
+				max = i.intValue();
+		Lokale.set_nesteNr(max+1);
+	}
+	
+	public void settRiktigPersNr(){
+		if(preg.get_register().isEmpty())
+			return;
+		Kontaktperson.set_nesteId(preg.finnStørstePersNr());
 	}
 	
 	//////////////////////////////////////////
@@ -316,11 +360,6 @@ public class Kulturhus implements Serializable {
 	//////////////////////////////////////////////
 	
 
-	
-	public String toString() {
-		return get_Navn() + "- " + get_Beskrivelse();
-	}
-	
 	public String totatlString(){
 		String melding = toString() + "\r\n";
 		if(!lreg.isEmpty())
@@ -340,6 +379,7 @@ public class Kulturhus implements Serializable {
 		
 		return melding;
 	}
+
 	
 	//////////////////////////////////
 	//	LAGRE PERSONREGISTER OG 	//
@@ -360,4 +400,10 @@ public class Kulturhus implements Serializable {
 		m += "Suksess";
 		return m;
 	}
+	
+	public String toString() {
+		return get_Navn() + "- " + get_Beskrivelse();
+	}
+	
+
 }//KLASSE KULTURHUS SLUTT

@@ -14,7 +14,7 @@ public class Billett implements Serializable {
 	
 	private static final long serialVersionUID = 818328769517963001L;
 	private int bnr;
-	private static int nesteNr = 1;	//DETTE KAN BLI ET PROBLEM NÅR VI SKAL GJENNOPPRETTE FRA FIL	
+	private static int nesteNr = 1;	
 	private int plassnr;
 	boolean solgt = false;
 	private Person kunde;
@@ -50,6 +50,10 @@ public class Billett implements Serializable {
 	
 	public void set_kunde(Person k){
 		kunde = k;
+	}
+	
+	public static void set_nesteNr(int nr){
+		nesteNr = nr;
 	}
 	
 	//////////////////////////////

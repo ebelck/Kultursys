@@ -9,7 +9,13 @@ import java.io.Serializable;
 	public static void main(String[] args) {
 		
  		Kulturhus k = new Kulturhus("Testehuset","This is fucked");
+ 		k.settRiktigBillNr();
+ 		k.settRiktigArrNr();
+ 		k.settRiktigLokNr();
+ 		
  		Personregister reg = new Personregister();
+ 		k.settRiktigPersNr();
+ 		
 		Adminvindu admin = new Adminvindu(k,reg);
 		
 		Object[] options = {"Administrasjonen",

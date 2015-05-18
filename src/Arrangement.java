@@ -30,7 +30,7 @@ public class Arrangement implements Serializable {
 	private  int aId = 0;
 	private static int nesteId = 1;
 	private String navn, beskrivelse;
-	private BufferedImage bilde = null;			//hva brukes denne til?
+	private BufferedImage bilde = null;
 	private String bildeSti,info1,info2;
 	private Date dato;
 	private boolean billettsalg = false;
@@ -169,42 +169,6 @@ public class Arrangement implements Serializable {
 	//	GET/SET-METODER	//
 	//////////////////////
 	
-	public void set_Navn(String n) {
-		navn = n;
-	}
-	public void set_Info(String n) {
-		info1 = n;
-	}
-	public void set_Info2(String n) {
-		info2 = n;
-	}
-	public void set_Pris(int n) {
-		pris = n;
-	}
-	public void set_Bildesti(String n) {
-		bildeSti = n;
-	}
-	public void set_Kontaktperson(Kontaktperson k) {
-		kontakt = k;
-	}
-	
-	public void set_Beskrivelse(String b) {
-		beskrivelse = b;
-	}
-
-	
-	public void set_Dato(String d) {
-	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
-		}
-	}
-
-	
-	//////////////////////
-	
 	public String get_Navn() {
 		return navn;
 	}
@@ -243,6 +207,44 @@ public class Arrangement implements Serializable {
 		return kontakt;
 	}
 	
+	//////////////////////
+	
+	public static void set_nesteId(int nr){
+		nesteId = nr;
+	}
+	
+	public void set_Navn(String n) {
+		navn = n;
+	}
+	public void set_Info(String n) {
+		info1 = n;
+	}
+	public void set_Info2(String n) {
+		info2 = n;
+	}
+	public void set_Pris(int n) {
+		pris = n;
+	}
+	public void set_Bildesti(String n) {
+		bildeSti = n;
+	}
+	public void set_Kontaktperson(Kontaktperson k) {
+		kontakt = k;
+	}
+	
+	public void set_Beskrivelse(String b) {
+		beskrivelse = b;
+	}
+	
+	public void set_Dato(String d) {
+	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
+		try {
+		dato = sdf.parse(d);
+		} catch (ParseException e) {
+			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
+		}
+	}
+
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
 	//////////////////////////////
@@ -286,6 +288,10 @@ public class Arrangement implements Serializable {
 	
 	public String listBilletter(){
 		return "ARRANGEMENTNR:\t" + aId + "\r\nArrangement:\t" + navn + "\r\n" + reg.listSolgteBilletter();
+	}
+	
+	public int finnHøyesteBillettNr(){
+		return reg.finn_høyeste_bNr();
 	}
 	
 	

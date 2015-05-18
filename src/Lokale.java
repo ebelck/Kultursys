@@ -60,6 +60,13 @@ public class Lokale implements Serializable{
 	public ArrayList<Arrangement> get_reg(){
 		return reg;
 	}
+	
+	//////////////////////
+	
+	public static void set_nesteNr(int nr){
+		nesteNr = nr;
+	}
+	
 	public void set_Navn(String s) {
 		navn = s;
 	}
@@ -136,7 +143,6 @@ public class Lokale implements Serializable{
 		return melding;
 	}
 	
-	//VAT IZ DIZ?
 	public HashSet<Arrangement> kontaktOpplysning(Kontaktperson k) {
 		HashSet<Arrangement> arrHash = new HashSet<>();
 		for (Arrangement s : reg) {
@@ -163,6 +169,23 @@ public class Lokale implements Serializable{
 			return null;
 		}
 		return null;
+	}
+	
+	public ArrayList<Integer> finnStørsteBillettNr(){
+		ArrayList<Integer> liste = new ArrayList<Integer>(0);
+		if(!reg.isEmpty())
+			for(Arrangement a: reg)
+				liste.add(a.finnHøyesteBillettNr());
+		return liste;
+	}
+	
+	public int finnStørsteArrNr(){
+		int max = 0;
+		if(!reg.isEmpty())
+			for(Arrangement a: reg)
+				if(a.get_aId() > max)
+					max = a.get_aId();
+		return max;
 	}
 	
 	//////////////////////////////
