@@ -12,6 +12,7 @@ import java.util.Date;
  Lokalvindu lokalV;
  Arrangementvindu arrangementV;
  Kontaktvindu kontaktV;
+ Statistikkvindu statVindu;
  Brukervindu brukerV;
 	
  
@@ -27,20 +28,36 @@ public Adminvindu( Kulturhus hus,Personregister reg)
 	lokalV = new Lokalvindu(k);
 	arrangementV = new Arrangementvindu(k,pr);
 	kontaktV = new Kontaktvindu(pr);
+	statVindu = new Statistikkvindu();
+	
 	
 
-    tabbedPane.addTab("Administrer lokaler", null, lokalV, "Her kan du fikse alt som har med lokaler å gjøre");
+    tabbedPane.addTab("Administrer lokaler", 
+    		null, 
+    		lokalV, 
+    		"Administrasjon av kulturhusets lokaler");
+    
     tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-    tabbedPane.addTab("Administrer arrangementer", null, arrangementV,
-             "Erre her det er party!?");
+    tabbedPane.addTab("Administrer arrangementer", 
+    		null, 
+    		arrangementV,
+            "Administrasjon av kulturhusets arrangementer");
+    
     tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
-    tabbedPane.addTab("Administrer kontaktpersoner", null, kontaktV, "Partyfikserne må lagres");
+    tabbedPane.addTab("Administrer kontaktpersoner", 
+    		null, 
+    		kontaktV, 
+    		"Administrasjon av kulturhusets kontaktpersoner");
+    
     tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
-    JComponent panel4 = makeTextPanel("Her vil billett-greier havne");
-    tabbedPane.addTab("Billettregister", null, panel4, "Kommer snart");
+    tabbedPane.addTab("Statistikk", 
+    		null, 
+    		statVindu, 
+    		"Statistikk over Kultuhusets billettsalg");
+    
     tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
 
     tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -83,6 +100,7 @@ public Adminvindu( Kulturhus hus,Personregister reg)
  
       //Display the window.
       frame.pack();
+      frame.setLocationRelativeTo(null);
       frame.setVisible(true);
     }
  }
