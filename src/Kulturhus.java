@@ -152,8 +152,10 @@ public class Kulturhus implements Serializable {
 		Map<String,Arrangement> m = new HashMap<>();
 		for (Lokale s : lreg) {
 			if(!s.tomtRegister()) {
+				int i = 1;
 				for (Arrangement arr : s.listArrangementer1()) {
-					   m.put("LOKALE: " + s.get_Navn(), arr);
+					m.put(s.get_Navn()+" "+i, arr);
+					i++;
 				}
 			}
 		}

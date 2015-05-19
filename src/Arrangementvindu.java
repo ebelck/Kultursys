@@ -290,6 +290,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			tekstområde.setEditable(false);
 			utskriftområde.setForeground(Color.BLACK);
 			tekstområde.setMargin(new Insets(10,10,10,10));
+			Font font = new Font("Monospaced", Font.PLAIN, 13);
+			tekstområde.setFont(font);
 			
 			centerPageStart.add(centerPageStartTopPanel,BorderLayout.PAGE_START);
 			
@@ -548,6 +550,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    	  }
 	      }
 	      else if ( e.getSource() == listeKnapp ) {
+	    	  clearFields();
+	    	  tekstområde.setText("");
 	    	  Map<String,Arrangement> mp = k.listArrangementerMagiskOgDeilig();
 	    	  System.out.println("Størrelsen på settet i Kulturhus er " + mp.size());
 	    	  if (mp != null) {
@@ -558,11 +562,13 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    	    	String tekst = pair.getKey() + " " + pair.getValue() + "\r\n";
 	    	    	JTextArea l = new JTextArea(tekst);
 	    			tekstområde.insertComponent(l);
+	    			System.out.println(l.getFont());
 	    			l.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	    			l.addMouseListener(new MouseAdapter(){
-	    			   public void mouseClicked(MouseEvent me)
+	    			   final public void mouseClicked(MouseEvent me)
 	    			   {
 	    			         finnArrangement(arr.get_aId());
+	    			         refFelt.setText(String.valueOf((arr.get_aId())));
 	    			   }
 	    			});
 	    			it.remove(); // avoids a ConcurrentModificationException
