@@ -30,6 +30,12 @@ public Adminvindu( Kulturhus hus,Personregister reg)
 	kontaktV = new Kontaktvindu(pr);
 	statVindu = new Statistikkvindu(k);
 	
+	try { 
+	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	
 	
 
     tabbedPane.addTab("Administrer lokaler", 

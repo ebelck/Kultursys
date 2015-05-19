@@ -80,39 +80,39 @@ public class Arrangementvindu extends JApplet implements Serializable {
 		System.out.println("inne i contextpainter");
 		if (lok instanceof Cafe) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(" Hvor mange gjester er det plass til: "));
+			north.add(new JLabel("Hvor mange gjester er det plass til:"));
 			north.add(altFelt1);
-			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(new JLabel("Velg dato og tidspunkt:"));
 			north.add(kalenderpanel.makePanels());
 		}
 		else if (lok instanceof Konferanse) {
 			north.setLayout(new GridLayout(8, 2)); // 6 rows 2 columns; no gaps);
-			north.add(new JLabel(" Antall gjester det er plass til: "));
+			north.add(new JLabel("Antall gjester det er plass til:"));
 			north.add(altFelt1);
-			north.add(new JLabel(" Hvilken type konferanse er det: "));
+			north.add(new JLabel("Hvilken type konferanse er det:"));
 			north.add(altFelt2);
-			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(new JLabel("Velg dato og tidspunkt:"));
 			north.add(kalenderpanel.makePanels());
 		}
 		else if (lok instanceof Selskapslokale) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(" Ytterligere info: "));
+			north.add(new JLabel("Ytterligere info:"));
 			north.add(altFelt1);
-			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(new JLabel("Velg dato og tidspunkt:"));
 			north.add(kalenderpanel.makePanels());
 		}
 		else if (lok instanceof Scene) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(" Forestilling som skal holdes: "));
+			north.add(new JLabel("Forestilling som skal holdes:"));
 			north.add(altFelt1);
-			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(new JLabel("Velg dato og tidspunkt:"));
 			north.add(kalenderpanel.makePanels());
 		}
 		else if (lok instanceof Kino) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
-			north.add(new JLabel(" Hvilken som skal vises: "));
+			north.add(new JLabel("Hvilken film som skal vises:"));
 			north.add(altFelt1);
-			north.add(new JLabel(" Velg dato og tidspunkt: "));
+			north.add(new JLabel( "Velg dato og tidspunkt:"));
 			north.add(kalenderpanel.makePanels());
 		}
 		else {
