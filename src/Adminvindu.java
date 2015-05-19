@@ -65,7 +65,7 @@ public Adminvindu( Kulturhus hus,Personregister reg)
 
     tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
-    tabbedPane.setPreferredSize(new Dimension(900, 600));
+    tabbedPane.setPreferredSize(new Dimension(1500, 750));
     add(tabbedPane);
    }
 	
