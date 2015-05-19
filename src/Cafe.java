@@ -1,9 +1,3 @@
-
-/* 
- * Valg 4 
- * Subklasse av Lokale.java
- * 
- * */
 import java.io.*;
 public class Cafe  extends Lokale implements Serializable {
 

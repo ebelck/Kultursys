@@ -1,9 +1,3 @@
-/* 
- * Valg 1
- * Subklasse av Lokale.java
- * 
- * */
-
 import java.io.*;
 public class Kino extends Lokale implements Serializable {
 

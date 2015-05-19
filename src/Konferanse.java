@@ -1,12 +1,6 @@
 import java.io.*;
 import javax.swing.*;
 
-/* 
- * Valg 3 
- * Subklasse av Lokale.java
- * 
- * */
-
 public class Konferanse extends Lokale implements Serializable {
 	
 	private static final long serialVersionUID = 1418746538790867914L;
