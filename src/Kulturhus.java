@@ -1,3 +1,6 @@
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -144,6 +147,19 @@ public class Kulturhus implements Serializable {
 		}
 		return melding;
 	}
+	
+	public Map<String,Arrangement> listArrangementerMagiskOgDeilig() {	
+		Map<String,Arrangement> m = new HashMap<>();
+		for (Lokale s : lreg) {
+			if(!s.tomtRegister()) {
+				for (Arrangement arr : s.listArrangementer1()) {
+					   m.put("LOKALE: " + s.get_Navn(), arr);
+				}
+			}
+		}
+		return m;
+	}
+	
 	
 	public String listArrangement(String n){
 		try{
@@ -407,7 +423,64 @@ public class Kulturhus implements Serializable {
 	//	PERSONLOKALEMANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////////////////
 	
-
+	//////////////////////////////
+	//	STATISTIKKMETODER START	//
+	//////////////////////////////
+	
+	// Finner totalt anntall solgte for det bestemte lokale
+	public int totaltSolgteBilletterForLokale(int n) {
+		int sum = 0;
+		for(Lokale l : lreg) {
+			if(l.get_RefNr() == n){
+				sum = l.arrangementSolgteBilletter();
+			}
+		}
+		return sum;
+	}
+	
+	// Total inntekt for alle billetter i alle lokaler
+	public int totalInntektAlleLokaler() {
+		int sum = 0;
+		for(Lokale l : lreg) {
+			sum += l.inntektSolgteBilletter();
+		}
+		return sum;
+	}
+	
+	// Antallet solgte billetter for alle arrangementer
+	public int totaltSolgtAlleLokaler() {
+		int sum = 0;
+		for(Lokale l : lreg) {
+			sum += l.totaltSolgteAlleLokaler();
+		}
+		return sum;
+	}
+	
+	// Totaloversikt for hvert lokales inntekt og dets inntekt opp mot Kulturhuset totalt
+	// Gunstig å innføre mer på et senere tidspunkt
+	public String totalInntektForAlleLokaler() {
+		String meld = "Inntekt og prosent for hvert arrangement i hvert lokale: \r\n";
+		double tot = totaltSolgtAlleLokaler();
+		double pros;
+		for(Lokale l : lreg) {
+			meld += "Lokalnummer "+ l.get_RefNr() + " - " +l.get_Navn() + "\r\n";
+			meld += "Antall billetter solgt på alle arrangementer: " + 
+					 totaltSolgteBilletterForLokale(l.get_RefNr()) + " billetter \r\n";
+			meld += "Total inntekt for kulturhuset: " + l.inntektSolgteBilletter() + " kr\r\n";
+			if(l.totaltSolgteBilletter() > 0) {
+				pros = (double) ((l.totaltSolgteBilletter() * 100) / tot);
+				meld += "Total prosent av alle solgte billetter: " + pros + " %\r\n";
+			}
+			meld += "----------------------------------------\r\n";
+		}
+		return meld;
+	}
+	
+	//////////////////////////////
+	//	STATISTIKKMETODER SLUTT	//
+	//////////////////////////////
+	
+	// toString-metode for å liste ut alt
 	public String totatlString(){
 		String melding = toString() + "\r\n";
 		if(!lreg.isEmpty())
@@ -415,16 +488,10 @@ public class Kulturhus implements Serializable {
 				melding += l;
 				if(!l.get_reg().isEmpty()){
 					for(Arrangement a: l.get_reg()){
-						melding += a;
-//						if(a.reg != null)
-//							melding += a.reg + "\r\n";
-							
+						melding += a;							
 					}
 				}
 			}
-				
-		
-		
 		return melding;
 	}
 
@@ -444,7 +511,6 @@ public class Kulturhus implements Serializable {
 			m +="Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
 			System.out.println(e);
 		}
-		//System.out.println("Suksess i lagring til lokreg.dta!");
 		m += "Suksess";
 		return m;
 	}

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.StyledDocument;
 import javax.imageio.ImageIO;
 
 import java.awt.event.*;
@@ -20,7 +21,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	private static final long serialVersionUID = 5598407733052246255L;
 	private JTextField navnFelt, beskFelt, prisFelt, refFelt,altFelt1,altFelt2,bildeNavnFelt,antallFelt;
 	private JButton finnKnapp, slettKnapp, regKnapp, listeKnapp,bildeKnapp,oppdaterKnapp;
-	private JTextArea tekstområde;
+	private JTextPane tekstområde;
 	private JScrollPane utskriftområde;
 	private BorderLayout layout,centerLayout,centerPageStartLayout;
 	private Container c;
@@ -54,7 +55,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 				}
 			}
 			lokalvelger.revalidate();
-			tekstområde.append("\r\n********************************************\r\n"
+			tekstområde.setText("\r\n********************************************\r\n"
 					+  "Liste over lokaler er oppdatert\r\n");
 		}
 	}
@@ -70,7 +71,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 				}
 			}
 			kontaktvelger.revalidate();
-			tekstområde.append("\r\n********************************************\r\n"
+			tekstområde.setText("\r\n********************************************\r\n"
 							+  "Liste over kontaktpersoner er oppdatert\r\n");
 		}
 	}
@@ -183,6 +184,20 @@ public class Arrangementvindu extends JApplet implements Serializable {
 		  tekstområde.setText("Noe gikk galt.");
 	  }
 	}
+	private void finnArrangement(int n) {
+  	  try {
+		  int refNr = n;
+			Lokale lokFunnet = k.arrangementViaK(refNr);
+			if (lokFunnet != null) {
+				Arrangement arrFunnet = lokFunnet.finnArrangement(refNr);
+				tekstområde.setText(arrFunnet.toString());
+    			if (arrFunnet.get_bildeSti() != null)
+    				visBilde(arrFunnet);
+			}
+	  } catch(Exception ex) {
+		  tekstområde.setText("Fant ikke Arrangement med dette referansenummer.");
+	  }
+	}
 	public Arrangementvindu(Kulturhus kH, Personregister pr) {
 		
 			k = kH;
@@ -270,7 +285,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			centerPageStartTopPanel.add(bildeKnapp);
 			centerPageStartTopPanel.add(bildeNavnFelt);
 
-			tekstområde = new JTextArea();
+			tekstområde = new JTextPane();
 			utskriftområde = new JScrollPane(tekstområde);
 			tekstområde.setEditable(false);
 			utskriftområde.setForeground(Color.BLACK);
@@ -533,8 +548,26 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    	  }
 	      }
 	      else if ( e.getSource() == listeKnapp ) {
-	    	  System.out.println("Knappen er trykket og jeg ber om k.listArrangementer.");
-	    	  	tekstområde.setText(k.listArrangementerILokaler());
+	    	  Map<String,Arrangement> mp = k.listArrangementerMagiskOgDeilig();
+	    	  System.out.println("Størrelsen på settet i Kulturhus er " + mp.size());
+	    	  if (mp != null) {
+	    	  Iterator it = mp.entrySet().iterator();
+	    	    while (it.hasNext()) {
+	    	    	Map.Entry pair = (Map.Entry)it.next();
+	    	    	Arrangement arr = (Arrangement) pair.getValue();
+	    	    	String tekst = pair.getKey() + " " + pair.getValue() + "\r\n";
+	    	    	JTextArea l = new JTextArea(tekst);
+	    			tekstområde.insertComponent(l);
+	    			l.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	    			l.addMouseListener(new MouseAdapter(){
+	    			   public void mouseClicked(MouseEvent me)
+	    			   {
+	    			         finnArrangement(arr.get_aId());
+	    			   }
+	    			});
+	    			it.remove(); // avoids a ConcurrentModificationException
+	    	    }
+	    	  }
 	      }
 	      else if ( e.getSource() == finnKnapp ) {
 	    	  try {
@@ -605,8 +638,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 						    options,
 						    options[0]);
 						if (n == 1) {
-							tekstområde.setText("* Bildet ble ikke erstattet *\r\n");
-							tekstområde.append(arrFunnet.toString());
+							tekstområde.setText(arrFunnet.toString() + "\r\n" + "* Bildet ble ikke erstattet *\r\n");
 			    	    	clearFields();
 							return;
 						}

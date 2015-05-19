@@ -9,7 +9,13 @@
 //////////////////////////////////////////////////////////////////////////
 
 import java.util.*;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
+
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 
 public class Lokale implements Serializable{
@@ -130,6 +136,11 @@ public class Lokale implements Serializable{
 		return null;
 	}
 	
+	public ArrayList<Arrangement> listArrangementer1(){
+		System.out.println("Størrelsen på registeret fra et lokale er " + reg.size());
+		return reg;
+	}
+	
 	//lister ut alle arrangementene tilknyttet lokalet
 	public String listArrangementer(){
 		System.out.println("Lister ut arrangement");
@@ -190,6 +201,48 @@ public class Lokale implements Serializable{
 	
 	//////////////////////////////
 	//	BILLETT-METODER SLUTT	//
+	//////////////////////////////
+	
+	//////////////////////////////
+	//	STATISTIKKMETODER START	//
+	//////////////////////////////
+	
+	// Inntekt for alle arrangement
+	public int inntektSolgteBilletter() {
+		int sum = 0;
+		for(Arrangement a : reg){
+			sum += a.inntektSolgteBilletter();
+		}
+		return sum;
+	}
+	
+	public int arrangementSolgteBilletter() {
+		int sum = 0;
+		for(Arrangement a : reg) {
+			sum += a.antallSolgteBilletter();
+		}
+		return sum;
+	}
+	
+	// Totale antallet solgte billetter for alle arrangementer i et lokale
+	public int totaltSolgteBilletter(){
+		int ant = 0;
+		for(Arrangement a : reg){
+			ant += a.antallSolgteBilletter();
+		}
+		return ant;
+	}
+	
+	// Antall solgte billetter i alle lokaler
+	public int totaltSolgteAlleLokaler() {
+		int sum = 0;
+		for(Arrangement a : reg) {
+			sum += a.antallSolgteBilletter();
+		}
+		return sum;
+	}
+	//////////////////////////////
+	//	STATISTIKKMETODER SLUTT	//
 	//////////////////////////////
 	
 	public String toString() {
