@@ -309,13 +309,14 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			
 	
 			Knappelytter lytter = new Knappelytter();
+			Bokslytter bokslytter = new Bokslytter();
 			Typelytter tLytter = new Typelytter();
 			
 			finnKnapp.addActionListener( lytter );
 			slettKnapp.addActionListener( lytter );
 			regKnapp.addActionListener( lytter );
-			lokalvelger.addActionListener( lytter );
-			kontaktvelger.addActionListener( lytter );
+			lokalvelger.addActionListener( bokslytter );
+			kontaktvelger.addActionListener( bokslytter );
 			listeKnapp.addActionListener(lytter);
 			bildeKnapp.addActionListener(lytter);
 			oppdaterKnapp.addActionListener(lytter);
@@ -326,7 +327,29 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			setVisible( true );
 		}
 	
-	
+	private class Bokslytter implements ActionListener{
+	      public void actionPerformed( ActionEvent b )
+	      {
+			    int n = lokalvelger.getSelectedIndex();
+			    lokalnavn = lokalvelger.getItemAt(n);
+			    int n1 = kontaktvelger.getSelectedIndex();
+			    kontaktnavn = kontaktvelger.getItemAt(n1);
+
+			    
+			    north.removeAll();
+			    north.revalidate();
+			    north.repaint();
+			    repainter();
+				c.add(north, BorderLayout.PAGE_START);
+				if (b.getSource() == lokalvelger)
+					addSpecificC(lokalnavn);
+				if (b.getSource() == kontaktvelger)
+					addSpecificK(kontaktnavn);	
+				c.add(center, BorderLayout.CENTER);
+				c.add(south, BorderLayout.PAGE_END);
+			    north.repaint();
+	      }
+	}
     private class Typelytter implements ItemListener
     {
       public void itemStateChanged( ItemEvent e )
@@ -603,25 +626,6 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    	  clearFields();
 	    	  setPlaceHolderImg();
 	      }
-	      
-		    int n = lokalvelger.getSelectedIndex();
-		    lokalnavn = lokalvelger.getItemAt(n);
-		    int n1 = kontaktvelger.getSelectedIndex();
-		    kontaktnavn = kontaktvelger.getItemAt(n1);
-
-		    
-		    north.removeAll();
-		    north.revalidate();
-		    north.repaint();
-		    repainter();
-			c.add(north, BorderLayout.PAGE_START);
-			if (e.getSource() == lokalvelger)
-				addSpecificC(lokalnavn);
-			if (e.getSource() == kontaktvelger)
-				addSpecificK(kontaktnavn);	
-			c.add(center, BorderLayout.CENTER);
-			c.add(south, BorderLayout.PAGE_END);
-		    north.repaint();
 	    }
 	  }
 }

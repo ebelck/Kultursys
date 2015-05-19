@@ -398,7 +398,7 @@ public class Kulturhus implements Serializable {
 			 
 			m +="Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
 			System.out.println(e);
-		} 
+		}
 		//System.out.println("Suksess i lagring til lokreg.dta!");
 		m += "Suksess";
 		return m;

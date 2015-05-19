@@ -29,10 +29,9 @@ public class Arrangement implements Serializable {
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	private  int aId = 0;
 	private static int nesteId = 1;
-	private String navn, beskrivelse;
+	private String navn, beskrivelse, dato;
 	private BufferedImage bilde = null;
 	private String bildeSti,info1,info2;
-	private Date dato;
 	private boolean billettsalg = false;
 	private int pris = 0;
 	Kontaktperson kontakt;
@@ -47,7 +46,7 @@ public class Arrangement implements Serializable {
 	//Minimumskarv + dato - dato sendes med uansett.
 	public Arrangement (String n, Kontaktperson k, Date d) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		dato = d;
+		dato = sdf.format(d);
 		aId = nesteId;
 		nesteId++;
 		navn = n;
@@ -59,7 +58,7 @@ public class Arrangement implements Serializable {
 	public Arrangement (String n, Kontaktperson k, Date d, String b) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		
-		dato = d;
+		dato = sdf.format(d);
 		aId = nesteId;
 		nesteId++;
 		navn = n;
@@ -71,7 +70,7 @@ public class Arrangement implements Serializable {
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
 	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		dato = d;
+		dato = sdf.format(d);
 		aId = nesteId;
 		nesteId++;
 		navn = n;
@@ -84,7 +83,7 @@ public class Arrangement implements Serializable {
 	//Minimumskarv + dato + pris og antall billetter	
 	public Arrangement (String n, Kontaktperson k, Date d, int p, int a) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		dato = d;
+		dato = sdf.format(d);
 		aId = nesteId;
 		nesteId++;
 		navn = n;
@@ -103,7 +102,7 @@ public class Arrangement implements Serializable {
 	public Arrangement (String n,String bilde, Kontaktperson k, Date d) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 
-		dato = d;
+		dato = sdf.format(d);
 		aId = nesteId;
 		nesteId++;
 		navn = n;
@@ -115,7 +114,7 @@ public class Arrangement implements Serializable {
 	//Minimumskarv + dato + beskrivelse	+ bilde
 	public Arrangement (String n, Kontaktperson k, Date d, String b,String bilde) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		dato = d;
+		dato = sdf.format(d);
 		aId = nesteId;
 		nesteId++;
 		navn = n;
@@ -128,7 +127,7 @@ public class Arrangement implements Serializable {
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
 	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a,String bilde) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		dato = d;
+		dato = sdf.format(d);
 		aId = nesteId;
 		nesteId++;
 		navn = n;
@@ -143,7 +142,7 @@ public class Arrangement implements Serializable {
 	
 	public Arrangement (String n, Kontaktperson k, Date d, int p, int a,String bilde) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		dato = d;
+		dato = sdf.format(d);
 		aId = nesteId;
 		nesteId++;
 		navn = n;
@@ -238,11 +237,7 @@ public class Arrangement implements Serializable {
 	
 	public void set_Dato(String d) {
 	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
-		}
+		dato = sdf.format(d);
 	}
 
 	//////////////////////////////

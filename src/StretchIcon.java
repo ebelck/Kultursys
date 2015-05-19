@@ -8,7 +8,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.image.ImageObserver;
+import java.io.Serializable;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -27,9 +29,13 @@ import javax.swing.ImageIcon;
  * @version 1.0 03/27/12
  * @author Darryl
  */
-public class StretchIcon extends ImageIcon {
+public class StretchIcon extends ImageIcon implements Serializable {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 266295992966970859L;
+/**
    * Determines whether the aspect ratio of the image is maintained.
    * Set to <code>false</code> to allow th image to distort to fill the component.
    */
