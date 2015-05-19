@@ -149,10 +149,10 @@ public class Arrangementvindu extends JApplet implements Serializable {
     		File file = new File(a.get_bildeSti());
  
     		if(file.delete()){
-    			System.out.println(file.getName() + " is deleted!");
+    			System.out.println(file.getName() + " er slettet!");
     			return true;
     		}else{
-    			System.out.println("Delete operation is failed.");
+    			System.out.println("Slettingen feilet.");
     			return false;
     		}
  
@@ -683,4 +683,4 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	      }
 	    }
 	  }
-}
+} // Arrangementvindu slutt
