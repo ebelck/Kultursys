@@ -23,6 +23,9 @@ public class Billettregister implements Serializable {
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
+	public Billettregister() {
+		// Opprettes for ikke-betalbare arrangement, for å hindre konflikt ved skriving til fil.
+	}
 	
 	public Billettregister(int n){
 		antallBilletter = n;
@@ -83,6 +86,10 @@ public class Billettregister implements Serializable {
 //        	if (b.get_Solgt())
 //            	antSolgt++;
 //        }
+		for(Billett b : reg){
+			if(b.get_Solgt())
+				antSolgt++;
+		}
 		return antSolgt;
 	}
 	
@@ -131,17 +138,12 @@ public class Billettregister implements Serializable {
 	}
 	
 	//Søker opp Billett som matcher søk
-	public ArrayList<Billett> finnBilletter(String søk){
+	public ArrayList<Billett> finnBilletter(String tlf){
 		ArrayList<Billett> resultat = new ArrayList<Billett>();
 		try{
 			for(Billett b : reg){
 				if(b.get_kunde() != null){
-					if( b.get_kunde().get_Fornavn().equals(søk) ||
-						b.get_kunde().get_Etternavn().equals(søk) ||
-						(b.get_kunde().get_Fornavn() + " " + b.get_kunde().get_Etternavn()).equals(søk) ||
-						b.get_kunde().get_Epost().equals(søk) ||
-						b.get_kunde().get_Telefon().equals(søk)){
-						
+					if( b.get_kunde().get_Telefon().equals(tlf) ){
 						resultat.add(b);
 					}
 				}
@@ -183,15 +185,15 @@ public class Billettregister implements Serializable {
 	// avbestiller X billetter med telefonnr
 	public boolean avbestillBilletter(int antall, String tlf){
 		int teller = 0;
+		Billett b;
 		if(finnBillett(tlf) == null)
 			return false;
 		try{
-			for(Billett b : reg){
-				if(teller < antall){
-					if(b.get_kunde().get_Telefon() == tlf){
-						b.avbestillBillett();
-						teller++;						
-					}
+			iterator = reg.iterator();
+			while(iterator.hasNext() && antall > 0){
+				b = iterator.next();
+				if(b.solgt && b.get_kunde().get_Telefon().equals(tlf)){
+					b.avbestillBillett();
 				}
 			}
 			return true;
@@ -208,6 +210,17 @@ public class Billettregister implements Serializable {
 		return retur;
 	}
 	
+	public int finn_høyeste_bNr(){
+		if(reg.isEmpty())
+			return 0;
+		else{
+			int max = reg.get(0).get_Billettnummer();
+			for(Billett b: reg)
+				if(b.get_Billettnummer() > max)
+					max = b.get_Billettnummer();
+			return max;
+		}
+	}
 	
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//
