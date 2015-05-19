@@ -1,4 +1,4 @@
-import java.io.Serializable;
+import java.io.*;
 
 public class Scene extends Lokale implements Serializable {
 	
@@ -12,9 +12,9 @@ public class Scene extends Lokale implements Serializable {
 	}
 	
 	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
+	//////////////////////////////
+	// Get og Set metoder start //
+	//////////////////////////////
 	
 	public String get_Info() {
 		return info;
@@ -24,10 +24,9 @@ public class Scene extends Lokale implements Serializable {
 		return ANTPLASSER;
 	}
 	
-	
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
+	//////////////////////////////
+	// Get og Set metoder slutt //
+	//////////////////////////////
 	
 	public String toString() {
 		String meld = super.toString();
@@ -35,4 +34,4 @@ public class Scene extends Lokale implements Serializable {
 		meld += "Antall plasser: " + getAntPlasser() + "\n";
 		return meld;
 	}
-}
+} // SCENE SLUTT

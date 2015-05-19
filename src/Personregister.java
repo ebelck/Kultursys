@@ -181,7 +181,7 @@ public class Personregister implements Serializable {
         return false;
 	}
 	
-	//Lister ut alle kontaktpersoner
+	// Lister ut alle kontaktpersoner
 	public String[] listKontaktpersoner(){
 		ArrayList<String> a = new ArrayList<>();
 		a.add("Oppdater liste");
@@ -195,6 +195,8 @@ public class Personregister implements Serializable {
 		return s;
 	}
 	
+	// Finner største referansenummer for kontaktperson 
+	// etter lesing fra fil
 	public int finnStørstePersNr(){
 		int max = 0;
 		if(!reg.isEmpty())

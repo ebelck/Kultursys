@@ -1,14 +1,11 @@
-import java.io.Serializable;
+import java.io.*;
 
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Dette er en statisk klasse med metoder for å validere input			//
 //////////////////////////////////////////////////////////////////////////
 
 public final class Valider implements Serializable {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -6113904719695422084L;
 
 	//////////////////////

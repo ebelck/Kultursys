@@ -1,4 +1,4 @@
-import java.io.Serializable;
+import java.io.*;
 
 public class Selskapslokale extends Lokale implements Serializable {
 	
@@ -10,21 +10,20 @@ public class Selskapslokale extends Lokale implements Serializable {
 		info = i;
 	}
 	
-	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
+	//////////////////////////////
+	// Get og Set metoder start //
+	//////////////////////////////
 	
 	public String get_Info() {
 		return info;
 	}
 	
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
+	 //////////////////////////////
+	 // Get og Set metoder slutt //
+	 //////////////////////////////
 	public String toString() {
 		String meld = super.toString();
 		meld += "Ytterligere info: " + get_Info() + "\n";
 		return meld;
 	}
-}
+} // SELSKAPSLOKALE SLUTT

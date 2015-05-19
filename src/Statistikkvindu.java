@@ -1,14 +1,8 @@
-import java.io.Serializable;
-
+import java.io.*;
 import javax.swing.*;
-
 import org.jdesktop.swingx.painter.AbstractLayoutPainter.HorizontalAlignment;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 
 public class Statistikkvindu extends JApplet implements Serializable{
@@ -26,7 +20,6 @@ public class Statistikkvindu extends JApplet implements Serializable{
 	private String lokalnavn = "Valg";			//Brukes aldri. Kan den fjernes?
 	private JComponent north,south;
 	
-	
 	public Statistikkvindu(Kulturhus kH) {
 			
 		k = kH;
@@ -42,8 +35,6 @@ public class Statistikkvindu extends JApplet implements Serializable{
 		
 		layout = new BorderLayout(50, 50);
 		Font font = new Font("Verdana", Font.PLAIN, 50);
-
-
 		
 		// TOP GRID START
 		north = new JPanel();
@@ -51,9 +42,7 @@ public class Statistikkvindu extends JApplet implements Serializable{
 		north.add(header);
 		north.setAlignmentY(CENTER_ALIGNMENT);
 		header.setFont(font);
-		
 		// TOP GRID END
-		
 		
 		// CENTER GRID START
 		tekstområde = new JTextPane();
@@ -73,7 +62,6 @@ public class Statistikkvindu extends JApplet implements Serializable{
 		south.add(stat3);
 		south.add(stat4);
 		south.add(stat5);
-
 		// BOTTOM GRID END
 		
 		c = getContentPane();
@@ -87,8 +75,6 @@ public class Statistikkvindu extends JApplet implements Serializable{
 		/////////// GUI LAYOUT SLUTT /////////////
 		//////////////////////////////////////////
 			
-		
-
 		Knappelytter lytter = new Knappelytter();
 		
 		stat1.addActionListener(lytter);
@@ -101,6 +87,7 @@ public class Statistikkvindu extends JApplet implements Serializable{
 			setVisible( true );
 		}
 	
+		// Oppretter knappelytter
 		private class Knappelytter implements ActionListener {
 		    public void actionPerformed( ActionEvent e )
 		    {
@@ -116,7 +103,5 @@ public class Statistikkvindu extends JApplet implements Serializable{
 		    	  tekstområde.setText("Her ville statistikk nummer 5 ha blitt presentert");
 		      }
 		    }
-		}
-}
-		
-	
+	  }
+} // STATISTIKKVINDU SLUTT

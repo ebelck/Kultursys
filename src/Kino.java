@@ -41,4 +41,4 @@ public class Kino extends Lokale implements Serializable {
 		meld += "Ytterligere info: " + get_Info() + "\n";
 		return meld;
 	}
-} // Kino slutt
+} // KINO SLUTT
