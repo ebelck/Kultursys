@@ -62,13 +62,10 @@ public Adminvindu( Kulturhus hus,Personregister reg)
      * Create the GUI and show it.
      */
    public void createUser() {
-<<<<<<< HEAD
+
 	   brukerV = new Brukervindu(k);
-	   brukerV.createAndShowGUI();
-	   
-=======
 	   brukerV.createAndShowGUI();   
->>>>>>> branch 'master' of https://github.com/ebelck/ProgUtvikling.git
+
    }
     public void createAdmin()
     {
