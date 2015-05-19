@@ -78,19 +78,6 @@ public class Billettregister implements Serializable {
 			if(b.get_Solgt())
 				antSolgt++;
 		}
-
-		
-		iterator = reg.iterator();
-        
-		while (iterator.hasNext()) {
-			Billett b = iterator.next();
-        	if (b.get_Solgt())
-            	antSolgt++;
-        }
-		for(Billett b : reg){
-			if(b.get_Solgt())
-				antSolgt++;
-		}
 		return antSolgt;
 	}
 	
