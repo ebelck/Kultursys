@@ -21,7 +21,7 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	private StretchIcon bildeIconK;
 	private BufferedImage bilde = null;
 	private BufferedImage placeholder_img;
-	private boolean kunMedArr;
+	private boolean kunMedArr;						//Brukes aldri. Kan den fjernes?
 	private EmptyBorder border;
 	private File bildeFil;
 	private JComponent leftBottom, right, bottom,leftSplit;

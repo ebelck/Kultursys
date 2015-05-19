@@ -566,7 +566,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    	  Map<String,Arrangement> mp = k.listArrangementerMagiskOgDeilig();
 	    	  System.out.println("Størrelsen på settet i Kulturhus er " + mp.size());
 	    	  if (mp != null) {
-	    	  Iterator it = mp.entrySet().iterator();
+	    	  Iterator it = mp.entrySet().iterator(); //Set Iterator<Type>: Iterator<#Datatype#> it = ....
 	    	    while (it.hasNext()) {
 	    	    	Map.Entry pair = (Map.Entry)it.next();
 	    	    	final Arrangement arr = (Arrangement) pair.getValue();

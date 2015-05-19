@@ -1,12 +1,5 @@
 import java.io.Serializable;
 
-
-/* 
- * Valg 5 
- * Subklasse av Lokale.java
- * 
- * */
-import java.io.*;
 public class Selskapslokale extends Lokale implements Serializable {
 	
 	private static final long serialVersionUID = -5540962613336331489L;

@@ -9,13 +9,13 @@
 //////////////////////////////////////////////////////////////////////////
 
 import java.util.*;
-import java.awt.Cursor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Cursor;					//Brukes aldri. Kan den fjernes?
+import java.awt.event.MouseAdapter;		//Brukes aldri. Kan den fjernes?
+import java.awt.event.MouseEvent;		//Brukes aldri. Kan den fjernes?
 import java.io.*;
 
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import javax.swing.JLabel;				//Brukes aldri. Kan den fjernes?
+import javax.swing.JTextArea;			//Brukes aldri. Kan den fjernes?
 
 
 public class Lokale implements Serializable{

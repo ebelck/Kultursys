@@ -1,10 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.File;			//Brukes aldri. Kan den fjernes?
+import java.io.IOException;		//Brukes aldri. Kan den fjernes?
+import java.io.Serializable;	
 
-import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;	//Brukes aldri. Kan den fjernes?
 import javax.swing.*;
 
 
@@ -295,8 +295,8 @@ public class Lokalvindu extends JApplet implements Serializable {
 	    	  }
 	    	  String navn = navnFelt.getText();
 	    	  String besk = beskFelt.getText();
-	    	  String alt = altFelt1.getText();
-	    	  String alt2 = altFelt2.getText();
+	    	  String alt = altFelt1.getText();		//Brukes aldri. Kan den fjernes?
+	    	  String alt2 = altFelt2.getText();		//Brukes aldri. Kan den fjernes?
 
 	    	  int refNr = Integer.parseInt(refFelt.getText());
 	    	  Lokale lokFunnet = k.arrangementViaK(refNr);
