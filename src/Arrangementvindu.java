@@ -563,7 +563,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	      else if ( e.getSource() == listeKnapp ) {
 	    	  clearFields();
 	    	  tekstområde.setText("");
-	    	  Map<String,Arrangement> mp = k.listArrangementerMagiskOgDeilig();
+	    	  Map<String,Arrangement> mp = k.listArrangementerMap();
 	    	  System.out.println("Størrelsen på settet i Kulturhus er " + mp.size());
 	    	  if (mp != null) {
 	    	  Iterator it = mp.entrySet().iterator();

@@ -26,9 +26,9 @@ public class Personregister implements Serializable {
 		}catch(FileNotFoundException eofe){
 			kreg = null;
 		}catch(EOFException eofe){
-	
+			eofe.printStackTrace();
 		}catch(InvalidClassException ice){
-			
+			ice.printStackTrace();
 		}
 		catch(Exception e){
 			System.out.println("Feil i lagReg() i Personregister-klassen konstruktør: " + e.getClass());
@@ -55,7 +55,7 @@ public class Personregister implements Serializable {
 	//	MANIPULERINGS-METODER	//
 	//////////////////////////////
 	
-	//Legger til en Kontakperson i Kontakpersonregisteret
+	// Legger til en Kontakperson i Kontakpersonregisteret
 	public boolean leggTilKontaktperson( Kontaktperson k){
 		if(k == null)
 			return false;
@@ -63,7 +63,7 @@ public class Personregister implements Serializable {
 		return true;
 	}
 	
-	//Sletter en Kontaktperson fra registeret via Epost
+	// Sletter en Kontaktperson fra registeret via Epost
 	public boolean slettKontaktpersonViaEpost(String e){
 		Kontaktperson funnet = null;
 		try {
@@ -82,7 +82,7 @@ public class Personregister implements Serializable {
 		return false;
 	}
 	
-	//Sletter en Kontaktperson fra registeret via Telefonnr
+	// Sletter en Kontaktperson fra registeret via Telefonnr
 	public boolean slettKontaktpersonViaTelefon(String t){
 		Kontaktperson funnet = null;
 		try {
@@ -101,7 +101,7 @@ public class Personregister implements Serializable {
 		return false;
 	}
 	
-	//finner en Kontaktperson fra registeret via Epost
+	// Finner en Kontaktperson fra registeret via Epost
 	public Kontaktperson finnKontaktpersonViaEpost(String e){
 		Kontaktperson funnet = null;
 		try {
@@ -119,7 +119,7 @@ public class Personregister implements Serializable {
 		return funnet;
 	}
 	
-	//finner en Kontaktperson fra registeret via navn
+	// Finner en Kontaktperson fra registeret via navn
 	public Kontaktperson finnKontaktpersonViaNavn(String fn){
 		Kontaktperson funnet = null;
 		try {
@@ -137,7 +137,7 @@ public class Personregister implements Serializable {
 		return funnet;
 	}
 
-	//finner en Kontaktperson fra registeret via telefonnr
+	// Finner en Kontaktperson fra registeret via telefonnr
 	public Kontaktperson finnKontaktpersonViaTlf(String t){
 		Kontaktperson funnet = null;
 		try {
@@ -154,6 +154,8 @@ public class Personregister implements Serializable {
 		}
 		return funnet;
 	}
+	
+	// Sjekker om kontaktperson finnes via telefonnummer
 	public boolean sjekkOmFinnesTlf(String t) {
 		Kontaktperson funnet = null;
 		iterator = reg.iterator();
@@ -165,6 +167,8 @@ public class Personregister implements Serializable {
         }
         return false;
 	}
+	
+	// Sjekker om kontaktperson finnes via epost
 	public boolean sjekkOmFinnesEpost(String e) {
 		Kontaktperson funnet = null;
 		iterator = reg.iterator();
@@ -177,7 +181,7 @@ public class Personregister implements Serializable {
         return false;
 	}
 	
-	//lister ut alle kontaktpersoner
+	//Lister ut alle kontaktpersoner
 	public String[] listKontaktpersoner(){
 		ArrayList<String> a = new ArrayList<>();
 		a.add("Oppdater liste");

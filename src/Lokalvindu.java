@@ -1,12 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-
-import javax.imageio.ImageIO;
+import java.io.*;
+import javax.imageio.*;
 import javax.swing.*;
-
 
 public class Lokalvindu extends JApplet implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,10 +15,10 @@ public class Lokalvindu extends JApplet implements Serializable {
 	JComboBox<String> lokalvelger;
 	private GridLayout bottomGrid,topGrid;
 	public Kulturhus k;
-
 	private String lokalnavn = "Valg";
 	private JComponent north,south;
 	
+	// Fjerner tekst fra inputfelt
 	public void clearFields() {
 		navnFelt.setText("");
 		beskFelt.setText("");
@@ -31,6 +27,7 @@ public class Lokalvindu extends JApplet implements Serializable {
 		altFelt1.setText("");
 		altFelt2.setText("");
 	}
+	// Legger oppdatert liste med lokaler og tilhørende GUI-komponenter
 	private void addSpecificC(String l) {
 		if (l.equals("Kino")) {
 			north.setLayout(new GridLayout(6, 2)); // 5 rows 2 columns; no gaps);
@@ -63,9 +60,11 @@ public class Lokalvindu extends JApplet implements Serializable {
 			north.add(new JLabel("Velg type!"));
 		}
 		else {
-			System.out.println("Aner ikke hvorfor du endte opp her");
+			System.out.println("En feil har oppstått, prøv å oppdater lokalene i lokallisten");
 		}
 	}
+	
+	// Setter GUI tilbake til defaultvisning
 	private void repainter() {
 		north.add(new JLabel(" Referansenummer:"));
 		north.add(refFelt);
@@ -75,7 +74,6 @@ public class Lokalvindu extends JApplet implements Serializable {
 		north.add(beskFelt);
 		north.add(new JLabel(" Velg type lokale:"));
 		north.add(lokalvelger);	
-		
 	}
 	
 	public Lokalvindu(Kulturhus kH) {
@@ -90,9 +88,6 @@ public class Lokalvindu extends JApplet implements Serializable {
 			altFelt1 = new JTextField( 18 );
 			altFelt2 = new JTextField( 18 );
 
-
-
-			
 			lokalvelger = new JComboBox<>(lokalvalg);
 			lokalvelger.setSelectedIndex(0);
 			
@@ -109,8 +104,6 @@ public class Lokalvindu extends JApplet implements Serializable {
 			bottomGrid = new GridLayout(1, 5);
 			topGrid = new GridLayout(5, 2);
 
-
-			
 			// TOP GRID START
 			north = new JPanel();
 			north.setLayout(topGrid);
@@ -123,7 +116,6 @@ public class Lokalvindu extends JApplet implements Serializable {
 			north.add(new JLabel(" Velg type lokale:"));
 			north.add(lokalvelger);			
 			// TOP GRID END
-			
 			
 			// CENTER GRID START
 			tekstområde = new JTextArea();
@@ -151,9 +143,7 @@ public class Lokalvindu extends JApplet implements Serializable {
 			
 			/////////// GUI LAYOUT SLUTT /////////////
 			//////////////////////////////////////////
-				
-			
-	
+
 			Knappelytter lytter = new Knappelytter();
 			
 			finnKnapp.addActionListener( lytter );
@@ -167,12 +157,12 @@ public class Lokalvindu extends JApplet implements Serializable {
 			setVisible( true );
 		}
 	
-	
-		
+	// Oppretter Knappelytter
 	private class Knappelytter implements ActionListener
 	  {
 	    public void actionPerformed( ActionEvent e )
 	    {
+	      // Registerer lokale
 	      if ( e.getSource() == regKnapp ) {
 	    	  try {
 	    		  String navn = navnFelt.getText();
@@ -230,6 +220,7 @@ public class Lokalvindu extends JApplet implements Serializable {
 	    	  }
 	      }
 
+	      // Sletter Lokale
 	      else if ( e.getSource() == slettKnapp ) {
 	    	  if (refFelt.getText().equals("")) {
 	    		  tekstområde.setText("Du må bruke referansenummer for å slette.");
@@ -237,6 +228,7 @@ public class Lokalvindu extends JApplet implements Serializable {
 	    	  } else {
 				try {
 					Lokale lokalFunnet = k.finnLokale(Integer.parseInt(refFelt.getText()));
+					// Gir brukeren valg til å angre sletting
 					if (lokalFunnet != null) {
 						Object[] options = {"Ja",
 						                    "Avbryt",};
@@ -269,9 +261,12 @@ public class Lokalvindu extends JApplet implements Serializable {
 				}
 	    	  }
 	      }
+	      
+	      // Lister alle lokaler
 	      else if ( e.getSource() == listeKnapp )
 	    	  	tekstområde.setText(k.listLokaler());
 	      
+	      // Finner et lokale
 	      else if ( e.getSource() == finnKnapp ) {
 	    	  try {
 	    		int n = Integer.parseInt(refFelt.getText());
@@ -295,8 +290,6 @@ public class Lokalvindu extends JApplet implements Serializable {
 	    	  }
 	    	  String navn = navnFelt.getText();
 	    	  String besk = beskFelt.getText();
-	    	  String alt = altFelt1.getText();
-	    	  String alt2 = altFelt2.getText();
 
 	    	  int refNr = Integer.parseInt(refFelt.getText());
 	    	  Lokale lokFunnet = k.arrangementViaK(refNr);
@@ -323,6 +316,5 @@ public class Lokalvindu extends JApplet implements Serializable {
 		    c.revalidate();
 		    c.repaint();
 	    }
-	  }
-	
-}
+	}
+} // Lokalvindu slutt

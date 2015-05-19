@@ -9,14 +9,9 @@
 //////////////////////////////////////////////////////////////////////////
 
 import java.util.*;
-import java.awt.Cursor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
 import java.io.*;
-
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-
+import javax.swing.*;
 
 public class Lokale implements Serializable{
 
@@ -30,12 +25,10 @@ public class Lokale implements Serializable{
 	//	KONSTRUKTØR	//
 	//////////////////
 	
-	public Lokale (String n, String b) { // her kommer String t, int p
+	public Lokale (String n, String b) {
 		refNr = nesteNr++;
 		navn = n;
 		beskrivelse = b;
-//		type = t;
-//		plasser = p
 	}
 	
 	public Lokale(){
@@ -128,8 +121,6 @@ public class Lokale implements Serializable{
 			for(Arrangement funnet : reg)
 				if(funnet.get_aId() == n)
 					return funnet;
-	        
-			
 		} catch(Exception ex){
 			return null;
 		}
@@ -137,13 +128,11 @@ public class Lokale implements Serializable{
 	}
 	
 	public ArrayList<Arrangement> listArrangementer1(){
-		System.out.println("Størrelsen på registeret fra et lokale er " + reg.size());
 		return reg;
 	}
 	
 	//lister ut alle arrangementene tilknyttet lokalet
 	public String listArrangementer(){
-		System.out.println("Lister ut arrangement");
 		if(reg.isEmpty())
 			return "Ingen arrangementer lagret";
 		
@@ -182,6 +171,7 @@ public class Lokale implements Serializable{
 		return null;
 	}
 	
+	// Finner størte billettnummer
 	public ArrayList<Integer> finnStørsteBillettNr(){
 		ArrayList<Integer> liste = new ArrayList<Integer>(0);
 		if(!reg.isEmpty())
@@ -190,6 +180,7 @@ public class Lokale implements Serializable{
 		return liste;
 	}
 	
+	// Finner største arrangementnummer
 	public int finnStørsteArrNr(){
 		int max = 0;
 		if(!reg.isEmpty())
@@ -216,6 +207,7 @@ public class Lokale implements Serializable{
 		return sum;
 	}
 	
+	// Totale solgte billetter for arrangementer
 	public int arrangementSolgteBilletter() {
 		int sum = 0;
 		for(Arrangement a : reg) {
