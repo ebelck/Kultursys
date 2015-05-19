@@ -1,6 +1,7 @@
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Calendar;
 
 public class Kulturhus implements Serializable {
 	private static final long serialVersionUID = 7057756717951866203L;
@@ -157,6 +158,49 @@ public class Kulturhus implements Serializable {
 		}
 		
 		return "Fant ikke lokale";
+	}
+	
+	public String hentArr3mnd(){
+		
+		String svar = "Ingen arrangement i tidsperioden";
+		if(!lreg.isEmpty()){
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+			Date nå = new Date();
+			Date da = new Date((nå.getTime() + (90 * 86400000) ));
+			ArrayList<Arrangement> arrList= new ArrayList<Arrangement>();
+			for(Lokale l : lreg){
+				if(!l.get_reg().isEmpty()){
+					for(Arrangement a: l.get_reg()){
+						
+						try{
+							Date tid = sdf.parse(a.get_Dato());
+							if(tid.after(nå) && tid.before(da)){
+								arrList.add(a);
+							}
+						}catch(Exception e){
+							System.out.println("Kunne ikke pare dato");
+						}
+						
+					}
+					
+				}
+			}
+			svar = "Arrangement de neste 3 månedene";
+			for(Arrangement a: arrList)
+				svar += a.toString() + "\r\n";
+		}
+		return svar;
+	}
+	
+	public Calendar lagKalender(String dato){
+		Calendar kal = new GregorianCalendar();
+		int år = Integer.parseInt(dato.substring(6, 10));
+		int mnd = Integer.parseInt(dato.substring(3, 5));
+		int dag = Integer.parseInt(dato.substring(0, 2));
+		int time = Integer.parseInt(dato.substring(11, 13));
+		int min = Integer.parseInt(dato.substring(14, 16));
+		kal.set(år, mnd, dag, time, min);
+		return kal;
 	}
 
 	public String[] lokalListe() {
