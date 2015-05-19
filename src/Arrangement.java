@@ -186,8 +186,7 @@ public class Arrangement implements Serializable {
 	public String get_Dato() {
 		if (dato==null)
 			return "";
-		String datoString = sdf.format(dato);
-		return datoString;
+		return dato;
 	}
 	
 	public int get_Pris() {
@@ -312,7 +311,7 @@ public class Arrangement implements Serializable {
 		melding += (bildeSti != null) ? "Bilde:\t" + bildeSti + "\r\n" : "Mangler bilde" + "\r\n";
 		melding += (info1 != null) ? info1 + "\r\n" : "";
 		melding += (info2 != null) ? info2 + "\r\n" : "";
-		melding += (dato != null) ? "Dato:\t" + sdf.format(dato) + "\r\n" : "Dato ikke satt" + "\r\n";
+		melding += (dato != null) ? "Dato:\t"+ get_Dato() + "\r\n" : "Dato ikke satt" + "\r\n";
 		melding += (!billettsalg) ? "Pris:\tGratis\r\n" : "Pris:\tkr " + pris +".00\r\n";
 		melding += (billettsalg) ? "Ledige bill.:\t" + (reg.get_antallBilletter() - reg.antallSolgteBilletter()) + "/" + reg.get_antallBilletter() + "\r\n": "";
 		melding += "Kontaktperson:\t" + kontakt + "\r\n";
