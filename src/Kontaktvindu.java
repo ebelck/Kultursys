@@ -26,6 +26,7 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	private File bildeFil;
 	private JComponent leftBottom, right, bottom,leftSplit;
 	private JLabel bildeLabelK;
+	public Kulturhus KH;
 	
 	// Viser bilde av kontaktperson
 	public void visBilde(Kontaktperson k) {
@@ -86,8 +87,8 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	}
 	
 	// Oppretter Kontaktvindu
-	public Kontaktvindu(Personregister pr) {
-		
+	public Kontaktvindu(Personregister pr, Kulturhus k) {
+			KH=k;
 			reg = pr;
 
 			fornavnFelt = new JTextField( 18 );
@@ -361,7 +362,11 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	      
 	      // Lister ut kontakter
 	      else if ( e.getSource() == listeKnapp ) {
+	    	  if (kunMedArr==true) {
+	    		  tekstområde.setText(KH.kunKontaktMedAnsvar());
+	    	  } else {
 	    	  	tekstområde.setText(reg.toString());
+	    	  }
 	      }
 	      
 	      // Finner kontakt

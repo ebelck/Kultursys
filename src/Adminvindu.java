@@ -26,7 +26,7 @@ public Adminvindu( Kulturhus hus,Personregister reg)
 	pr = reg;
 	lokalV = new Lokalvindu(k);
 	arrangementV = new Arrangementvindu(k,pr);
-	kontaktV = new Kontaktvindu(pr);
+	kontaktV = new Kontaktvindu(pr,k);
 	statVindu = new Statistikkvindu(k);
 	
 	try { 

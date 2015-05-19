@@ -367,6 +367,25 @@ public class Kulturhus implements Serializable {
 	//	LOKALEMANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////////////
 
+	public String kunKontaktMedAnsvar() {
+		String melding = "";
+		ArrayList<Kontaktperson> utArray = new ArrayList<>();
+		Lokale l = null;
+		for (Lokale s : lreg) {
+			if(!s.tomtRegister()) {
+				for (Arrangement arr : s.listArrangementer1()) {
+					utArray.add(arr.get_Kontaktperson());
+				}
+			}
+		}
+		for (Kontaktperson k : utArray) {
+			melding+=k.toString();
+		}
+		if (melding.equals(""))
+			return "Ingen kontaktpersoner i systemet er ansvarlig for et arrangement";
+		return melding;
+	}
+	
 	//////////////////////
 	//	BILLETT-METODER	//
 	//////////////////////
