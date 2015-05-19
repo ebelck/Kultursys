@@ -180,7 +180,7 @@ public class Kontaktvindu extends JApplet implements Serializable {
 			
 			c = getContentPane();
 			c.setLayout(layout);
-			c.add(new JLabel("Kontaktperson: <- La oss prøve å pynte denne tittelen knis"), BorderLayout.PAGE_START);
+			c.add(new JLabel("Kontaktperson:"), BorderLayout.PAGE_START);
 			c.add(leftSplit, BorderLayout.LINE_START);
 			c.add(right, BorderLayout.PAGE_START);
 			c.add(utskriftområde, BorderLayout.CENTER);
