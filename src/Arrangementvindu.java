@@ -564,8 +564,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    	  clearFields();
 	    	  tekstområde.setText("");
 	    	  Map<String,Arrangement> mp = k.listArrangementerMap();
-	    	  System.out.println("Størrelsen på settet i Kulturhus er " + mp.size());
-	    	  if (mp != null) {
+	    	  if (mp.size() > 0) {
 	    	  Iterator it = mp.entrySet().iterator(); //Set Iterator<Type>: Iterator<#Datatype#> it = ....
 	    	    while (it.hasNext()) {
 	    	    	Map.Entry pair = (Map.Entry)it.next();
@@ -584,6 +583,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    			});
 	    			it.remove(); // forhindrer en ConcurrentModificationException
 	    	    }
+	    	  } else {
+	    		  tekstområde.setText("Ingen arrangementer oppført.");
 	    	  }
 	      }
 	      

@@ -30,21 +30,12 @@ public class Statistikkvindu extends JApplet implements Serializable{
 	public Statistikkvindu(Kulturhus kH) {
 			
 		k = kH;
-		
-		l = new JLabel("Click me");
-		l.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		l.addMouseListener(new MouseAdapter(){
-		   public void mouseClicked(MouseEvent me)
-		   {
-		         l.setText("Clicked!");
-		   }
-		});
 			
-		stat1 = new JButton("Beregning1");
-		stat2 = new JButton( "Beregning2" );
-		stat3 = new JButton( "Beregning3" );
-		stat4 = new JButton( "Beregning4" );
-		stat5 = new JButton("Beregning5");
+		stat1 = new JButton("Detaljert inntekt");
+		stat2 = new JButton( "Total inntekt" );
+		stat3 = new JButton( "!=Beregning 3" );
+		stat4 = new JButton( "!=Beregning 4" );
+		stat5 = new JButton("!=Beregning 5");
 		
 		//////////////////////////////////////////
 		/////////// GUI LAYOUT START /////////////
@@ -71,6 +62,8 @@ public class Statistikkvindu extends JApplet implements Serializable{
 		utskriftområde.setForeground(Color.BLACK);
 		tekstområde.setMargin(new Insets(10,10,10,10));
 		tekstområde.setBackground(Color.decode("#FFFFDE"));
+		Font breadfont = new Font("Monospaced", Font.PLAIN, 13);
+		tekstområde.setFont(breadfont);
 		// CENTER GRID END
 		
 		//BOTTOM GRID START
@@ -99,6 +92,10 @@ public class Statistikkvindu extends JApplet implements Serializable{
 		Knappelytter lytter = new Knappelytter();
 		
 		stat1.addActionListener(lytter);
+		stat2.addActionListener(lytter);
+		stat3.addActionListener(lytter);
+		stat4.addActionListener(lytter);
+		stat5.addActionListener(lytter);
 			
 			setSize( 550, 500 );
 			setVisible( true );
@@ -108,7 +105,15 @@ public class Statistikkvindu extends JApplet implements Serializable{
 		    public void actionPerformed( ActionEvent e )
 		    {
 		      if ( e.getSource() == stat1 ) {
-		    	  tekstområde.insertComponent(l);
+		    	  tekstområde.setText(k.totalInntektForAlleLokaler());
+		      } else if ( e.getSource() == stat2) {
+		    	  tekstområde.setText("Totalinntekt på tvers av alle lokaler "+Integer.toString(k.totaltSolgtAlleLokaler()));
+		      } else if ( e.getSource() == stat3) {
+		    	  tekstområde.setText("Her ville statistikk nummer 3 ha blitt presentert");
+		      } else if ( e.getSource() == stat4) {
+		    	  tekstområde.setText("Her ville statistikk nummer 4 ha blitt presentert");
+		      } else if ( e.getSource() == stat5) {
+		    	  tekstområde.setText("Her ville statistikk nummer 5 ha blitt presentert");
 		      }
 		    }
 		}
