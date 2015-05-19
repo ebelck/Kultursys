@@ -159,7 +159,7 @@ public class Billettvindu extends JApplet implements Serializable {
 			melding.setEditable(false);
 			melding.setMargin(new Insets(10,10,10,10));
 			melding.setText("");
-			tekstvindu.add(melding);
+			tekstvindu.add(meldingsområde);
 			
 			/////	MELDINGSVINDU SLUTT	/////
 		
