@@ -14,7 +14,7 @@ public class Oversiktsvindu extends JApplet implements Serializable {
 	private JLabel velgL;
 	private JTextArea melding;
 	private JScrollPane meldingsområde;
-	private String standardmelding = hentArr3mnd();//"Velkommen til Publikumsportalen!";
+	private String standardmelding = "Velkommen til Publikumsportalen!";
 	
 	private Kulturhus k;
 	private ActionListener lytter;
@@ -85,7 +85,9 @@ public class Oversiktsvindu extends JApplet implements Serializable {
 	/////////////////////////
 	
 	public String hentArr3mnd(){
-		 return k.hentArr3mnd();
+		System.out.println("inne i hentArr3mnd");
+		String svar = k.hentArrNesteDager(90);
+		return svar;
 	}
 	
 	

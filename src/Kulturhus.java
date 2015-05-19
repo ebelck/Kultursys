@@ -1,7 +1,6 @@
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Calendar;
 
 public class Kulturhus implements Serializable {
 	private static final long serialVersionUID = 7057756717951866203L;
@@ -160,13 +159,15 @@ public class Kulturhus implements Serializable {
 		return "Fant ikke lokale";
 	}
 	
-	public String hentArr3mnd(){
+	
+	//Lister ut Arrangement innenfor et tidsrom etter dato
+	public String hentArrNesteDager(int dager){
 		
 		String svar = "Ingen arrangement i tidsperioden";
 		if(!lreg.isEmpty()){
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 			Date nå = new Date();
-			Date da = new Date((nå.getTime() + (90 * 86400000) ));
+			Date da = new Date((nå.getTime() + (dager * 86400000) ));
 			ArrayList<Arrangement> arrList= new ArrayList<Arrangement>();
 			for(Lokale l : lreg){
 				if(!l.get_reg().isEmpty()){
@@ -175,32 +176,32 @@ public class Kulturhus implements Serializable {
 						try{
 							Date tid = sdf.parse(a.get_Dato());
 							if(tid.after(nå) && tid.before(da)){
-								arrList.add(a);
+								if(arrList.isEmpty())
+									arrList.add(a);
+								else{
+									int index = -1;
+									Iterator<Arrangement> it = arrList.iterator();		//ITTERATOR
+									while(it.hasNext() && index < 0){
+										Arrangement b = it.next();
+										Date sjekk = sdf.parse(b.get_Dato());
+										if(sjekk.after(tid))
+											index = arrList.indexOf(b);
+									}
+									arrList.add(index, a);
+								}
 							}
 						}catch(Exception e){
-							System.out.println("Kunne ikke pare dato");
+							System.out.println("Kunne ikke parse dato");
 						}
-						
 					}
-					
 				}
 			}
-			svar = "Arrangement de neste 3 månedene";
+			
+			svar = "Arrangement de neste " + dager + " dagene:\r\n";
 			for(Arrangement a: arrList)
 				svar += a.toString() + "\r\n";
 		}
 		return svar;
-	}
-	
-	public Calendar lagKalender(String dato){
-		Calendar kal = new GregorianCalendar();
-		int år = Integer.parseInt(dato.substring(6, 10));
-		int mnd = Integer.parseInt(dato.substring(3, 5));
-		int dag = Integer.parseInt(dato.substring(0, 2));
-		int time = Integer.parseInt(dato.substring(11, 13));
-		int min = Integer.parseInt(dato.substring(14, 16));
-		kal.set(år, mnd, dag, time, min);
-		return kal;
 	}
 
 	public String[] lokalListe() {
