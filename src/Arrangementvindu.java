@@ -77,6 +77,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			
 	private void contextPainter(String l) {
 		Lokale lok = k.finnType(l);
+		System.out.println("inne i contextpainter");
 		if (lok instanceof Cafe) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel(" Hvor mange gjester er det plass til: "));
@@ -620,7 +621,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 				addSpecificK(kontaktnavn);	
 			c.add(center, BorderLayout.CENTER);
 			c.add(south, BorderLayout.PAGE_END);
-		    c.repaint();
+		    north.repaint();
 	    }
 	  }
 }
