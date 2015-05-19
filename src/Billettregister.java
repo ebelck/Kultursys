@@ -15,7 +15,6 @@ public class Billettregister implements Serializable {
 
 	private static final long serialVersionUID = 6559197877098881762L;
 	private ArrayList<Billett> reg = new ArrayList<Billett>();
-	private Iterator<Billett> iterator;
 	
 	private int antallBilletter;
 	private boolean ledigeBilletter = true;
@@ -144,18 +143,16 @@ public class Billettregister implements Serializable {
 	
 	//Søker opp Billett som matcher telefonnr
 	public Billett finnBillett(String tlf) {
-		Billett funnet = null;
 		try {
-			iterator = reg.iterator();
-	        while (iterator.hasNext()) {
-	        	funnet = iterator.next();
-	            if (funnet.get_kunde().get_Telefon().equals(tlf))
-	            	return funnet;
-	        }
+			for(Billett funnet : reg){
+				if(funnet.get_kunde().get_Telefon().equals(tlf)){
+					return funnet;
+				}
+			}
 		}catch(Exception ex){
-			return funnet;
+			return null;
 		}
-		return funnet;
+		return null;
 	}
 	
 	//Søker opp Billett på telefonnr
@@ -173,13 +170,10 @@ public class Billettregister implements Serializable {
 	// avbestiller X billetter med telefonnr
 	public boolean avbestillBilletter(int antall, String tlf){
 		int teller = 0;
-		Billett b;
-		if(finnBillett(tlf) == null)
+		if(finnBillett(tlf) == null && antall > 0)
 			return false;
 		try{
-			iterator = reg.iterator();
-			while(iterator.hasNext() && antall > 0){
-				b = iterator.next();
+			for(Billett b : reg){
 				if(b.solgt && b.get_kunde().get_Telefon().equals(tlf)){
 					b.avbestillBillett();
 				}
