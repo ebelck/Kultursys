@@ -1,12 +1,8 @@
 import java.awt.*;
-
 import javax.swing.*;
-
 import java.util.*;
 import java.awt.event.*;
-import java.io.Serializable;
-
-
+import java.io.*;
 
 public class Billettvindu extends JApplet implements Serializable {
 	private static final long serialVersionUID = -5477737420470188001L;
@@ -19,7 +15,6 @@ public class Billettvindu extends JApplet implements Serializable {
 	private JButton bestillKnapp, avbestillKnapp, søkKnapp;
 	private JTextArea melding;
 	private JScrollPane meldingsområde;
-
 	private Kulturhus k;
 	private ActionListener lytter;
 

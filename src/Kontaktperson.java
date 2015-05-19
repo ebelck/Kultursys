@@ -1,11 +1,9 @@
-import java.awt.image.BufferedImage;
-
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Denne klassen er en utvidelse av klassen Person og inneholder 		//
 //	informasjon om kontaktpersoner										//
 //	# Den utvider Person med et idnummer								//
 //////////////////////////////////////////////////////////////////////////
-import java.io.Serializable;
+import java.io.*;
 
 public class Kontaktperson extends Person implements Serializable {
 	private static final long serialVersionUID = 2195541615163342230L;

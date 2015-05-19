@@ -167,9 +167,8 @@ public class Billettregister implements Serializable {
 		}
 	}
 	
-	// avbestiller X billetter med telefonnr
+	// Avbestiller X billetter med telefonnr
 	public boolean avbestillBilletter(int antall, String tlf){
-		int teller = 0;
 		if(finnBillett(tlf) == null && antall > 0)
 			return false;
 		try{
@@ -185,6 +184,7 @@ public class Billettregister implements Serializable {
 		}
 	}
 	
+	// Lister solgte billetter
 	public String listSolgteBilletter(){
 		String retur = "Solgte billetter: " + antallSolgteBilletter() + " av " + antallBilletter + "\r\n\r\n";
 				for(Billett b : reg)
@@ -192,6 +192,7 @@ public class Billettregister implements Serializable {
 		return retur;
 	}
 	
+	// Finner høyeste billettnummer
 	public int finn_høyeste_bNr(){
 		if(reg.isEmpty())
 			return 0;

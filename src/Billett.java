@@ -7,10 +7,9 @@
 //	# Opplysniger om billettholder										//
 //	# Metoder for å manipulere billetter								//
 //////////////////////////////////////////////////////////////////////////
-import java.io.Serializable;
+import java.io.*;
 
 public class Billett implements Serializable {
-	
 	
 	private static final long serialVersionUID = 818328769517963001L;
 	private int bnr;

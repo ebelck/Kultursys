@@ -1,14 +1,12 @@
-import java.io.Serializable;
-
+import java.io.*;
 import javax.swing.*;
-
 
 /* 
  * Valg 3 
  * Subklasse av Lokale.java
  * 
  * */
-import java.io.*;
+
 public class Konferanse extends Lokale implements Serializable {
 	
 	private static final long serialVersionUID = 1418746538790867914L;
@@ -39,9 +37,9 @@ public class Konferanse extends Lokale implements Serializable {
 	}
 	
 	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
+	 //////////////////////////////
+	 // Get og Set metoder start //
+	 //////////////////////////////
 	
 	public int get_AntPersoner() {
 		return antPersoner;
@@ -63,6 +61,8 @@ public class Konferanse extends Lokale implements Serializable {
 		return pris;
 	}
 	
+	//////////////////////
+	
 	public void set_AntStoler(int aS) {
 		antStoler = aS;
 	}
@@ -72,9 +72,9 @@ public class Konferanse extends Lokale implements Serializable {
 	}
 	
 	
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
+	 //////////////////////////////
+	 // Get og Set metoder slutt //
+	 //////////////////////////////
 	
 	
 	public String toString() {
@@ -86,4 +86,4 @@ public class Konferanse extends Lokale implements Serializable {
 		meld += "Pris per døgn: " + get_Pris() + "\n";
 		return meld;
 	}
-}
+} // Konferanse slutt

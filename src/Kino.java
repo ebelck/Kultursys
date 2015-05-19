@@ -12,7 +12,7 @@ public class Kino extends Lokale implements Serializable {
 	private String info;
 	private String type;
 	
-	
+	// Oppretter Kino
 	public Kino(String n, String b, String f) {
 		super(n,b);
 		info = f;
@@ -20,10 +20,9 @@ public class Kino extends Lokale implements Serializable {
 		
 	}
 
-	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
+	 //////////////////////////////
+	 // Get og Set metoder start //
+	 //////////////////////////////
 	
 	public int get_AntPlasser() {
 		return antPlasser;
@@ -37,9 +36,9 @@ public class Kino extends Lokale implements Serializable {
 		return type;
 	}
 	
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
+	 //////////////////////////////
+	 // Get og Set metoder slutt //
+	 //////////////////////////////
 	
 	public String toString() {
 		String meld = super.toString();
@@ -48,4 +47,4 @@ public class Kino extends Lokale implements Serializable {
 		meld += "Ytterligere info: " + get_Info() + "\n";
 		return meld;
 	}
-}
+} // Kino slutt

@@ -1,18 +1,16 @@
-import java.awt.image.BufferedImage;
 import java.io.*;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.*;
 
 public class Bildehandler  extends JPanel implements Serializable{
    
 	private static final long serialVersionUID = -947839549918466106L;
-	private BufferedImage placeholder_img;
 	
 	public File hentFil() {
 		File filHandler = new File("");
         JFileChooser chooser = new JFileChooser();
+        
+        // Bestemmer tillatte filtyper for bilde
         FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, PNG eller GIF", "jpg", "png", "gif");
         chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(null);
