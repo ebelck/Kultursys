@@ -21,7 +21,7 @@ public class Personregister implements Serializable {
 	public Personregister(){
 		ArrayList<Kontaktperson> kreg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/kontreg.dta" ) )){
-				kreg = (ArrayList<Kontaktperson>) innfil.readObject();
+				kreg = (ArrayList<Kontaktperson>) innfil.readObject();		//feilhåndtering? Se warning
 				innfil.close();
 		}catch(FileNotFoundException eofe){
 			kreg = null;

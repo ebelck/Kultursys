@@ -9,7 +9,6 @@ public class Kulturhus implements Serializable {
 	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
 	private Personregister preg = new Personregister();
-	private Lokale l = new Lokale();
 	
 	//////////////////////
 	//	KONSTRUKTØRER	//
@@ -20,7 +19,7 @@ public class Kulturhus implements Serializable {
 		beskrivelse = b;
 		ArrayList<Lokale> reg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){	
-			reg = (ArrayList<Lokale>) innfil.readObject();
+			reg = (ArrayList<Lokale>) innfil.readObject(); //feilhåndtering? Se warning
 			innfil.close();
 		}catch(FileNotFoundException fnfe){
 			reg = null;

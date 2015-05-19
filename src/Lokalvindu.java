@@ -2,6 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.imageio.*;
+import java.io.File;			//Brukes aldri. Kan den fjernes?
+import java.io.IOException;		//Brukes aldri. Kan den fjernes?
+import java.io.Serializable;	
+
+import javax.imageio.ImageIO;	//Brukes aldri. Kan den fjernes?
 import javax.swing.*;
 
 public class Lokalvindu extends JApplet implements Serializable {

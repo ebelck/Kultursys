@@ -16,11 +16,7 @@
 
 import java.util.*;
 import java.text.*;
-import java.awt.image.*;
 import java.io.*;
-
-import javax.swing.*;
-import javax.imageio.*;
 
 public class Arrangement implements Serializable {
 
@@ -30,7 +26,6 @@ public class Arrangement implements Serializable {
 	private  int aId = 0;
 	private static int nesteId = 1;
 	private String navn, beskrivelse, dato;
-	private BufferedImage bilde = null;
 	private String bildeSti,info1,info2;
 	private boolean billettsalg = false;
 	private int pris = 0;
