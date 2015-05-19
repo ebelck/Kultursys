@@ -370,7 +370,6 @@ public class Kulturhus implements Serializable {
 	public String kunKontaktMedAnsvar() {
 		String melding = "";
 		ArrayList<Kontaktperson> utArray = new ArrayList<>();
-		Lokale l = null;
 		for (Lokale s : lreg) {
 			if(!s.tomtRegister()) {
 				for (Arrangement arr : s.listArrangementer1()) {
