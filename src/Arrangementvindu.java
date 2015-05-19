@@ -1,21 +1,11 @@
 import java.awt.*;
-
-import javax.swing.*;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.StyledDocument;
-import javax.imageio.ImageIO;
-
+import java.awt.image.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-
-
+import javax.swing.*;
+import javax.swing.border.*;
+import java.util.*;
+import javax.imageio.*;
+import java.io.*;
 
 public class Arrangementvindu extends JApplet implements Serializable {
 	private static final long serialVersionUID = 5598407733052246255L;
@@ -44,6 +34,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	private File bildeFil;
 	private boolean betalbar = false;
 	
+	//	 Legger oppdatert liste med lokaler og tilhørende GUI-komponenter 
 	private void addSpecificC(String l) {
 		contextPainter(lokalnavn);
 		if (l.equalsIgnoreCase("oppdater liste")) {
@@ -59,6 +50,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 					+  "Liste over lokaler er oppdatert\r\n");
 		}
 	}
+	
+//	 Legger oppdatert liste med kontakter og tilhørende GUI-komponenter 
 	private void addSpecificK(String k) {
 		contextPainter(lokalnavn);
 		if (k.equalsIgnoreCase("oppdater liste")) {
@@ -66,7 +59,6 @@ public class Arrangementvindu extends JApplet implements Serializable {
 		if (kontaktArray.length > 0) {
 			kontaktvelger.removeAllItems();
 			for (int i = 0; i < kontaktArray.length; i++) {
-				System.out.println(kontaktArray[i]);
 				kontaktvelger.addItem(kontaktArray[i]);
 				}
 			}
@@ -76,9 +68,9 @@ public class Arrangementvindu extends JApplet implements Serializable {
 		}
 	}
 			
+	// Legger til spesifikke beskrivelser og inputfelt for forskjellige lokaler
 	private void contextPainter(String l) {
 		Lokale lok = k.finnType(l);
-		System.out.println("inne i contextpainter");
 		if (lok instanceof Cafe) {
 			north.setLayout(new GridLayout(7, 2)); // 5 rows 2 columns; no gaps);
 			north.add(new JLabel("Hvor mange gjester er det plass til:"));
@@ -117,10 +109,12 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			north.add(kalenderpanel.makePanels());
 		}
 		else {
-			System.out.println("Aner ikke hvorfor du endte opp her");
+			tekstområde.setText("En feil har oppstått, prøv å oppdater lokalene i lokallisten");
 		}
 	}
-	private void repainter() {	// Maler opp grunnelementer på GUI ved behov ( removeAll() )	
+	
+	// Maler opp grunnelementer på GUI ved behov ( removeAll() )
+	private void repainter() {		
 		north.add(new JLabel(" Referansenummer:"));
 		north.add(refFelt);
 		north.add(new JLabel(" Navn på arrangement:"));
@@ -132,6 +126,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 		north.add(new JLabel("Velg kontaktperson"));
 		north.add(kontaktvelger);
 	}
+	
+	// Setter bilde som holder plassen om ikke bilde blir lastet med
 	public void setPlaceHolderImg() {
 		try {
 			placeholder_img = ImageIO.read(new File("./images/placeholder_img.png"));
@@ -141,6 +137,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 		  tekstområde.setText("Noe gikk galt.");
 	  }
 	}
+	
+	// Sletter bilde
 	public boolean slettFil(Arrangement a) {
     	try{
     		
@@ -163,6 +161,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
     		return false;
     	}
 	}
+	
+	// Rensker alle inputfelt
 	public void clearFields() {
 		navnFelt.setText("");
 		beskFelt.setText("");
@@ -173,6 +173,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 		bildeNavnFelt.setText("");
 		setPlaceHolderImg();
 	}
+	
+	// Viser bilde
 	public void visBilde(Arrangement a) {
 		try {
 			File bildeFil = new File(a.get_bildeSti());
@@ -184,6 +186,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 		  tekstområde.setText("Noe gikk galt.");
 	  }
 	}
+	
+	// Finner arrangement
 	private void finnArrangement(int n) {
   	  try {
 		  int refNr = n;
@@ -198,6 +202,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 		  tekstområde.setText("Fant ikke Arrangement med dette referansenummer.");
 	  }
 	}
+	
+	// Oppretter arrangementvindu
 	public Arrangementvindu(Kulturhus kH, Personregister pr) {
 		
 			k = kH;
@@ -323,8 +329,6 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			/////////// GUI LAYOUT SLUTT /////////////
 			//////////////////////////////////////////
 				
-			
-	
 			Knappelytter lytter = new Knappelytter();
 			Bokslytter bokslytter = new Bokslytter();
 			Typelytter tLytter = new Typelytter();
@@ -344,6 +348,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			setVisible( true );
 		}
 	
+	// Oppretter lyttere for comboboxene
 	private class Bokslytter implements ActionListener{
 	      public void actionPerformed( ActionEvent b )
 	      {
@@ -352,7 +357,6 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			    int n1 = kontaktvelger.getSelectedIndex();
 			    kontaktnavn = kontaktvelger.getItemAt(n1);
 
-			    
 			    north.removeAll();
 			    north.revalidate();
 			    north.repaint();
@@ -367,6 +371,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 			    north.repaint();
 	      }
 	}
+	
+	// Endrer input om betalbar er trykket
     private class Typelytter implements ItemListener
     {
       public void itemStateChanged( ItemEvent e )
@@ -383,7 +389,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
     	 		centerLineEnd.revalidate();
     	 		centerLineEnd.repaint();
     		  } catch(Exception ex) {
-    			  tekstområde.setText("Her oppsto det en feil gitt.");
+    			  tekstområde.setText("Her oppsto det en feil. Prøv igjen");
     		  }
     	 } else {
     		 try {
@@ -397,13 +403,13 @@ public class Arrangementvindu extends JApplet implements Serializable {
      			centerLineEnd.revalidate();
      			centerLineEnd.repaint();
      		  } catch(Exception ex) {
-     			  tekstområde.setText("Her oppsto det en feil gitt.");
+     			  tekstområde.setText("Her oppsto det en feil. Prøv igjen");
      		  }
     	 }
       }
     }
     
-    
+    // Legger til lyttere på knappene
 	private class Knappelytter implements ActionListener
 	  {
 	    public void actionPerformed( ActionEvent e )
@@ -497,7 +503,7 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    				  	clearFields();
 	    			  }
 	    		  } else {
-	    			  tekstområde.setText("Velg hvilket lokale det skal holdes på!");
+	    			  tekstområde.setText("Velg hvilket lokale arrangementet skal holdes på!");
 	    			  return;
 	    		  }
 	    		  
@@ -505,13 +511,16 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    		  tekstområde.setText("Det oppsto en feil, vennligst prøv på nytt" + e.getClass());
 	    	  }
 	      }
-
+	      
+	      // Sletter arrangementer
 	      else if ( e.getSource() == slettKnapp ) {
 	    	  if (refFelt.getText().equals("")) {
 	    		  tekstområde.setText("Du må bruke referansenummer for å slette.");
 	    		  
 	    	  } else {
 				try {
+					// Sjekk for at brukeren skal være sikker på at de skal slette
+					// Kan hende brukeren trykket feil
 					int refNr = Integer.parseInt(refFelt.getText());
 					Lokale lokFunnet = k.arrangementViaK(refNr);
 					if (lokFunnet != null) {
@@ -549,16 +558,18 @@ public class Arrangementvindu extends JApplet implements Serializable {
 				}
 	    	  }
 	      }
+	      
+	      // Lister ut arrangementer
 	      else if ( e.getSource() == listeKnapp ) {
 	    	  clearFields();
 	    	  tekstområde.setText("");
-	    	  Map<String,Arrangement> mp = k.listArrangementerMagiskOgDeilig();
+	    	  Map<String,Arrangement> mp = k.listArrangementerMap();
 	    	  System.out.println("Størrelsen på settet i Kulturhus er " + mp.size());
 	    	  if (mp != null) {
-	    	  Iterator it = mp.entrySet().iterator();
+	    	  Iterator it = mp.entrySet().iterator(); //Set Iterator<Type>: Iterator<#Datatype#> it = ....
 	    	    while (it.hasNext()) {
 	    	    	Map.Entry pair = (Map.Entry)it.next();
-	    	    	Arrangement arr = (Arrangement) pair.getValue();
+	    	    	final Arrangement arr = (Arrangement) pair.getValue();
 	    	    	String tekst = pair.getKey() + " " + pair.getValue() + "\r\n";
 	    	    	JTextArea l = new JTextArea(tekst);
 	    			tekstområde.insertComponent(l);
@@ -571,10 +582,12 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    			         refFelt.setText(String.valueOf((arr.get_aId())));
 	    			   }
 	    			});
-	    			it.remove(); // avoids a ConcurrentModificationException
+	    			it.remove(); // forhindrer en ConcurrentModificationException
 	    	    }
 	    	  }
 	      }
+	      
+	      // Finner arrangement
 	      else if ( e.getSource() == finnKnapp ) {
 	    	  try {
 	    		  int refNr = Integer.parseInt(refFelt.getText());
@@ -589,6 +602,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    		  tekstområde.setText("Fant ikke Arrangement med dette referansenummer.");
 	    	  }
 	      }
+	      
+	      // Åpner filvelger, bruker kan velge fil
 	      else if ( e.getSource() == bildeKnapp ) {
 	    	  try {
 	      		bildehandler = new Bildehandler();
@@ -602,6 +617,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    		  tekstområde.setText("Noe gikk galt.");
 	    	  }
 	      }
+	      
+	      // Oppdaterer arrangementer
 	      else if ( e.getSource() == oppdaterKnapp ) {
 	    	  if (refFelt.getText().equals("")) {
 	    		  tekstområde.setText("Du må bruke referansenummer for å oppdatere ett arrangement");
@@ -659,7 +676,6 @@ public class Arrangementvindu extends JApplet implements Serializable {
 						};
 					}
 	    	  }
-
 	    	  tekstområde.setText(arrFunnet.toString());
 	    	  clearFields();
 	    	  setPlaceHolderImg();

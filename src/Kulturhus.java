@@ -1,8 +1,6 @@
-import java.awt.Cursor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
 import java.io.*;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 
 public class Kulturhus implements Serializable {
@@ -11,7 +9,6 @@ public class Kulturhus implements Serializable {
 	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
 	private Personregister preg = new Personregister();
-	private Lokale l = new Lokale();
 	
 	//////////////////////
 	//	KONSTRUKTØRER	//
@@ -22,7 +19,7 @@ public class Kulturhus implements Serializable {
 		beskrivelse = b;
 		ArrayList<Lokale> reg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){	
-			reg = (ArrayList<Lokale>) innfil.readObject();
+			reg = (ArrayList<Lokale>) innfil.readObject(); //feilhåndtering? Se warning
 			innfil.close();
 		}catch(FileNotFoundException fnfe){
 			reg = null;
@@ -34,7 +31,7 @@ public class Kulturhus implements Serializable {
 			ioe.printStackTrace();
 		}
 		catch(Exception e){
-			System.out.println("Feil i lagReg() i Kulturhus-klassens konstruktør: " + e.getClass() + "\r\n" +  e.getCause());
+			e.getClass();
 		}
 		if(reg == null)
 			reg = new ArrayList<Lokale>();
@@ -126,6 +123,7 @@ public class Kulturhus implements Serializable {
 		return funnet;
 	}
 	
+	// Lister ut lokaler
 	public String listLokaler(){
 		String melding = "";
 		for (Lokale s : lreg) {
@@ -136,6 +134,7 @@ public class Kulturhus implements Serializable {
 		return melding;
 	}
 	
+	// Lister ut arrangemeter i lokaler
 	public String listArrangementerILokaler() {
 		String melding = "";
 		for (Lokale s : lreg) {
@@ -148,7 +147,7 @@ public class Kulturhus implements Serializable {
 		return melding;
 	}
 	
-	public Map<String,Arrangement> listArrangementerMagiskOgDeilig() {	
+	public Map<String,Arrangement> listArrangementerMap() {	
 		Map<String,Arrangement> m = new HashMap<>();
 		for (Lokale s : lreg) {
 			if(!s.tomtRegister()) {
@@ -162,7 +161,7 @@ public class Kulturhus implements Serializable {
 		return m;
 	}
 	
-	
+	// Lister ut arrangemeter etter navn
 	public String listArrangement(String n){
 		try{
 			for(Lokale l: lreg){
@@ -209,7 +208,7 @@ public class Kulturhus implements Serializable {
 								}
 							}
 						}catch(Exception e){
-							System.out.println("Kunne ikke parse dato");
+							svar += "En feil har oppstått, prøv igjen";
 						}
 					}
 				}
@@ -222,6 +221,7 @@ public class Kulturhus implements Serializable {
 		return svar;
 	}
 
+	// Legger lokaler i combobox
 	public String[] lokalListe() {
 		ArrayList<String> a = new ArrayList<>();
 		a.add("Oppdater liste");
@@ -263,10 +263,13 @@ public class Kulturhus implements Serializable {
 		}
 		return funnet;
 	}
+	
+	// Legger lokale i combobox 2
 	public Lokale[] lokaleCombo2() {
 		return lreg.toArray(new Lokale[lreg.size()]);
 	}
 	
+	// Lagrer lokaler i combobox
 	public String[] lokaleCombo() {
 		ArrayList<String> liste = new ArrayList<>();
 		if(lreg.isEmpty()){
@@ -285,6 +288,7 @@ public class Kulturhus implements Serializable {
 		return s;
 	}
 	
+	// Legger arrangementer i combobox
 	public String[] arrangementCombo(int lokNr) {
 		ArrayList<String> liste = new ArrayList<>();
 		
@@ -311,6 +315,7 @@ public class Kulturhus implements Serializable {
 		return ((ArrayList<String>)liste).toArray(new String[liste.size()]);
 	}
 	
+	// Setter riktig referansenummer på billett 
 	public void settRiktigBillNr(){
 		if(lreg.isEmpty())
 			return;
@@ -324,6 +329,7 @@ public class Kulturhus implements Serializable {
 		Billett.set_nesteNr(max+1);
 	}
 	
+	// Setter riktig referansenummer på arrangementer
 	public void settRiktigArrNr(){
 		if(lreg.isEmpty())
 			return;
@@ -337,6 +343,7 @@ public class Kulturhus implements Serializable {
 		Arrangement.set_nesteId(max+1);
 	}
 	
+	// Setter riktig referansenummer på lokale
 	public void settRiktigLokNr(){
 		if(lreg.isEmpty())
 			return;
@@ -350,6 +357,7 @@ public class Kulturhus implements Serializable {
 		Lokale.set_nesteNr(max+1);
 	}
 	
+	// Setter riktig referansenummer på kontakter
 	public void settRiktigPersNr(){
 		if(preg.get_register().isEmpty())
 			return;
@@ -382,48 +390,7 @@ public class Kulturhus implements Serializable {
 	//////////////////////////////
 	//	BILLETT-METODER SLUTT	//
 	//////////////////////////////
-	
-	
-	//////////////////////////////////////////
-	//	PERSONLOKALEMANIPULERINGS-METODER	//
-	//////////////////////////////////////////
-	
-	
-/*	public String kontaktDetaljerTlf(String t) {
-		String melding = "";
-		Kontaktperson person = finnKontaktpersonViaTlf(t);
-		melding += person.toString();
-		HashSet<Arrangement> arrHash = new HashSet<>();
-		for (Lokale l : lreg) {
-			arrHash.addAll(l.kontaktOpplysning(person));
-		}
-		melding += "* Kontaktperson for følgende *";
-		Arrangement[] hashToString = arrHash.toArray(new Arrangement[arrHash.size()]);
-		for (Arrangement a : hashToString) {
-			melding += a.toString();
-		}
-		return melding;
-	}
-	
-	public String kontaktDetaljerEpost(String e) {
-		String melding = "";
-		Kontaktperson person = finnKontaktpersonViaEpost(e);
-		melding += person.toString();
-		HashSet<Arrangement> arrHash = new HashSet<>();
-		for (Lokale l : lreg) {
-			arrHash.addAll(l.kontaktOpplysning(person));
-		}
-		melding += "* Kontaktperson for følgende *";
-		Arrangement[] hashToString = arrHash.toArray(new Arrangement[arrHash.size()]);
-		for (Arrangement a : hashToString) {
-			melding += a.toString();
-		}
-		return melding;
-	}
-*/
-	//////////////////////////////////////////////
-	//	PERSONLOKALEMANIPULERINGS-METODER SLUTT	//
-	//////////////////////////////////////////////
+
 	
 	//////////////////////////////
 	//	STATISTIKKMETODER START	//
@@ -520,6 +487,4 @@ public class Kulturhus implements Serializable {
 	public String toString() {
 		return get_Navn() + "- " + get_Beskrivelse();
 	}
-	
-
 }//KLASSE KULTURHUS SLUTT

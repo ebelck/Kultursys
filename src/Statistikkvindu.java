@@ -16,14 +16,14 @@ public class Statistikkvindu extends JApplet implements Serializable{
 	private JLabel l;
 	
 	private JButton stat1,stat2,stat3,stat4,stat5;
-	private JTextArea tekstområde1;
+	private JTextArea tekstområde1;				//Brukes aldri. Kan den fjernes?
 	private JTextPane tekstområde;
 	private JScrollPane utskriftområde;
 	private BorderLayout layout;
 	private Container c;;
 	public Kulturhus k;
 
-	private String lokalnavn = "Valg";
+	private String lokalnavn = "Valg";			//Brukes aldri. Kan den fjernes?
 	private JComponent north,south;
 	
 	

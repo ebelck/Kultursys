@@ -4,13 +4,9 @@
 //	billetter															//
 //////////////////////////////////////////////////////////////////////////
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.Serializable;
-import java.util.Date;
+import java.awt.event.*;
+import java.io.*;
 
 public class Brukervindu extends JPanel implements Serializable{
 	private static final long serialVersionUID = 6885055091284757299L;
@@ -81,8 +77,7 @@ public class Brukervindu extends JPanel implements Serializable{
           }
       });
       
- 
-      //Display the window.
+      // Viser vinduet.
       brukervindu.pack();
       brukervindu.setLocationRelativeTo(null);
       brukervindu.setVisible(true);

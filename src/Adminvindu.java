@@ -1,9 +1,7 @@
- import javax.swing.*;
-
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.io.*;
 
  public class Adminvindu extends JPanel implements Serializable {
  private static final long serialVersionUID = -6455247982999758395L;
@@ -16,7 +14,8 @@ import java.util.Date;
  Brukervindu brukerV;
 	
  
-	
+ // Oppretter tabs for Lokalvindu, Arrangementvindu, 
+ // Kontaktvindu og Statistikkvindu
 public Adminvindu( Kulturhus hus,Personregister reg)
    {
      super(new GridLayout(1, 1));
@@ -36,8 +35,6 @@ public Adminvindu( Kulturhus hus,Personregister reg)
 	    e.printStackTrace();
 	}
 	
-	
-
     tabbedPane.addTab("Administrer lokaler", 
     		null, 
     		lokalV, 
@@ -81,9 +78,8 @@ public Adminvindu( Kulturhus hus,Personregister reg)
      panel.add(filler);
      return panel;
    }
-    /**
-     * Create the GUI and show it.
-     */
+   
+   // Lager GUI og viser dette
    public void createUser() {
 
 	   brukerV = new Brukervindu(k);
@@ -91,7 +87,7 @@ public Adminvindu( Kulturhus hus,Personregister reg)
    }
     public void createAdmin()
     {
-      //Create and set up the window.
+      // Oppretter og setter opp vinduet.
       JFrame frame = new JFrame("Kulturhuset " + k.get_Navn());
       frame.getContentPane().add(new Adminvindu(k,pr), BorderLayout.CENTER);
       
@@ -105,7 +101,7 @@ public Adminvindu( Kulturhus hus,Personregister reg)
       });
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
-      //Display the window.
+      // Viser vinduet.
       frame.pack();
       frame.setLocationRelativeTo(null);
       frame.setVisible(true);

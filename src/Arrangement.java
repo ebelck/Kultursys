@@ -16,11 +16,7 @@
 
 import java.util.*;
 import java.text.*;
-import java.awt.image.*;
 import java.io.*;
-
-import javax.swing.*;
-import javax.imageio.*;
 
 public class Arrangement implements Serializable {
 
@@ -30,7 +26,6 @@ public class Arrangement implements Serializable {
 	private  int aId = 0;
 	private static int nesteId = 1;
 	private String navn, beskrivelse, dato;
-	private BufferedImage bilde = null;
 	private String bildeSti,info1,info2;
 	private boolean billettsalg = false;
 	private int pris = 0;
@@ -157,6 +152,8 @@ public class Arrangement implements Serializable {
 	//	KONSTRUKTØRER SLUTT	//
 	//////////////////////////
 	
+	// Setter et arrangement til å kunne ta inn penger, 
+	// og oppretter antall billetter og setter prisen for disse
 	public void bliBetalbar(int p,int a) {
 		billettsalg = true;
 		pris = p;
@@ -287,19 +284,7 @@ public class Arrangement implements Serializable {
 	public int finnHøyesteBillettNr(){
 		return reg.finn_høyeste_bNr();
 	}
-	
-	
-//	public String arrayListBilletter(){
-//		String m = "Billetter i arraylist\r\n";
-//		for(Billett b : bReg){
-//			if(b.get_Solgt()) {
-//			//System.out.println(b);
-//			m += b.toString();
-//			}
-//		}
-//		return m;
-//	}
-	
+		
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////

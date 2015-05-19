@@ -1,14 +1,8 @@
-import java.awt.GridLayout;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
+import java.awt.*;
+import java.util.*;
+import java.text.*;
+import javax.swing.*;
 import org.jdesktop.swingx.JXDatePicker;
-
-import java.text.ParseException;
 import java.io.*;
 
 public class Kalenderpanel extends JPanel implements Serializable {
@@ -19,18 +13,23 @@ public class Kalenderpanel extends JPanel implements Serializable {
 	JXDatePicker kalender;
 	private SimpleDateFormat sdf;
 	
+	// Oppretter Kalenderpanelet
 	public Kalenderpanel() {
 		 kalender = new JXDatePicker();
 		 kalender.setDate(Calendar.getInstance().getTime());
 		 sdf = new SimpleDateFormat("dd.MM.yyyy");
 		 kalender.setFormats(sdf);
 	}
+	
+	// Lager paneler
 	public JPanel makePanels() {
 		tid.setHorizontalAlignment(JTextField.CENTER);
 		panelHead.add(tid);
 		panelHead.add(kalender);
 		return panelHead;
 	}
+	
+	// Henter dato fra bruker
 	public Date hentDato() {
 		Date dato = kalender.getDate();
 		String s = sdf.format(dato);
@@ -44,4 +43,4 @@ public class Kalenderpanel extends JPanel implements Serializable {
 			return dato;
 		}
 	}
-}
+} // Kalenderpanel slutt

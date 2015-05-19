@@ -1,10 +1,7 @@
 import java.awt.*;
-
 import javax.swing.*;
-
 import java.awt.event.*;
-import java.io.Serializable;
-
+import java.io.*;
 
 public class Oversiktsvindu extends JApplet implements Serializable {
 	private static final long serialVersionUID = -7739980805136500639L;
@@ -72,7 +69,7 @@ public class Oversiktsvindu extends JApplet implements Serializable {
 				melding.setEditable(false);
 				melding.setMargin(new Insets(10,10,10,10));
 				melding.setText("");
-				tekstvindu.add(melding);
+				tekstvindu.add(meldingsområde);
 				
 			/////	MELDINGSVINDU SLUTT	/////
 			
@@ -84,13 +81,13 @@ public class Oversiktsvindu extends JApplet implements Serializable {
 	//	KONSTRUKTØR	SLUTT  //
 	/////////////////////////
 	
+	// Henter ut arrangementer 3 måneder frem i tid
 	public String hentArr3mnd(){
-		System.out.println("inne i hentArr3mnd");
 		String svar = k.hentArrNesteDager(90);
 		return svar;
 	}
 	
-	
+	// Oppretter Knappelytter
 	public class Knappelytter implements ActionListener{
 		
 		public void actionPerformed( ActionEvent e){
@@ -109,8 +106,8 @@ public class Oversiktsvindu extends JApplet implements Serializable {
 				return;
 			}
 			else{
-				melding.setText("Banan!");
+				melding.setText("En feil har oppstått. Prøv igjen!");
 			}
 		}
 	}
-}
+} // Oversiktsvindu slutt

@@ -1,21 +1,10 @@
 import java.awt.*;
-
 import javax.swing.*;
-
-import java.util.*;
-
-import javax.swing.border.EmptyBorder;
-import javax.imageio.ImageIO;
-
+import javax.swing.border.*;
+import javax.imageio.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-
+import java.awt.image.*;
+import java.io.*;
 
 public class Kontaktvindu extends JApplet implements Serializable {
 	private static final long serialVersionUID = 5852295657639809254L;
@@ -32,13 +21,13 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	private StretchIcon bildeIconK;
 	private BufferedImage bilde = null;
 	private BufferedImage placeholder_img;
-	private boolean kunMedArr;
+	private boolean kunMedArr;						//Brukes aldri. Kan den fjernes?
 	private EmptyBorder border;
 	private File bildeFil;
-
 	private JComponent leftBottom, right, bottom,leftSplit;
 	private JLabel bildeLabelK;
 	
+	// Viser bilde av kontaktperson
 	public void visBilde(Kontaktperson k) {
 		try {
 			File bildeFil = new File(k.get_bildeSti());
@@ -50,6 +39,8 @@ public class Kontaktvindu extends JApplet implements Serializable {
 		  tekstområde.setText("Noe gikk galt.");
 	  }
 	}
+	
+	// Setter placeholder
 	public void setPlaceHolderImg() {
 		try {
 			placeholder_img = ImageIO.read(new File("./images/placeholder_img.png"));
@@ -59,6 +50,8 @@ public class Kontaktvindu extends JApplet implements Serializable {
 		  tekstområde.setText("Noe gikk galt.");
 	  }
 	}
+	
+	// Sletter bilde
 	public boolean slettFil(Kontaktperson k) {
     	try{
     		 
@@ -81,6 +74,8 @@ public class Kontaktvindu extends JApplet implements Serializable {
     		return false;
     	}
 	}
+	
+	// Fjerner tekst fra inputfelter
 	public void clearFields() {
 		fornavnFelt.setText("");
 		etternavnFelt.setText("");
@@ -90,6 +85,7 @@ public class Kontaktvindu extends JApplet implements Serializable {
 		setPlaceHolderImg();
 	}
 	
+	// Oppretter Kontaktvindu
 	public Kontaktvindu(Personregister pr) {
 		
 			reg = pr;
@@ -212,7 +208,7 @@ public class Kontaktvindu extends JApplet implements Serializable {
 			setVisible( true );
 		}
 	
-	
+	// Oppretter Typelytter
     private class Typelytter implements ItemListener
     {
       public void itemStateChanged( ItemEvent e )
@@ -222,23 +218,24 @@ public class Kontaktvindu extends JApplet implements Serializable {
     			  kunMedArr = true;
 
     		  } catch(Exception ex) {
-    			  tekstområde.setText("Her oppsto det en feil gitt.");
+    			  tekstområde.setText("Her oppsto det en feil.");
     		  }
     	 } else {
     		 try {
    			  kunMedArr = false;
      		  } catch(Exception ex) {
-     			  tekstområde.setText("Her oppsto det en feil gitt.");
+     			  tekstområde.setText("Her oppsto det en feil.");
      		  }
     	 }
       }
     }
     
+    // Oppretter knappelytter
 	private class Knappelytter implements ActionListener
 	  {
 	    public void actionPerformed( ActionEvent e )
 	    {
-	    	// Legger til arrangement
+	    	// Legger til kontakt
 	      if ( e.getSource() == regKnapp ) {
 	    	  try {
 	    		  String fornavn = fornavnFelt.getText();
@@ -281,6 +278,8 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	    		  tekstområde.setText("Det oppsto en feil, vennligst prøv på nytt" + e.getClass());
 	    	  }
 	      }
+	      
+	      // Sletter kontakt
 	      else if ( e.getSource() == slettKnapp ) {
 	    	  if (tlfFelt.getText().equals("") && epostFelt.getText().equals("")) {
 	    		  tekstområde.setText("Du må bruke telefonnummer eller epost for å slette.");  
@@ -359,9 +358,13 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	    	  }
 	    	}
 	      }
+	      
+	      // Lister ut kontakter
 	      else if ( e.getSource() == listeKnapp ) {
 	    	  	tekstområde.setText(reg.toString());
 	      }
+	      
+	      // Finner kontakt
 	      else if ( e.getSource() == finnKnapp ) {
 	    	  if (tlfFelt.getText().equals("") && epostFelt.getText().equals("")) {
 	    		  tekstområde.setText("Du må bruke telefonnummer eller epost for å finne en kontaktperson.");  
@@ -381,6 +384,8 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	    		  }
 	    	  }
 	      }
+	      
+	      // Åpner opp filvelger slik at bruker kan velge bilde
 	      else if ( e.getSource() == bildeKnapp ) {
 	    	  try {
 	      		bildehandlerK = new Bildehandler();
@@ -394,6 +399,8 @@ public class Kontaktvindu extends JApplet implements Serializable {
 	    		  tekstområde.setText("Noe gikk galt.");
 	    	  }
 	      }
+	      
+	      // Oppdaterer kontakt
 	      else if ( e.getSource() == oppdaterKnapp ) {
 	    	  String fornavn = fornavnFelt.getText();
 	    	  String etternavn = etternavnFelt.getText();
@@ -494,13 +501,12 @@ public class Kontaktvindu extends JApplet implements Serializable {
 								};
 							}
 	    	    	  }
-
 	    	    	  tekstområde.setText(kontaktFunnet.toString());
 	    	    	  clearFields();
 	    	    	  setPlaceHolderImg();
 	    		  }
 	    	  }
 	      }
-	    }
-	  }
-}
+	   }
+	}
+} // Kontaktvindu slutt

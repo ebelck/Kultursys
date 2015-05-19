@@ -1,14 +1,7 @@
-
-/* 
- * Valg 4 
- * Subklasse av Lokale.java
- * 
- * */
 import java.io.*;
 public class Cafe  extends Lokale implements Serializable {
 
 	private static final long serialVersionUID = -8364958424541858105L;
-	private boolean bestilt;
 	private int refNr;
 	private int gjesteplass;
 	
@@ -19,10 +12,9 @@ public class Cafe  extends Lokale implements Serializable {
 		
 	}	
 	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
-	
+	 //////////////////////////////
+	 // Get og Set metoder start //
+	 //////////////////////////////
 
 	public int get_Gjesteplass() {
 		return gjesteplass;
@@ -32,13 +24,15 @@ public class Cafe  extends Lokale implements Serializable {
 		return refNr;
 	}
 	
+	////////////////
+	
 	public void set_Gjesteplass(int n) {
 		gjesteplass = n;
 	}
 	
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
+	 //////////////////////////////
+	 // Get og Set metoder slutt //
+	 //////////////////////////////
 	
 	public String toString() {
 		String meld = super.toString();
