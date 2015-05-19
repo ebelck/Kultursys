@@ -1,5 +1,8 @@
-####    VIKTIG!!!    ####
+####    VIKTIG!!!    ####	(DETTE MÅ GJØRES FØRST)
 * Sørge for at DatePicker funker igjen og at dato og klokkeslett lagres riktig
+* Sjekke at alle knappene i Adminvindu og Brukervindu funker og gjør det de skal
+* Gå igjennom alle try->catch'ene og sørge for at alt blir håndtert (legge til kommentering)
+* Gå igjennom koden og fjerne alle metoder som er kommentert ut og ikke brukes
 
 
 
