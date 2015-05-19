@@ -192,6 +192,48 @@ public class Lokale implements Serializable{
 	//	BILLETT-METODER SLUTT	//
 	//////////////////////////////
 	
+	//////////////////////////////
+	//	STATISTIKKMETODER START	//
+	//////////////////////////////
+	
+	// Inntekt for alle arrangement
+	public int inntektSolgteBilletter() {
+		int sum = 0;
+		for(Arrangement a : reg){
+			sum += a.inntektSolgteBilletter();
+		}
+		return sum;
+	}
+	
+	public int arrangementSolgteBilletter() {
+		int sum = 0;
+		for(Arrangement a : reg) {
+			sum += a.antallSolgteBilletter();
+		}
+		return sum;
+	}
+	
+	// Totale antallet solgte billetter for alle arrangementer i et lokale
+	public int totaltSolgteBilletter(){
+		int ant = 0;
+		for(Arrangement a : reg){
+			ant += a.antallSolgteBilletter();
+		}
+		return ant;
+	}
+	
+	// Antall solgte billetter i alle lokaler
+	public int totaltSolgteAlleLokaler() {
+		int sum = 0;
+		for(Arrangement a : reg) {
+			sum += a.antallSolgteBilletter();
+		}
+		return sum;
+	}
+	//////////////////////////////
+	//	STATISTIKKMETODER SLUTT	//
+	//////////////////////////////
+	
 	public String toString() {
 		String meld = "LOKALENR:\t" + get_RefNr() + "\r\n";
 		meld += "Navn:\t\t" + get_Navn() + "\r\n";
