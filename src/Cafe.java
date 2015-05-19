@@ -4,8 +4,10 @@
  * Subklasse av Lokale.java
  * 
  * */
-public class Cafe extends Lokale {
+import java.io.*;
+public class Cafe  extends Lokale implements Serializable {
 
+	private static final long serialVersionUID = -8364958424541858105L;
 	private boolean bestilt;
 	private int refNr;
 	private int gjesteplass;

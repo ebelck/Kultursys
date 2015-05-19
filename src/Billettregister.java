@@ -78,6 +78,7 @@ public class Billettregister implements Serializable {
 			if(b.get_Solgt())
 				antSolgt++;
 		}
+<<<<<<< HEAD
 		
 //		iterator = reg.iterator();
 //        
@@ -90,6 +91,8 @@ public class Billettregister implements Serializable {
 			if(b.get_Solgt())
 				antSolgt++;
 		}
+=======
+>>>>>>> branch 'master' of https://github.com/ebelck/ProgUtvikling.git
 		return antSolgt;
 	}
 	

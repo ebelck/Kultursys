@@ -191,6 +191,15 @@ public class Personregister implements Serializable {
 		return s;
 	}
 	
+	public int finnStørstePersNr(){
+		int max = 0;
+		if(!reg.isEmpty())
+			for(Kontaktperson p: reg)
+				if(p.get_pId() > max)
+					max = p.get_pId();
+		return max;
+	}
+	
 	
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//

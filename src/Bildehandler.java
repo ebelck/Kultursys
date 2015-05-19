@@ -5,8 +5,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class Bildehandler extends JPanel {
-    	
+public class Bildehandler  extends JPanel implements Serializable{
+   
+	private static final long serialVersionUID = -947839549918466106L;
 	private BufferedImage placeholder_img;
 	
 	public File hentFil() {

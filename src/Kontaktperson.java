@@ -41,6 +41,9 @@ public class Kontaktperson extends Person implements Serializable {
 	public void set_bildeSti(String s){
 		bildesti=s;
 	}
+	public static void set_nesteId(int nr){
+		nesteId = nr;
+	}
 	
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//

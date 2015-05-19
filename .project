@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/Prosjketoppgave.docx</name>
+			<type>1</type>
+			<location>C:/Users/Milord/OneDrive/Dokumenter/HiOA/Programutvikling/Prosjketoppgave.docx</location>
+		</link>
+	</linkedResources>
 </projectDescription>

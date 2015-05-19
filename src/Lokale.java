@@ -16,10 +16,9 @@ public class Lokale implements Serializable{
 
 	private static final long serialVersionUID = 1382938975339463705L;
 	private int plasser, refNr;
-	private static int nesteNr = 0;
+	private static int nesteNr = 1;
 	private String navn, beskrivelse, type;
 	private ArrayList<Arrangement> reg = new ArrayList<>();
-	private Iterator<Arrangement> iterator;
 	
 	//////////////////
 	//	KONSTRUKTØR	//
@@ -61,13 +60,19 @@ public class Lokale implements Serializable{
 	public ArrayList<Arrangement> get_reg(){
 		return reg;
 	}
+	
+	//////////////////////
+	
+	public static void set_nesteNr(int nr){
+		nesteNr = nr;
+	}
+	
 	public void set_Navn(String s) {
 		navn = s;
 	}
 	public void set_Besk(String s) {
 		beskrivelse = s;
 	}
-	
 	
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
@@ -138,22 +143,6 @@ public class Lokale implements Serializable{
 		return melding;
 	}
 	
-	public ArrayList<Arrangement> hentArrObjekter(){
-		ArrayList<Arrangement> arrReg = new ArrayList<Arrangement>();
-		System.out.println("Lister ut arrangement");
-		if(reg.isEmpty()) {
-			System.out.println("reg er null");
-			return null;
-		}
-		
-		for (Arrangement s : reg) {
-			System.out.println("inne i hentARrObjekter sin for");
-			if(s != null)
-				arrReg.add(s);
-		}
-		return arrReg;
-	}
-	//VAT IZ DIZ?
 	public HashSet<Arrangement> kontaktOpplysning(Kontaktperson k) {
 		HashSet<Arrangement> arrHash = new HashSet<>();
 		for (Arrangement s : reg) {
@@ -180,6 +169,23 @@ public class Lokale implements Serializable{
 			return null;
 		}
 		return null;
+	}
+	
+	public ArrayList<Integer> finnStørsteBillettNr(){
+		ArrayList<Integer> liste = new ArrayList<Integer>(0);
+		if(!reg.isEmpty())
+			for(Arrangement a: reg)
+				liste.add(a.finnHøyesteBillettNr());
+		return liste;
+	}
+	
+	public int finnStørsteArrNr(){
+		int max = 0;
+		if(!reg.isEmpty())
+			for(Arrangement a: reg)
+				if(a.get_aId() > max)
+					max = a.get_aId();
+		return max;
 	}
 	
 	//////////////////////////////

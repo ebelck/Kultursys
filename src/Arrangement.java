@@ -18,8 +18,8 @@ import java.util.*;
 import java.text.*;
 import java.awt.image.*;
 import java.io.*;
-import javax.swing.*;
 
+import javax.swing.*;
 import javax.imageio.*;
 
 public class Arrangement implements Serializable {
@@ -27,17 +27,17 @@ public class Arrangement implements Serializable {
 	private static final long serialVersionUID = -8249020595875511272L;
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-	
 	private  int aId = 0;
 	private static int nesteId = 1;
 	private String navn, beskrivelse;
-	private BufferedImage bilde = null;			//hva brukes denne til?
+	private BufferedImage bilde = null;
 	private String bildeSti,info1,info2;
 	private Date dato;
 	private boolean billettsalg = false;
 	private int pris = 0;
 	Kontaktperson kontakt;
 	Billettregister reg;
+
 	
 	//////////////////////
 	//	KONSTRUKTØRER	//
@@ -47,11 +47,12 @@ public class Arrangement implements Serializable {
 	//Minimumskarv + dato - dato sendes med uansett.
 	public Arrangement (String n, Kontaktperson k, Date d) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
+		reg = new Billettregister();
 	}
 	
 	//Minimumskarv + dato + beskrivelse	
@@ -59,17 +60,20 @@ public class Arrangement implements Serializable {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
+		reg = new Billettregister();
 	}
 	
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
 	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
@@ -81,7 +85,8 @@ public class Arrangement implements Serializable {
 	public Arrangement (String n, Kontaktperson k, Date d, int p, int a) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		billettsalg = true;
@@ -99,29 +104,33 @@ public class Arrangement implements Serializable {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		bildeSti = bilde;
+		reg = new Billettregister();
 	}
 	
 	//Minimumskarv + dato + beskrivelse	+ bilde
 	public Arrangement (String n, Kontaktperson k, Date d, String b,String bilde) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
 		bildeSti = bilde;
+		reg = new Billettregister();
 	}
 	
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
 	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a,String bilde) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		beskrivelse = b;
@@ -135,7 +144,8 @@ public class Arrangement implements Serializable {
 	public Arrangement (String n, Kontaktperson k, Date d, int p, int a,String bilde) {
 		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		dato = d;
-		aId = nesteId++;
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
 		billettsalg = true;
@@ -154,44 +164,9 @@ public class Arrangement implements Serializable {
 		reg = new Billettregister(a);
 	}
 	
+
 	//////////////////////
 	//	GET/SET-METODER	//
-	//////////////////////
-	
-	public void set_Navn(String n) {
-		navn = n;
-	}
-	public void set_Info(String n) {
-		info1 = n;
-	}
-	public void set_Info2(String n) {
-		info2 = n;
-	}
-	public void set_Pris(int n) {
-		pris = n;
-	}
-	public void set_Bildesti(String n) {
-		bildeSti = n;
-	}
-	public void set_Kontaktperson(Kontaktperson k) {
-		kontakt = k;
-	}
-	
-	public void set_Beskrivelse(String b) {
-		beskrivelse = b;
-	}
-
-	
-	public void set_Dato(String d) {
-	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
-		}
-	}
-
-	
 	//////////////////////
 	
 	public String get_Navn() {
@@ -232,6 +207,44 @@ public class Arrangement implements Serializable {
 		return kontakt;
 	}
 	
+	//////////////////////
+	
+	public static void set_nesteId(int nr){
+		nesteId = nr;
+	}
+	
+	public void set_Navn(String n) {
+		navn = n;
+	}
+	public void set_Info(String n) {
+		info1 = n;
+	}
+	public void set_Info2(String n) {
+		info2 = n;
+	}
+	public void set_Pris(int n) {
+		pris = n;
+	}
+	public void set_Bildesti(String n) {
+		bildeSti = n;
+	}
+	public void set_Kontaktperson(Kontaktperson k) {
+		kontakt = k;
+	}
+	
+	public void set_Beskrivelse(String b) {
+		beskrivelse = b;
+	}
+	
+	public void set_Dato(String d) {
+	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
+		try {
+		dato = sdf.parse(d);
+		} catch (ParseException e) {
+			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
+		}
+	}
+
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
 	//////////////////////////////
@@ -256,8 +269,8 @@ public class Arrangement implements Serializable {
 		return reg.avbestillBilletter(antall, tlf);
 	}
 	
-	public Billett finnBilletter(String tlf){
-		return reg.finnBillett(tlf);
+	public ArrayList<Billett> finnBilletter(String tlf){
+		return reg.finnBilletter(tlf);
 	}
 	
 	public Billett finnBillett(int nr){
@@ -276,6 +289,22 @@ public class Arrangement implements Serializable {
 	public String listBilletter(){
 		return "ARRANGEMENTNR:\t" + aId + "\r\nArrangement:\t" + navn + "\r\n" + reg.listSolgteBilletter();
 	}
+	
+	public int finnHøyesteBillettNr(){
+		return reg.finn_høyeste_bNr();
+	}
+	
+	
+//	public String arrayListBilletter(){
+//		String m = "Billetter i arraylist\r\n";
+//		for(Billett b : bReg){
+//			if(b.get_Solgt()) {
+//			//System.out.println(b);
+//			m += b.toString();
+//			}
+//		}
+//		return m;
+//	}
 	
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//

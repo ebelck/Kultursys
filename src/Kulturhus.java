@@ -8,7 +8,6 @@ public class Kulturhus implements Serializable {
 	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
 	private Personregister preg = new Personregister();
-//	private Billettregister billreg = new Billettregister();
 	private Lokale l = new Lokale();
 	
 	//////////////////////
@@ -27,7 +26,9 @@ public class Kulturhus implements Serializable {
 		}catch(EOFException eofe){
 	
 		}catch(InvalidClassException ice){
-			
+			System.out.println(ice);
+		}catch(IOException ioe){
+			ioe.printStackTrace();
 		}
 		catch(Exception e){
 			System.out.println("Feil i lagReg() i Kulturhus-klassens konstruktør: " + e.getClass() + "\r\n" +  e.getCause());
@@ -210,8 +211,8 @@ public class Kulturhus implements Serializable {
 		}else{
 			for (Lokale s : lreg) {
 				int lokNr = s.get_RefNr();
-				String navn = s.get_Navn();
-				liste.add(lokNr, navn);
+				String navn = lokNr +" "+ s.get_Navn();
+				liste.add( navn);
 				//a.add(s.get_Navn());
 			}
 			liste.add(0, "Velg lokale");
@@ -232,16 +233,64 @@ public class Kulturhus implements Serializable {
 			liste.add("Ingen arrangement i dette lokalet");
 		}else{
 			Lokale l = this.finnLokale(lokNr); 
-			for (Arrangement a : l.get_reg()) {											//HUSK SJEKK OM BETALING
+			for (Arrangement a : l.get_reg()) {
 				if(a.get_Billettsalg()){
 					int arrNr = a.get_aId();
 					String navn = a.get_Navn() + ": " + a.get_Dato();
-					liste.add(arrNr, navn);
+					liste.add( arrNr + " " + navn);
 				}
 			}
-			liste.add(0, "Velg arrangement");
+			if(liste.isEmpty())
+				liste.add(0, "Ingen arragnement med billettsalg i dette lokalet");
+			else
+				liste.add(0, "Velg arrangement");
 		}
 		return ((ArrayList<String>)liste).toArray(new String[liste.size()]);
+	}
+	
+	public void settRiktigBillNr(){
+		if(lreg.isEmpty())
+			return;
+		ArrayList<Integer> liste = new ArrayList<Integer>();
+		for(Lokale l: lreg)
+			liste.addAll(l.finnStørsteBillettNr());
+		int max = 0;
+		for(Integer i: liste)
+			if(i.intValue() > max)
+				max = i.intValue();
+		Billett.set_nesteNr(max+1);
+	}
+	
+	public void settRiktigArrNr(){
+		if(lreg.isEmpty())
+			return;
+		ArrayList<Integer> liste = new ArrayList<Integer>();
+		for(Lokale l: lreg)
+			liste.add(l.finnStørsteArrNr());
+		int max = 0;
+		for(Integer i: liste)
+			if(i.intValue() > max)
+				max = i.intValue();
+		Arrangement.set_nesteId(max+1);
+	}
+	
+	public void settRiktigLokNr(){
+		if(lreg.isEmpty())
+			return;
+		ArrayList<Integer> liste = new ArrayList<Integer>();
+		for(Lokale l: lreg)
+			liste.add(l.get_RefNr());
+		int max = 0;
+		for(Integer i: liste)
+			if(i.intValue() > max)
+				max = i.intValue();
+		Lokale.set_nesteNr(max+1);
+	}
+	
+	public void settRiktigPersNr(){
+		if(preg.get_register().isEmpty())
+			return;
+		Kontaktperson.set_nesteId(preg.finnStørstePersNr());
 	}
 	
 	//////////////////////////////////////////
@@ -314,11 +363,6 @@ public class Kulturhus implements Serializable {
 	//////////////////////////////////////////////
 	
 
-	
-	public String toString() {
-		return get_Navn() + "- " + get_Beskrivelse();
-	}
-	
 	public String totatlString(){
 		String melding = toString() + "\r\n";
 		if(!lreg.isEmpty())
@@ -338,6 +382,7 @@ public class Kulturhus implements Serializable {
 		
 		return melding;
 	}
+
 	
 	//////////////////////////////////
 	//	LAGRE PERSONREGISTER OG 	//
@@ -345,13 +390,23 @@ public class Kulturhus implements Serializable {
 	//////////////////////////////////
 
 	public String lagreLokaler() {
+		String m = "";
 		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/lokreg.dta" ) )){
 			utfil.writeObject( (ArrayList<Lokale>) lreg );
 			utfil.close();
 		}catch(IOException e){
-			return "Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
+			 
+			m +="Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
+			System.out.println(e);
 		} 
 		//System.out.println("Suksess i lagring til lokreg.dta!");
-		return "Suksess";
+		m += "Suksess";
+		return m;
 	}
+	
+	public String toString() {
+		return get_Navn() + "- " + get_Beskrivelse();
+	}
+	
+
 }//KLASSE KULTURHUS SLUTT

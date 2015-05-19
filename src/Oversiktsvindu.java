@@ -92,8 +92,10 @@ public class Oversiktsvindu extends JApplet implements Serializable {
 					return;
 				}
 					
-				String lokalenavn = (String)velgLokale.getSelectedItem();
-				String a = k.listArrangement(lokalenavn);
+				String valg = (String)velgLokale.getSelectedItem();
+				String[] deler = valg.split(" ");
+				Lokale l = k.finnLokale(Integer.parseInt(deler[0]));
+				String a = l.listArrangementer();	//k.listArrangement(lokalenavn);
 				melding.setText(a);
 				return;
 			}
