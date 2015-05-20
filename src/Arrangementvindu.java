@@ -1,3 +1,16 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
+////////////////////////////////BESKRIVELSE///////////////////////////////
+// Denne klassen lager fanen til Adminpanelet hvor administrator kan	// 
+// opprette, endre og slette Arrangement								//
+//////////////////////////////////////////////////////////////////////////
+
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.event.*;
@@ -565,8 +578,8 @@ public class Arrangementvindu extends JApplet implements Serializable {
 	    	  tekstområde.setText("");
 	    	  Map<String,Arrangement> mp = k.listArrangementerMap();
 	    	  if (mp.size() > 0) {
-	    	  Iterator it = mp.entrySet().iterator(); //Set Iterator<Type>: Iterator<#Datatype#> it = ....
-	    	    while (it.hasNext()) {
+	    	  Iterator it = mp.entrySet().iterator(); 	//Her skulle vi helst ha satt datatype for itteratoren
+	    	    while (it.hasNext()) {					
 	    	    	Map.Entry pair = (Map.Entry)it.next();
 	    	    	final Arrangement arr = (Arrangement) pair.getValue();
 	    	    	String tekst = pair.getKey() + " " + pair.getValue() + "\r\n";

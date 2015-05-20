@@ -1,3 +1,17 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
+////////////////////////////////BESKRIVELSE///////////////////////////////
+// Denne klassen lager panelet hvor administrator kan opprette,			// 
+// endre og slette Lokaler, Arrangement og Kontaktpersoner				// 
+// samt hente ut informasjon og statistikk.								//
+//////////////////////////////////////////////////////////////////////////
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

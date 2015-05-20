@@ -1,8 +1,16 @@
-import java.io.*;
-
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Dette er en statisk klasse med metoder for å validere input			//
 //////////////////////////////////////////////////////////////////////////
+
+import java.io.*;
 
 public final class Valider implements Serializable {
 

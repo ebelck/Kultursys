@@ -1,3 +1,16 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
+////////////////////////////////BESKRIVELSE///////////////////////////////
+// Denne klassen lager fanen til Adminpanelet hvor administrator kan	// 
+// opprette, endre og slette Lokaler									//
+//////////////////////////////////////////////////////////////////////////
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.Serializable;	

@@ -1,3 +1,20 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
+////////////////////////////////BESKRIVELSE///////////////////////////////
+//	Denne klassen inneholder informasjon om kulturhuset:				//
+//	# Navn på kulturhuset												//
+//	# Beskrivelse av kulturhuset										//
+//	# Register over Lokaler												//
+//	# Register over Kontaktpersoner										//
+//	# Metoder for å manipulere Kultuhus og registere					//
+//////////////////////////////////////////////////////////////////////////
+
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -18,7 +35,7 @@ public class Kulturhus implements Serializable {
 		beskrivelse = b;
 		ArrayList<Lokale> reg = null;
 		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){	
-			reg = (ArrayList<Lokale>) innfil.readObject(); //feilhåndtering? Se warning
+			reg = (ArrayList<Lokale>) innfil.readObject();
 			innfil.close();
 		}catch(FileNotFoundException fnfe){
 			reg = null;

@@ -1,8 +1,17 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+
 ////////////////////////////////BESKRIVELSE///////////////////////////////
-//	Denne klassen panelet hvor publikum kan orientere seg om hvilke		//
-//	arrangement som holder på kulturhuset, kjøpe og avbestille			//
-//	billetter															//
+//	Denne klassen lager panelet hvor publikum kan orientere seg om 		//
+//  hvilke Arrangement som holdes på Kulturhuset, kjøpe, avbestille og	//
+//	søke på Billetter													//
 //////////////////////////////////////////////////////////////////////////
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
