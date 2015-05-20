@@ -1,13 +1,21 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
+////////////////////////////////BESKRIVELSE///////////////////////////////
+//	Denne klassen er en subtype av Lokale								//
+//////////////////////////////////////////////////////////////////////////
+
+import java.io.*;
 import javax.swing.*;
 
-
-/* 
- * Valg 3 
- * Subklasse av Lokale.java
- * 
- * */
-public class Konferanse extends Lokale {
+public class Konferanse extends Lokale implements Serializable {
 	
+	private static final long serialVersionUID = 1418746538790867914L;
 	private int antStoler, antBord, antPersoner; 			// Antall stoler, bord og personer
 	private String typeRom;
 	private int pris;
@@ -35,9 +43,9 @@ public class Konferanse extends Lokale {
 	}
 	
 	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
+	 //////////////////////////////
+	 // Get og Set metoder start //
+	 //////////////////////////////
 	
 	public int get_AntPersoner() {
 		return antPersoner;
@@ -59,6 +67,8 @@ public class Konferanse extends Lokale {
 		return pris;
 	}
 	
+	//////////////////////
+	
 	public void set_AntStoler(int aS) {
 		antStoler = aS;
 	}
@@ -68,9 +78,9 @@ public class Konferanse extends Lokale {
 	}
 	
 	
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
+	 //////////////////////////////
+	 // Get og Set metoder slutt //
+	 //////////////////////////////
 	
 	
 	public String toString() {
@@ -82,4 +92,4 @@ public class Konferanse extends Lokale {
 		meld += "Pris per døgn: " + get_Pris() + "\n";
 		return meld;
 	}
-}
+} // Konferanse slutt

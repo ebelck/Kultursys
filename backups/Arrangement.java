@@ -1,3 +1,11 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Denne klassen inneholder informasjon om arrangementene:				//
 //	# Referansenummer for arrangementet									//
@@ -8,6 +16,7 @@
 //	# Dato for arrangementet											//
 //	# Indikator for billettsalg											//
 //	# Billettpris														//
+//  # Inntekt fra antall solgte billeter for arrangementet				//
 //	# Kontaktperson for arrangementet									//
 //	# Register over alle solgte billetter								//
 //	# Metoder for å manipulere arrangementet og bilettregisteret		//
@@ -15,115 +24,160 @@
 
 import java.util.*;
 import java.text.*;
-import java.awt.image.*;
 import java.io.*;
 
-import javax.imageio.*;
+public class Arrangement implements Serializable {
 
-public class Arrangement {
-	
+	private static final long serialVersionUID = -8249020595875511272L;
+
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-	
 	private  int aId = 0;
 	private static int nesteId = 1;
-	private String navn, beskrivelse;
-	private BufferedImage bilde = null;
-	private String bildeSti;
-	private Date dato;
+	private String navn, beskrivelse, dato;
+	private String bildeSti,info1,info2;
 	private boolean billettsalg = false;
-	private int pris;
+	private int pris = 0;
 	Kontaktperson kontakt;
 	Billettregister reg;
+
 	
 	//////////////////////
 	//	KONSTRUKTØRER	//
-	//////////////////////	
+	//////////////////////
+	// UTEN BILDER
 	
-	public Arrangement (String n, Kontaktperson k) {
-	//Minimumskrav = navn + Kontaktperson
-		aId = nesteId++;
+	//Minimumskarv + dato - dato sendes med uansett.
+	public Arrangement (String n, Kontaktperson k, Date d) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		dato = sdf.format(d);
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
+		reg = new Billettregister();
 	}
 	
-	public Arrangement (String n, Kontaktperson k, String d) {
-	//Minimumskarv + dato
-	//Dato må være oppgitt i formatet dd-mm-ååå tt:mm
-	//Kan dette løses med en RegEx-validering? str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
-		}
+	//Minimumskarv + dato + beskrivelse	
+	public Arrangement (String n, Kontaktperson k, Date d, String b) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
 		
-		aId = nesteId++;
+		dato = sdf.format(d);
+		aId = nesteId;
+		nesteId++;
 		navn = n;
 		kontakt = k;
+		beskrivelse = b;
+		reg = new Billettregister();
 	}
 	
-	public Arrangement (String n, String b, Kontaktperson k, String d, int p, int a) {
 	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
-	//Dato må være oppgitt i formatet dd-mm-ååå tt:mm
-	//Kan dette løses med en RegEx-validering? str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
-		}
-		aId = nesteId++;
+	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		dato = sdf.format(d);
+		aId = nesteId;
+		nesteId++;
 		navn = n;
+		kontakt = k;
 		beskrivelse = b;
 		billettsalg = true;
 		pris = p;
+		reg = new Billettregister(a);
+	}
+	//Minimumskarv + dato + pris og antall billetter	
+	public Arrangement (String n, Kontaktperson k, Date d, int p, int a) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		dato = sdf.format(d);
+		aId = nesteId;
+		nesteId++;
+		navn = n;
 		kontakt = k;
+		billettsalg = true;
+		pris = p;
 		reg = new Billettregister(a);
 	}
 	
-	//HER MÅ DET LAGES FLERE KONSTRUKTØRER HVIS VI SKAL DEKKE OPP FOR ALLE MULIGHETER
-	/*Bilde sent med*/
-	public Arrangement (String n, String b, String f, Kontaktperson k) {
-		
-		aId = nesteId++;
+	//////////////////////
+	//	KONSTRUKTØRER	//
+	//////////////////////
+	// MED BILDER
+	
+	//Minimumskrav + dato - dato sendes med uansett. + bilde
+	public Arrangement (String n,String bilde, Kontaktperson k, Date d) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+
+		dato = sdf.format(d);
+		aId = nesteId;
+		nesteId++;
 		navn = n;
-		beskrivelse = b;
-		bildeSti = f;
 		kontakt = k;
+		bildeSti = bilde;
+		reg = new Billettregister();
+	}
+	
+	//Minimumskarv + dato + beskrivelse	+ bilde
+	public Arrangement (String n, Kontaktperson k, Date d, String b,String bilde) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		dato = sdf.format(d);
+		aId = nesteId;
+		nesteId++;
+		navn = n;
+		kontakt = k;
+		beskrivelse = b;
+		bildeSti = bilde;
+		reg = new Billettregister();
+	}
+	
+	//Minimumskarv + dato + beskrivelse + pris og antall billetter	
+	public Arrangement (String n, Kontaktperson k, Date d, String b, int p, int a,String bilde) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		dato = sdf.format(d);
+		aId = nesteId;
+		nesteId++;
+		navn = n;
+		kontakt = k;
+		beskrivelse = b;
+		billettsalg = true;
+		pris = p;
+		reg = new Billettregister(a);
+		bildeSti = bilde;
+	}
+	//Minimumskarv + dato + pris og antall billetter
+	
+	public Arrangement (String n, Kontaktperson k, Date d, int p, int a,String bilde) {
+		//RegEx-validering: str.matches("\\d{2}-\\d{2}-\\d{4}\\s{1}\\d{2}:\\d{2}")
+		dato = sdf.format(d);
+		aId = nesteId;
+		nesteId++;
+		navn = n;
+		kontakt = k;
+		billettsalg = true;
+		pris = p;
+		reg = new Billettregister(a);
+		bildeSti=bilde;
 	}
 
 	//////////////////////////
 	//	KONSTRUKTØRER SLUTT	//
 	//////////////////////////
 	
+	// Setter et arrangement til å kunne ta inn penger, 
+	// og oppretter antall billetter og setter prisen for disse
+	public void bliBetalbar(int p,int a) {
+		billettsalg = true;
+		pris = p;
+		reg = new Billettregister(a);
+	}
+	
+
 	//////////////////////
 	//	GET/SET-METODER	//
 	//////////////////////
 	
-	public void set_Navn(String n) {
-		navn = n;
-	}
-	
-	public void set_Kontaktperson(Kontaktperson k) {
-		kontakt = k;
-	}
-	
-	public void set_Beskrivelse(String b) {
-		beskrivelse = b;
-	}
-	
-	public void set_Dato(String d) {
-	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
-		try {
-		dato = sdf.parse(d);
-		} catch (ParseException e) {
-			System.out.println("Input-stringen for dato-objektet er oppgitt i feil format eller no sånt jævlig.");
-		}
-	}
-
-	
-	//////////////////////
-	
 	public String get_Navn() {
 		return navn;
+	}
+	public String get_bildeSti() {
+		return bildeSti;
 	}	
 	
 	public int get_aId() {
@@ -137,8 +191,7 @@ public class Arrangement {
 	public String get_Dato() {
 		if (dato==null)
 			return "";
-		String datoString = sdf.format(dato);
-		return datoString;
+		return dato;
 	}
 	
 	public int get_Pris() {
@@ -157,6 +210,40 @@ public class Arrangement {
 		return kontakt;
 	}
 	
+	//////////////////////
+	
+	public static void set_nesteId(int nr){
+		nesteId = nr;
+	}
+	
+	public void set_Navn(String n) {
+		navn = n;
+	}
+	public void set_Info(String n) {
+		info1 = n;
+	}
+	public void set_Info2(String n) {
+		info2 = n;
+	}
+	public void set_Pris(int n) {
+		pris = n;
+	}
+	public void set_Bildesti(String n) {
+		bildeSti = n;
+	}
+	public void set_Kontaktperson(Kontaktperson k) {
+		kontakt = k;
+	}
+	
+	public void set_Beskrivelse(String b) {
+		beskrivelse = b;
+	}
+	
+	public void set_Dato(String d) {
+	/*String for dato skal være innsatt i følgende format: "31-08-1982 10:20";*/
+		dato = sdf.format(d);
+	}
+
 	//////////////////////////////
 	//	GET/SET-METODER SLUTT	//
 	//////////////////////////////
@@ -173,7 +260,7 @@ public class Arrangement {
 		return reg.fjernBilletter(antall);
 	}
 	
-	public boolean kjøpBillett(int antall, Person k){
+	public boolean bestillBillett(int antall, Person k){
 		return reg.kjøpBillett(antall, k);
 	}
 	
@@ -181,18 +268,31 @@ public class Arrangement {
 		return reg.avbestillBilletter(antall, tlf);
 	}
 	
-	public Billett finnBillett(String tlf){
-		return reg.finnBillett(tlf);
+	public ArrayList<Billett> finnBilletter(String tlf){
+		return reg.finnBilletter(tlf);
+	}
+	
+	public Billett finnBillett(int nr){
+		return reg.finnBillett(nr);
 	}
 	
 	public int antallSolgteBilletter(){
 		return reg.antallSolgteBilletter();
 	}
 	
-	public String listBilletter(){
-		return reg.toString();
+	public int inntektSolgteBilletter() {
+		int tot = reg.antallSolgteBilletter() * get_Pris();
+		return tot;
 	}
 	
+	public String listBilletter(){
+		return "ARRANGEMENTNR:\t" + aId + "\r\nArrangement:\t" + navn + "\r\n" + reg.listSolgteBilletter();
+	}
+	
+	public int finnHøyesteBillettNr(){
+		return reg.finn_høyeste_bNr();
+	}
+		
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////
@@ -202,7 +302,9 @@ public class Arrangement {
 		melding += "Arrangement:\t" + navn + "\r\n";
 		melding += (beskrivelse != null) ? "Beskrivelse:\t" + beskrivelse + "\r\n" : "Ingen beskrivelse" + "\r\n";
 		melding += (bildeSti != null) ? "Bilde:\t" + bildeSti + "\r\n" : "Mangler bilde" + "\r\n";
-		melding += (dato != null) ? "Dato:\t" + sdf.format(dato) + "\r\n" : "Dato ikke satt" + "\r\n";
+		melding += (info1 != null) ? info1 + "\r\n" : "";
+		melding += (info2 != null) ? info2 + "\r\n" : "";
+		melding += (dato != null) ? "Dato:\t"+ get_Dato() + "\r\n" : "Dato ikke satt" + "\r\n";
 		melding += (!billettsalg) ? "Pris:\tGratis\r\n" : "Pris:\tkr " + pris +".00\r\n";
 		melding += (billettsalg) ? "Ledige bill.:\t" + (reg.get_antallBilletter() - reg.antallSolgteBilletter()) + "/" + reg.get_antallBilletter() + "\r\n": "";
 		melding += "Kontaktperson:\t" + kontakt + "\r\n";

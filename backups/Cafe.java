@@ -1,12 +1,19 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
+////////////////////////////////BESKRIVELSE///////////////////////////////
+//	Denne klassen er en subtype av Lokale								//
+//////////////////////////////////////////////////////////////////////////
 
-/* 
- * Valg 4 
- * Subklasse av Lokale.java
- * 
- * */
-public class Cafe extends Lokale {
+import java.io.*;
+public class Cafe  extends Lokale implements Serializable {
 
-	private boolean bestilt;
+	private static final long serialVersionUID = -8364958424541858105L;
 	private int refNr;
 	private int gjesteplass;
 	
@@ -17,10 +24,9 @@ public class Cafe extends Lokale {
 		
 	}	
 	
-	 /*//////////////////////
-	 Get og Set metoder start
-	 *//////////////////////
-	
+	 //////////////////////////////
+	 // Get og Set metoder start //
+	 //////////////////////////////
 
 	public int get_Gjesteplass() {
 		return gjesteplass;
@@ -30,13 +36,15 @@ public class Cafe extends Lokale {
 		return refNr;
 	}
 	
+	////////////////
+	
 	public void set_Gjesteplass(int n) {
 		gjesteplass = n;
 	}
 	
-	 /*//////////////////////
-	 Get og Set metoder finish
-	 *//////////////////////
+	 //////////////////////////////
+	 // Get og Set metoder slutt //
+	 //////////////////////////////
 	
 	public String toString() {
 		String meld = super.toString();

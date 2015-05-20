@@ -1,3 +1,11 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Denne klassen er et register over billetter som er solgt til et 	//
 //	overordnet arrangement. 											//
@@ -8,13 +16,13 @@
 //	# Metoder for å manipulere billettene i registeret					//
 //////////////////////////////////////////////////////////////////////////
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
-public class Billettregister implements Serializable{
-	
-	private List<Billett> reg = new ArrayList<Billett>();
-	private Iterator<Billett> iterator;
+public class Billettregister implements Serializable {
+
+	private static final long serialVersionUID = 6559197877098881762L;
+	private ArrayList<Billett> reg = new ArrayList<Billett>();
 	
 	private int antallBilletter;
 	private boolean ledigeBilletter = true;
@@ -22,6 +30,9 @@ public class Billettregister implements Serializable{
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
+	public Billettregister() {
+		// Opprettes for ikke-betalbare arrangement, for å hindre konflikt ved skriving til fil.
+	}
 	
 	public Billettregister(int n){
 		antallBilletter = n;
@@ -51,11 +62,13 @@ public class Billettregister implements Serializable{
 	//Fyller registeret med nye billetter
 	public boolean fyllRegister(int antall){
 		try{
-			for(int i = 0; i < antall; i++)
-				reg.add(new Billett());
+			int x = reg.size();
+			for(int i = 1; i <= antall; i++)
+				reg.add(new Billett(i+x));
+			return true;
 		}catch(Exception e){
 			return false;
-		}return true;
+		}
 	}
 		
 	//Finner antallet usolgte billetter
@@ -68,13 +81,10 @@ public class Billettregister implements Serializable{
 	//Finner antallet solgte billetter
 	public int antallSolgteBilletter() {
 		int antSolgt = 0;
-		iterator = reg.iterator();
-        
-		while (iterator.hasNext()) {
-			Billett b = iterator.next();
-        	if (b.get_Solgt())
-            	antSolgt++;
-        }
+		for(Billett b : reg){
+			if(b.get_Solgt())
+				antSolgt++;
+		}
 		return antSolgt;
 	}
 	
@@ -122,35 +132,86 @@ public class Billettregister implements Serializable{
 		return true;
 	}
 	
-	//Søker opp Billett på telefonnr
-	public Billett finnBillett(String tlf) {
-		Billett funnet = null;
-		try {
-			iterator = reg.iterator();
-	        while (iterator.hasNext()) {
-	        	funnet = iterator.next();
-	            if (funnet.get_kunde().get_Telefon().equals(tlf))
-	            	return funnet;
-	        }
-		}catch(Exception ex){
-			return funnet;
+	//Søker opp Billett som matcher søk
+	public ArrayList<Billett> finnBilletter(String tlf){
+		ArrayList<Billett> resultat = new ArrayList<Billett>();
+		try{
+			for(Billett b : reg){
+				if(b.get_kunde() != null){
+					if( b.get_kunde().get_Telefon().equals(tlf) ){
+						resultat.add(b);
+					}
+				}
+			}
+			return resultat;
+		}catch(Exception e){
+			return resultat;
 		}
-		return funnet;
 	}
 	
-	// avbestiller X billetter med telefonnr
+	//Søker opp Billett som matcher telefonnr
+	public Billett finnBillett(String tlf) {
+		try {
+			for(Billett funnet : reg){
+				if(funnet.get_kunde().get_Telefon().equals(tlf)){
+					return funnet;
+				}
+			}
+		}catch(Exception ex){
+			return null;
+		}
+		return null;
+	}
+	
+	//Søker opp Billett på telefonnr
+	public Billett finnBillett(int nr) {
+		try{
+			for(Billett b: reg)
+				if(b.get_Billettnummer() == nr)
+					return b;
+			return null;
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
+	// Avbestiller X billetter med telefonnr
 	public boolean avbestillBilletter(int antall, String tlf){
-		if(finnBillett(tlf) == null)
+		if(finnBillett(tlf) == null && antall > 0)
 			return false;
 		try{
-			for(int i = 0; i < antall; i++)
-				finnBillett(tlf).avbestillBillett();
+			for(Billett b : reg){
+				if(b.solgt && b.get_kunde().get_Telefon().equals(tlf)){
+					b.avbestillBillett();
+				}
+			}
+			return true;
+			
 		}catch(Exception e){
 			return false;
 		}
-		return true;
 	}
 	
+	// Lister solgte billetter
+	public String listSolgteBilletter(){
+		String retur = "Solgte billetter: " + antallSolgteBilletter() + " av " + antallBilletter + "\r\n\r\n";
+				for(Billett b : reg)
+					retur += (b.get_Solgt()) ? b : "";
+		return retur;
+	}
+	
+	// Finner høyeste billettnummer
+	public int finn_høyeste_bNr(){
+		if(reg.isEmpty())
+			return 0;
+		else{
+			int max = reg.get(0).get_Billettnummer();
+			for(Billett b: reg)
+				if(b.get_Billettnummer() > max)
+					max = b.get_Billettnummer();
+			return max;
+		}
+	}
 	
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//

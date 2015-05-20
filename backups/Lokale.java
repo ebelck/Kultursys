@@ -1,3 +1,11 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Denne klassen inneholder informasjon om lokalene:					//
 //	# Referansenr for lokalet											//
@@ -8,32 +16,30 @@
 //	# Metoder for å manipulere arrangementet og bilettregisteret		//
 //////////////////////////////////////////////////////////////////////////
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
+import java.io.*;
 
 
-public class Lokale {
+public class Lokale implements Serializable{
+
+	private static final long serialVersionUID = 1382938975339463705L;
 	private int plasser, refNr;
 	private static int nesteNr = 1;
 	private String navn, beskrivelse, type;
-	
-	
 	private ArrayList<Arrangement> reg = new ArrayList<>();
-	private Iterator<Arrangement> iterator;
 	
 	//////////////////
 	//	KONSTRUKTØR	//
 	//////////////////
 	
-	public Lokale (String n, String b) { // her kommer String t, int p
+	public Lokale (String n, String b) {
 		refNr = nesteNr++;
 		navn = n;
 		beskrivelse = b;
-//		type = t;
-//		plasser = p
 	}
 	
+	public Lokale(){
+	}
 	//////////////////////
 	//	GET/SET-METODER	//
 	//////////////////////
@@ -55,6 +61,23 @@ public class Lokale {
 	
 	public int get_Plasser() {
 		return plasser;
+	}
+	
+	public ArrayList<Arrangement> get_reg(){
+		return reg;
+	}
+	
+	//////////////////////
+	
+	public static void set_nesteNr(int nr){
+		nesteNr = nr;
+	}
+	
+	public void set_Navn(String s) {
+		navn = s;
+	}
+	public void set_Besk(String s) {
+		beskrivelse = s;
 	}
 	
 	//////////////////////////////
@@ -80,22 +103,17 @@ public class Lokale {
 	}
 	
 	//sletter arangement med get_aId = n
-	public boolean slettArrangement(int n){
+	public boolean slettArrangement(int n){ //mottar en arrangementsID
 		try {
 			for(Arrangement slett : reg){
-				if(slett.get_aId() == n){
-					//kontrollerer at det ikke er solgt billetter til arrangementet
-					//if(slett.antallSolgteBilletter() > 0)
-						//return false;
-					
-					// Kommentert ut fordi vi må sende med rikitge parametere slik at 
-					// funksjonen returnerer en verdi.
-					////////////////////////
-					
-					reg.remove(slett);
-					reg.trimToSize();
-					return true;
-				}
+				if(slett.get_aId() == n){		//Finner matchende ID
+					//Hvis billettsalg er false eller antall solgte billetter er 0
+					if(!slett.get_Billettsalg() || slett.antallSolgteBilletter() == 0) {
+						reg.remove(slett);
+						reg.trimToSize();
+						return true;
+					}
+				}	
 			}
 		} catch (IndexOutOfBoundsException IOOBE) {
 			return false;
@@ -110,12 +128,14 @@ public class Lokale {
 			for(Arrangement funnet : reg)
 				if(funnet.get_aId() == n)
 					return funnet;
-	        
-			
 		} catch(Exception ex){
 			return null;
 		}
 		return null;
+	}
+	
+	public ArrayList<Arrangement> listArrangementer1(){
+		return reg;
 	}
 	
 	//lister ut alle arrangementene tilknyttet lokalet
@@ -130,7 +150,6 @@ public class Lokale {
 		return melding;
 	}
 	
-	//VAT IZ DIZ?
 	public HashSet<Arrangement> kontaktOpplysning(Kontaktperson k) {
 		HashSet<Arrangement> arrHash = new HashSet<>();
 		for (Arrangement s : reg) {
@@ -143,6 +162,87 @@ public class Lokale {
 	//////////////////////////////////
 	//	MANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////
+	
+	//////////////////////
+	//	BILLETT-METODER	//
+	//////////////////////
+	
+	public Billett finnBillett(int nr){
+		try{
+			for(Arrangement a: reg)
+				if(a.finnBillett(nr) != null)
+					return a.finnBillett(nr);
+		}catch(Exception e){
+			return null;
+		}
+		return null;
+	}
+	
+	// Finner størte billettnummer
+	public ArrayList<Integer> finnStørsteBillettNr(){
+		ArrayList<Integer> liste = new ArrayList<Integer>(0);
+		if(!reg.isEmpty())
+			for(Arrangement a: reg)
+				liste.add(a.finnHøyesteBillettNr());
+		return liste;
+	}
+	
+	// Finner største arrangementnummer
+	public int finnStørsteArrNr(){
+		int max = 0;
+		if(!reg.isEmpty())
+			for(Arrangement a: reg)
+				if(a.get_aId() > max)
+					max = a.get_aId();
+		return max;
+	}
+	
+	//////////////////////////////
+	//	BILLETT-METODER SLUTT	//
+	//////////////////////////////
+	
+	//////////////////////////////
+	//	STATISTIKKMETODER START	//
+	//////////////////////////////
+	
+	// Inntekt for alle arrangement
+	public int inntektSolgteBilletter() {
+		int sum = 0;
+		for(Arrangement a : reg){
+			sum += a.inntektSolgteBilletter();
+		}
+		return sum;
+	}
+	
+	// Totale solgte billetter for arrangementer
+	public int arrangementSolgteBilletter() {
+		int sum = 0;
+		for(Arrangement a : reg) {
+			sum += a.antallSolgteBilletter();
+		}
+		return sum;
+	}
+	
+	// Totale antallet solgte billetter for alle arrangementer i et lokale
+	public int totaltSolgteBilletter(){
+		int ant = 0;
+		for(Arrangement a : reg){
+			ant += a.antallSolgteBilletter();
+		}
+		return ant;
+	}
+	
+	// Antall solgte billetter i alle lokaler
+	public int totaltSolgteAlleLokaler() {
+		int sum = 0;
+		for(Arrangement a : reg) {
+			sum += a.antallSolgteBilletter();
+		}
+		return sum;
+	}
+	//////////////////////////////
+	//	STATISTIKKMETODER SLUTT	//
+	//////////////////////////////
 	
 	public String toString() {
 		String meld = "LOKALENR:\t" + get_RefNr() + "\r\n";

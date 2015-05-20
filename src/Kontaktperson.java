@@ -11,6 +11,7 @@
 //	informasjon om kontaktpersoner										//
 //	# Den utvider Person med et idnummer								//
 //////////////////////////////////////////////////////////////////////////
+
 import java.io.*;
 
 public class Kontaktperson extends Person implements Serializable {

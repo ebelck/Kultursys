@@ -1,13 +1,24 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Denne klassen er en utvidelse av klassen Person og inneholder 		//
 //	informasjon om kontaktpersoner										//
 //	# Den utvider Person med et idnummer								//
 //////////////////////////////////////////////////////////////////////////
 
-public class Kontaktperson extends Person {
-	
+import java.io.*;
+
+public class Kontaktperson extends Person implements Serializable {
+	private static final long serialVersionUID = 2195541615163342230L;
 	private int pId;
 	private static int nesteId = 1;
+	private String bildesti;
 	
 	//////////////////
 	//	KONSTRUKTØR	//
@@ -18,12 +29,27 @@ public class Kontaktperson extends Person {
 		pId = nesteId++;
 	}
 	
+	public Kontaktperson (String f, String e, String m, String t, String bilde) {
+		super(f,e,m,t);
+		bildesti = bilde;
+		pId = nesteId++;
+	}
+	
 	//////////////////////
 	//	GET/SET-METODER	//
 	//////////////////////
 	
 	public int get_pId(){
 		return pId;
+	}
+	public String get_bildeSti(){
+		return bildesti;
+	}
+	public void set_bildeSti(String s){
+		bildesti=s;
+	}
+	public static void set_nesteId(int nr){
+		nesteId = nr;
 	}
 	
 	//////////////////////////////

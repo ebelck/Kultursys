@@ -1,3 +1,15 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
+////////////////////////////////BESKRIVELSE///////////////////////////////
+// Denne klassen håndterer visning bildefiler							//
+//////////////////////////////////////////////////////////////////////////
+
 /**
  * @(#)StretchIcon.java	1.0 03/27/12
  * Denne klassen er hentet fra http://www.camick.com/java/source/StretchIcon.java.
@@ -8,7 +20,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.image.ImageObserver;
+import java.io.Serializable;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -27,9 +41,13 @@ import javax.swing.ImageIcon;
  * @version 1.0 03/27/12
  * @author Darryl
  */
-public class StretchIcon extends ImageIcon {
+public class StretchIcon extends ImageIcon implements Serializable {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 266295992966970859L;
+/**
    * Determines whether the aspect ratio of the image is maintained.
    * Set to <code>false</code> to allow th image to distort to fill the component.
    */

@@ -1,3 +1,11 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Denne klassen inneholder informasjon om personer					//
 //	# Navn på kontaktperson												//
@@ -5,11 +13,12 @@
 //	# Telefonnummer til kontaktperson									//
 //	# Metoder for å manipulere arrangementet og bilettregisteret		//
 //////////////////////////////////////////////////////////////////////////
-public class Person {
-	
+import java.io.*;
+
+public class Person implements Serializable {
+	private static final long serialVersionUID = -7313580225459341922L;
 	private String fornavn;
 	private String etternavn;
-	private String fulltnavn;
 	private String epost;
 	private String tlf;
 	
@@ -20,7 +29,6 @@ public class Person {
 	public Person (String f, String e, String m, String t) {
 		fornavn = f;
 		etternavn = e;
-		fulltnavn = f + e;
 		epost = m;
 		tlf = t;
 	}
@@ -38,7 +46,7 @@ public class Person {
 	}
 	
 	public String get_Navn(){
-		return fulltnavn;
+		return fornavn + " " + etternavn;
 	}
 	
 	public String get_Epost(){
@@ -51,7 +59,7 @@ public class Person {
 	
 	//////////////////////
 	
-	public void set_Fronavn(String f){
+	public void set_Fornavn(String f){
 		fornavn = f;
 	}
 	

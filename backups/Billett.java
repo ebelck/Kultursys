@@ -1,3 +1,11 @@
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
 ////////////////////////////////BESKRIVELSE///////////////////////////////
 //	Denne klassen inneholder informasjon om billetter:					//
 //	# Billettnummer														//
@@ -8,10 +16,13 @@
 //	# Metoder for å manipulere billetter								//
 //////////////////////////////////////////////////////////////////////////
 
-public class Billett {
+import java.io.*;
+
+public class Billett implements Serializable {
 	
+	private static final long serialVersionUID = 818328769517963001L;
 	private int bnr;
-	private static int nesteNr = 1;	//DETTE KAN BLI ET PROBLEM NÅR VI SKAL GJENNOPPRETTE FRA FIL	
+	private static int nesteNr = 1;	
 	private int plassnr;
 	boolean solgt = false;
 	private Person kunde;
@@ -20,9 +31,9 @@ public class Billett {
 	//	KONSTRUKTØR	//
 	//////////////////
 	
-	public Billett(){
-		bnr = nesteNr;
-		plassnr = nesteNr++;
+	public Billett(int plass){
+		bnr = nesteNr++;
+		plassnr = plass;
 	}
 	
 	//////////////////////
@@ -47,6 +58,10 @@ public class Billett {
 	
 	public void set_kunde(Person k){
 		kunde = k;
+	}
+	
+	public static void set_nesteNr(int nr){
+		nesteNr = nr;
 	}
 	
 	//////////////////////////////

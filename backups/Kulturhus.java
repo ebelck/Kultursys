@@ -1,13 +1,29 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+// Semesteroppgave i  Programutvikling DATS1600 / ITPE1600
+// Høgskolen i Oslo og Akershus 20. mai 2015
+//
+// Skrevet av:
+// Einar Belck-Olsen – s198524
+// Roger Bløtekjær Johannessen – s186571
+// Halvor Rønneseth – s172589
+//
+////////////////////////////////BESKRIVELSE///////////////////////////////
+//	Denne klassen inneholder informasjon om kulturhuset:				//
+//	# Navn på kulturhuset												//
+//	# Beskrivelse av kulturhuset										//
+//	# Register over Lokaler												//
+//	# Register over Kontaktpersoner										//
+//	# Metoder for å manipulere Kultuhus og registere					//
+//////////////////////////////////////////////////////////////////////////
 
-public class Kulturhus {
+import java.io.*;
+import java.text.*;
+import java.util.*;
+
+public class Kulturhus implements Serializable {
+	private static final long serialVersionUID = 7057756717951866203L;
 	private String beskrivelse, navn;
-	private ArrayList<Lokale> LokalerInhouse = new ArrayList<>();
+	private ArrayList<Lokale> lreg = new ArrayList<Lokale>();
 	private Iterator<Lokale> iterator;
-//	private ArrayList<Kontaktperson> kontaktInhouse = new ArrayList<>();
-//	private Iterator<Kontaktperson> kontaktIterator;
 	private Personregister preg = new Personregister();
 	
 	//////////////////////
@@ -16,7 +32,27 @@ public class Kulturhus {
 	
 	public Kulturhus (String n, String b) {
 		navn = n;
-		beskrivelse = b;	
+		beskrivelse = b;
+		ArrayList<Lokale> reg = null;
+		try(ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( "./regfiles/lokreg.dta" ) )){	
+			reg = (ArrayList<Lokale>) innfil.readObject();
+			innfil.close();
+		}catch(FileNotFoundException fnfe){
+			reg = null;
+		}catch(EOFException eofe){
+	
+		}catch(InvalidClassException ice){
+			System.out.println(ice);
+		}catch(IOException ioe){
+			ioe.printStackTrace();
+		}
+		catch(Exception e){
+			e.getClass();
+		}
+		if(reg == null)
+			reg = new ArrayList<Lokale>();
+		
+		lreg = reg;
 	}
 	
 	//////////////////////
@@ -43,6 +79,20 @@ public class Kulturhus {
 	//	GET/SET-METODER SLUTT	//
 	//////////////////////////////
 	
+	/////////////////////////////////////////////
+	//	LAGRE PERSONREGISTER, BILLETTREGISTER, //
+	//  ARRANGEMENTER OG LOKALER TIL FIL	   //
+	/////////////////////////////////////////////
+	
+	public String lagreLok() {
+		return lagreLokaler();
+		
+	}
+	public String lagrePerson(){
+		return preg.lagrePersonregister();
+	}
+	
+
 	//////////////////////////////////
 	//	LOKALEMANIPULERINGS-METODER	//
 	//////////////////////////////////
@@ -51,24 +101,31 @@ public class Kulturhus {
 		if(l == null)
 			return false;
 		
-		LokalerInhouse.add(l);
+		lreg.add(l);
 		return true;
 	}
 	
 	public boolean slettLokale(int n){
 		n = n - 1;
 		try {
-			LokalerInhouse.remove(n);
+			lreg.remove(n);
 			return true;
 		} catch (IndexOutOfBoundsException IOOBE) {
 			return false;
 		}
 	}
+	public boolean finnesLokale(int n) {
+		for(Lokale f : lreg) {
+			if(f.get_RefNr()==n)
+				return true;
+		}
+		return false;
+	}
 	
 	public Lokale finnLokale(int n){
 		Lokale funnet = null;
 		try {
-			iterator = LokalerInhouse.iterator();
+			iterator = lreg.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = iterator.next();
 	            if (funnet.get_RefNr() == n) {
@@ -82,17 +139,21 @@ public class Kulturhus {
 		return funnet;
 	}
 	
+	// Lister ut lokaler
 	public String listLokaler(){
 		String melding = "";
-		for (Lokale s : LokalerInhouse) {
+		for (Lokale s : lreg) {
 			melding += s.toString();
 		}
+		if (melding.equals(""))
+			return "Ingen lokaler lagret";
 		return melding;
 	}
 	
+	// Lister ut arrangemeter i lokaler
 	public String listArrangementerILokaler() {
 		String melding = "";
-		for (Lokale s : LokalerInhouse) {
+		for (Lokale s : lreg) {
 			melding += "LOKALE:\t" + s.get_Navn() + "\r\n";
 			if(!s.tomtRegister())
 				melding += s.listArrangementer();
@@ -102,12 +163,86 @@ public class Kulturhus {
 		return melding;
 	}
 	
+	public Map<String,Arrangement> listArrangementerMap() {	
+		Map<String,Arrangement> m = new HashMap<>();
+		for (Lokale s : lreg) {
+			if(!s.tomtRegister()) {
+				int i = 1;
+				for (Arrangement arr : s.listArrangementer1()) {
+					m.put(s.get_Navn()+" "+i, arr);
+					i++;
+				}
+			}
+		}
+		return m;
+	}
+	
+	// Lister ut arrangemeter etter navn
+	public String listArrangement(String n){
+		try{
+			for(Lokale l: lreg){
+				if(l.get_Navn().equals(n)){
+					return l.listArrangementer();
+				}
+			}
+		}catch(Exception e){
+			return "Feil: " + e.getMessage();
+		}
+		
+		return "Fant ikke lokale";
+	}
+	
+	
+	//Lister ut Arrangement innenfor et tidsrom etter dato
+	public String hentArrNesteDager(int dager){
+		
+		String svar = "Ingen arrangement i tidsperioden";
+		if(!lreg.isEmpty()){
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+			Date nå = new Date();
+			Date da = new Date((nå.getTime() + (dager * 86400000) ));
+			ArrayList<Arrangement> arrList= new ArrayList<Arrangement>();
+			for(Lokale l : lreg){
+				if(!l.get_reg().isEmpty()){
+					for(Arrangement a: l.get_reg()){
+						
+						try{
+							Date tid = sdf.parse(a.get_Dato());
+							if(tid.after(nå) && tid.before(da)){
+								if(arrList.isEmpty())
+									arrList.add(a);
+								else{
+									int index = -1;
+									Iterator<Arrangement> it = arrList.iterator();		//ITTERATOR
+									while(it.hasNext() && index < 0){
+										Arrangement b = it.next();
+										Date sjekk = sdf.parse(b.get_Dato());
+										if(sjekk.after(tid))
+											index = arrList.indexOf(b);
+									}
+									arrList.add(index, a);
+								}
+							}
+						}catch(Exception e){
+							svar += "En feil har oppstått, prøv igjen";
+						}
+					}
+				}
+			}
+			
+			svar = "Arrangement de neste " + dager + " dagene:\r\n";
+			for(Arrangement a: arrList)
+				svar += a.toString() + "\r\n";
+		}
+		return svar;
+	}
 
+	// Legger lokaler i combobox
 	public String[] lokalListe() {
 		ArrayList<String> a = new ArrayList<>();
 		a.add("Oppdater liste");
 
-		for (Lokale s : LokalerInhouse) {
+		for (Lokale s : lreg) {
 			a.add(s.get_Navn());
 		}
 		
@@ -118,7 +253,7 @@ public class Kulturhus {
 	public Lokale arrangementViaK(int n) {
 		Lokale l = null;
 		
-		iterator = LokalerInhouse.iterator();
+		iterator = lreg.iterator();
         while (iterator.hasNext()) {
         	l = iterator.next();
             if (l.finnArrangement(n) != null) {
@@ -131,7 +266,7 @@ public class Kulturhus {
 	public Lokale finnType(String s) {
 		Lokale funnet = null;
 		try {
-			iterator = LokalerInhouse.iterator();
+			iterator = lreg.iterator();
 	        while (iterator.hasNext()) {
 	        	funnet = iterator.next();
 	            if (funnet.get_Navn().equals(s)) {
@@ -144,176 +279,246 @@ public class Kulturhus {
 		}
 		return funnet;
 	}
+	
+	// Legger lokale i combobox 2
+	public Lokale[] lokaleCombo2() {
+		return lreg.toArray(new Lokale[lreg.size()]);
+	}
+	
+	// Lagrer lokaler i combobox
+	public String[] lokaleCombo() {
+		ArrayList<String> liste = new ArrayList<>();
+		if(lreg.isEmpty()){
+			liste.add("Ingen lokaler i listen");
+		}else{
+			for (Lokale s : lreg) {
+				int lokNr = s.get_RefNr();
+				String navn = lokNr +" "+ s.get_Navn();
+				liste.add( navn);
+				//a.add(s.get_Navn());
+			}
+			liste.add(0, "Velg lokale");
+		}
+		String[] s = ((ArrayList<String>)liste).toArray(new String[liste.size()]);
+		
+		return s;
+	}
+	
+	// Legger arrangementer i combobox
+	public String[] arrangementCombo(int lokNr) {
+		ArrayList<String> liste = new ArrayList<>();
+		
+		if(lokNr == 0){
+			//System.out.println("lokNr == 0");
+			liste.add("Velg et lokale først");
+
+		}else if(finnLokale(lokNr).get_reg().isEmpty()){
+			liste.add("Ingen arrangement i dette lokalet");
+		}else{
+			Lokale l = this.finnLokale(lokNr); 
+			for (Arrangement a : l.get_reg()) {
+				if(a.get_Billettsalg()){
+					int arrNr = a.get_aId();
+					String navn = a.get_Navn() + ": " + a.get_Dato();
+					liste.add( arrNr + " " + navn);
+				}
+			}
+			if(liste.isEmpty())
+				liste.add(0, "Ingen arragnement med billettsalg i dette lokalet");
+			else
+				liste.add(0, "Velg arrangement");
+		}
+		return ((ArrayList<String>)liste).toArray(new String[liste.size()]);
+	}
+	
+	// Setter riktig referansenummer på billett 
+	public void settRiktigBillNr(){
+		if(lreg.isEmpty())
+			return;
+		ArrayList<Integer> liste = new ArrayList<Integer>();
+		for(Lokale l: lreg)
+			liste.addAll(l.finnStørsteBillettNr());
+		int max = 0;
+		for(Integer i: liste)
+			if(i.intValue() > max)
+				max = i.intValue();
+		Billett.set_nesteNr(max+1);
+	}
+	
+	// Setter riktig referansenummer på arrangementer
+	public void settRiktigArrNr(){
+		if(lreg.isEmpty())
+			return;
+		ArrayList<Integer> liste = new ArrayList<Integer>();
+		for(Lokale l: lreg)
+			liste.add(l.finnStørsteArrNr());
+		int max = 0;
+		for(Integer i: liste)
+			if(i.intValue() > max)
+				max = i.intValue();
+		Arrangement.set_nesteId(max+1);
+	}
+	
+	// Setter riktig referansenummer på lokale
+	public void settRiktigLokNr(){
+		if(lreg.isEmpty())
+			return;
+		ArrayList<Integer> liste = new ArrayList<Integer>();
+		for(Lokale l: lreg)
+			liste.add(l.get_RefNr());
+		int max = 0;
+		for(Integer i: liste)
+			if(i.intValue() > max)
+				max = i.intValue();
+		Lokale.set_nesteNr(max+1);
+	}
+	
+	// Setter riktig referansenummer på kontakter
+	public void settRiktigPersNr(){
+		if(preg.get_register().isEmpty())
+			return;
+		Kontaktperson.set_nesteId(preg.finnStørstePersNr());
+	}
+	
 	//////////////////////////////////////////
 	//	LOKALEMANIPULERINGS-METODER SLUTT	//
 	//////////////////////////////////////////
-	
-	
-	//////////////////////////////////////////
-	//	PERSONLOKALEMANIPULERINGS-METODER	//
-	//////////////////////////////////////////
-	
-	//Legger til en Kontakperson i Kontakpersonregisteret
-	public boolean leggTilKontaktperson( Kontaktperson k){
-		return preg.leggTilKontaktperson(k);
-//		if(k == null)
-//			return false;
-//		kontaktInhouse.add(k);
-//		return true;
-	}
 
-	//Sletter en Kontaktperson fra registeret via Epost
-	public boolean slettKontaktpersonViaEpost(String e){
-		return preg.slettKontaktpersonViaEpost(e);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Epost().equals(e)) {
-//	            	kontaktInhouse.remove(funnet);
-//	            	return true;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return false;
-//		}
-//		return false;
-	}
-	
-	//Sletter en Kontaktperson fra registeret via Telefonnr
-	public boolean slettKontaktpersonViaTelefon(String t){
-		return preg.slettKontaktpersonViaTelefon(t);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Telefon().equals(t)) {
-//	            	kontaktInhouse.remove(funnet);
-//	            	return true;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return false;
-//		}
-//		return false;
-	}
-	
-	//finner en Kontaktperson fra registeret via Epost
-	public Kontaktperson finnKontaktpersonViaEpost(String e){	
-		return preg.finnKontaktpersonViaEpost(e);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Epost().equals(e)) {
-//	            	return funnet;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return funnet;
-//		}
-//		return funnet;
-	}
-	
-	//finner en Kontaktperson fra registeret via navn
-	public Kontaktperson finnKontaktpersonViaNavn(String fn){	//OBS! OBS! Må justeres til ny Personklasse
-		return preg.finnKontaktpersonViaNavn(fn);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Navn().equals(fn)) {
-//	            	return funnet;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return funnet;
-//		}
-//		return funnet;
-	}
-
-	//finner en Kontaktperson fra registeret via telefonnr
-	public Kontaktperson finnKontaktpersonViaTlf(String t){
-		return preg.finnKontaktpersonViaTlf(t);
-//		Kontaktperson funnet = null;
-//		try {
-//			kontaktIterator = kontaktInhouse.iterator();
-//	        while (iterator.hasNext()) {
-//	        	funnet = kontaktIterator.next();
-//	            if (funnet.get_Telefon().equals(t)) {
-//	            	return funnet;
-//	            }
-//	        }
-//			
-//		} catch(Exception ex){
-//			return funnet;
-//		}
-//		return funnet;
-	}
-	
-	//lister ut alle kontaktpersoner
-	public String[] listKontaktpersoner(){
-		return preg.listKontaktpersoner();
-//		ArrayList<String> a = new ArrayList<>();
-//		a.add("Oppdater liste");
-//
-//		for (Kontaktperson s : kontaktInhouse) {
-//			a.add(s.get_Fornavn() + " " + a.add(s.get_Etternavn()));
-//		}
-//		
-//	    String[] s = ((ArrayList<String>)a).toArray(new String[a.size()]);
-//		
-//		return s;
-	}
-	
-	public String kontaktDetaljerTlf(String t) {
+	public String kunKontaktMedAnsvar() {
 		String melding = "";
-		Kontaktperson person = finnKontaktpersonViaTlf(t);
-		melding += person.toString();
-		HashSet<Arrangement> arrHash = new HashSet<>();
-		for (Lokale l : LokalerInhouse) {
-			arrHash.addAll(l.kontaktOpplysning(person));
+		ArrayList<Kontaktperson> utArray = new ArrayList<>();
+		for (Lokale s : lreg) {
+			if(!s.tomtRegister()) {
+				for (Arrangement arr : s.listArrangementer1()) {
+					utArray.add(arr.get_Kontaktperson());
+				}
+			}
 		}
-		melding += "* Kontaktperson for følgende *";
-		Arrangement[] hashToString = arrHash.toArray(new Arrangement[arrHash.size()]);
-		for (Arrangement a : hashToString) {
-			melding += a.toString();
+		for (Kontaktperson k : utArray) {
+			melding+=k.toString();
 		}
+		if (melding.equals(""))
+			return "Ingen kontaktpersoner i systemet er ansvarlig for et arrangement";
 		return melding;
 	}
 	
-	public String kontaktDetaljerEpost(String e) {
-		String melding = "";
-		Kontaktperson person = finnKontaktpersonViaEpost(e);
-		melding += person.toString();
-		HashSet<Arrangement> arrHash = new HashSet<>();
-		for (Lokale l : LokalerInhouse) {
-			arrHash.addAll(l.kontaktOpplysning(person));
+	//////////////////////
+	//	BILLETT-METODER	//
+	//////////////////////
+	
+	public boolean bestillBillett(int id, int antall, Person k){
+		for(Lokale l : lreg){
+			if(l.finnArrangement(id) != null)
+				return l.finnArrangement(id).bestillBillett(antall, k);
 		}
-		melding += "* Kontaktperson for følgende *";
-		Arrangement[] hashToString = arrHash.toArray(new Arrangement[arrHash.size()]);
-		for (Arrangement a : hashToString) {
-			melding += a.toString();
+		return false;
+	}
+	
+	public Billett finnBillett(int nr){
+		for(Lokale l: lreg)
+			if(l.finnBillett(nr) != null)
+				return l.finnBillett(nr);
+		return null;
+	}
+	
+	//////////////////////////////
+	//	BILLETT-METODER SLUTT	//
+	//////////////////////////////
+
+	
+	//////////////////////////////
+	//	STATISTIKKMETODER START	//
+	//////////////////////////////
+	
+	// Finner totalt anntall solgte for det bestemte lokale
+	public int totaltSolgteBilletterForLokale(int n) {
+		int sum = 0;
+		for(Lokale l : lreg) {
+			if(l.get_RefNr() == n){
+				sum = l.arrangementSolgteBilletter();
+			}
 		}
+		return sum;
+	}
+	
+	// Total inntekt for alle billetter i alle lokaler
+	public int totalInntektAlleLokaler() {
+		int sum = 0;
+		for(Lokale l : lreg) {
+			sum += l.inntektSolgteBilletter();
+		}
+		return sum;
+	}
+	
+	// Antallet solgte billetter for alle arrangementer
+	public int totaltSolgtAlleLokaler() {
+		int sum = 0;
+		for(Lokale l : lreg) {
+			sum += l.totaltSolgteAlleLokaler();
+		}
+		return sum;
+	}
+	
+	// Totaloversikt for hvert lokales inntekt og dets inntekt opp mot Kulturhuset totalt
+	// Gunstig å innføre mer på et senere tidspunkt
+	public String totalInntektForAlleLokaler() {
+		String meld = "Inntekt og prosent for hvert arrangement i hvert lokale: \r\n";
+		double tot = totaltSolgtAlleLokaler();
+		double pros;
+		for(Lokale l : lreg) {
+			meld += "Lokalnummer "+ l.get_RefNr() + " - " +l.get_Navn() + "\r\n";
+			meld += "Antall billetter solgt på alle arrangementer: " + 
+					 totaltSolgteBilletterForLokale(l.get_RefNr()) + " billetter \r\n";
+			meld += "Total inntekt for kulturhuset: " + l.inntektSolgteBilletter() + " kr\r\n";
+			if(l.totaltSolgteBilletter() > 0) {
+				pros = (double) ((l.totaltSolgteBilletter() * 100) / tot);
+				meld += "Total prosent av alle solgte billetter: " + pros + " %\r\n";
+			}
+			meld += "----------------------------------------\r\n";
+		}
+		return meld;
+	}
+	
+	//////////////////////////////
+	//	STATISTIKKMETODER SLUTT	//
+	//////////////////////////////
+	
+	// toString-metode for å liste ut alt
+	public String totatlString(){
+		String melding = toString() + "\r\n";
+		if(!lreg.isEmpty())
+			for(Lokale l: lreg){
+				melding += l;
+				if(!l.get_reg().isEmpty()){
+					for(Arrangement a: l.get_reg()){
+						melding += a;							
+					}
+				}
+			}
 		return melding;
 	}
 
-	//////////////////////////////////////////////
-	//	PERSONLOKALEMANIPULERINGS-METODER SLUTT	//
-	//////////////////////////////////////////////
 	
+	//////////////////////////////////
+	//	LAGRE PERSONREGISTER OG 	//
+	//	LOKALER TIL FILER			//
+	//////////////////////////////////
 
+	public String lagreLokaler() {
+		String m = "";
+		try(ObjectOutputStream utfil = new ObjectOutputStream(new FileOutputStream( "./regfiles/lokreg.dta" ) )){
+			utfil.writeObject( (ArrayList<Lokale>) lreg );
+			utfil.close();
+		}catch(IOException e){
+			 
+			m +="Feil i lagreLokaler(): " + e.getClass() + "\r\n her er feilen=? " + e.getLocalizedMessage();
+			System.out.println(e);
+		}
+		m += "Suksess";
+		return m;
+	}
 	
 	public String toString() {
 		return get_Navn() + "- " + get_Beskrivelse();
 	}
-	
 }//KLASSE KULTURHUS SLUTT
